@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Portafolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <h1>Panel de Administración</h1>
+
+  <!-- Formulario -->
+  <form id="form-proyecto" class="form-proyecto">
+    <input type="text" name="titulo" placeholder="Título del proyecto" required>
+    <input type="text" name="link" placeholder="Link del proyecto (si aplica)">
+    <select name="tipo" required>
+      <option value="programacion">Programación</option>
+      <option value="diseno">Diseño Gráfico</option>
+      <option value="video">Video</option>
+    </select>
+    <input type="text" name="imagen" placeholder="URL de imagen (solo para diseño gráfico)">
+    <button type="submit">Agregar Proyecto</button>
+  </form>
+
+  <!-- Mensajes -->
+  <div id="mensaje"></div>
+
+  <!-- Lista dinámica de proyectos -->
+  <h2>Proyectos actuales</h2>
+  <ul id="lista-proyectos"></ul>
+
+  <script>
+    const form = document.getElementById("form-proyecto");
+    const mensaje = document.getElementById("mensaje");
+    const lista = document.getElementById("lista-proyectos");
+
+    // Mostrar proyectos al cargar
+    async function cargarProyectos() {
+      lista.innerHTML = "";
+      const res = await fetch("/api/projects");
+      const proyectos = await res.json();
+
+      proyectos.forEach(p => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          ${p.titulo} (${p.tipo})
+          <button data-id="${p._id}" class="btn-eliminar">❌ Eliminar</button>
+        `;
+        lista.appendChild(li);
+      });
+
+      // Agregar eventos a los botones de eliminar
+      document.querySelectorAll(".btn-eliminar").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const id = btn.getAttribute("data-id");
+          if (confirm("¿Seguro que deseas eliminar este proyecto?")) {
+            const res = await fetch("/api/projects/" + id, {
+              method: "DELETE"
+            });
+            if (res.ok) {
+              mensaje.textContent = "🗑️ Proyecto eliminado";
+              mensaje.style.color = "orange";
+              cargarProyectos();
+            } else {
+              const error = await res.json();
+              mensaje.textContent = "❌ Error: " + error.error;
+              mensaje.style.color = "red";
+            }
+          }
+        });
+      });
+    }
+
+    cargarProyectos();
+
+    // Enviar formulario con fetch
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = {
+        titulo: form.titulo.value,
+        link: form.link.value,
+        tipo: form.tipo.value,
+        imagen: form.imagen.value
+      };
+
+      const res = await fetch("/api/projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      if (res.ok) {
+        mensaje.textContent = "✅ Proyecto agregado con éxito";
+        mensaje.style.color = "lightgreen";
+        form.reset();
+        cargarProyectos();
+      } else {
+        const error = await res.json();
+        mensaje.textContent = "❌ Error: " + error.error;
+        mensaje.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

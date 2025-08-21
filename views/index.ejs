@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Portafolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <div class="header_cont">
+    <header>
+      <img src="/img/logo.png" alt="Logo" class="logo">
+      <a href="https://gabodevclient.vercel.app/" class="btn-contacto">¡Contáctame!</a>
+    </header>
+  </div>
+  <!-- Presentación -->
+  <section class="presentacion" style="background-image: url('/img/fondo.png');">
+    <div class="presentacion-contenido">
+      <img src="/img/foto.png" alt="Mi foto" class="mi-foto">
+      <p>
+        Hola! Soy Gabo, desarrollador y creador de contenido.  
+        Aquí encontrarás mis proyectos en programación, diseño gráfico y edición de videos.
+      </p>
+    </div>
+  </section>
+
+  <!-- Proyectos -->
+  <main>
+    <section class="proyectos">
+      <h2>💻 Proyectos de Programación</h2>
+      <div class="cards">
+        <% proyectos.filter(p => p.tipo === 'programacion').forEach(proyecto => { %>
+          <div class="card">
+            <h3><%= proyecto.titulo %></h3>
+            <% if (proyecto.link) { %>
+              <a href="<%= proyecto.link %>" target="_blank" class="btn-ver">Ver proyecto</a>
+            <% } %>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <section class="proyectos">
+      <h2>🎨 Diseño Gráfico</h2>
+      <div class="carrusel">
+        <% proyectos.filter(p => p.tipo === 'diseno').forEach(proyecto => { %>
+          <div class="slide">
+            <img src="<%= proyecto.imagen %>" alt="<%= proyecto.titulo %>">
+            <p><%= proyecto.titulo %></p>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <section class="proyectos">
+      <h2>🎬 Edición de Videos</h2>
+      <div class="cards">
+        <% proyectos.filter(p => p.tipo === 'video').forEach(proyecto => { %>
+          <div class="card">
+            <h3><%= proyecto.titulo %></h3>
+            <% if (proyecto.link) { %>
+              <a href="<%= proyecto.link %>" target="_blank" class="btn-ver">Ver video</a>
+            <% } %>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+  </main>
+
+  <!-- Conocimientos -->
+  <section class="skills">
+    <h2>🚀 Conocimientos</h2>
+    <div class="logos">
+      <img src="/img/python.png" alt="Python" class="logo-skill">
+      <img src="/img/node.png" alt="Node.js" class="logo-skill">
+      <img src="/img/mongo.png" alt="MongoDB" class="logo-skill">
+      <!-- Más logos -->
+    </div>
+  </section>
+</body>
+</html>

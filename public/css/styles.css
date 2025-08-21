@@ -1,0 +1,145 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Lato", sans-serif;
+  background-color: #121212;
+}
+
+.header_cont {
+  background-color: #a00109;
+}
+
+header {
+  position: relative;
+  text-align: center;
+}
+
+
+.logo {
+  margin: 15px;
+  max-width: 150px;
+  max-height: 20%;
+}
+
+.btn-contacto {
+  position: absolute;
+  background-color: #a00109;
+  color: #ffffff;
+  text-decoration: none;
+  right: 27px;   /* lo mueve a la derecha */
+  top: 50%;
+  transform: translateY(-50%); /* lo centra verticalmente */
+  border-radius: 5px;
+  padding: 10px;
+  transition: all 0.5s ease;
+}
+
+.presentacion-contenido {
+  position: relative;
+  text-align: center;
+  padding: 20px;
+}
+
+.btn-contacto:hover {
+  background-color: #121212;
+}
+
+.proyectos {
+  text-align: center;
+  color: #fff;
+}
+
+.skills {
+  text-align: center;
+  color: #fff;
+}
+
+.logo-skill {
+  max-width: 100px;
+  padding: 20px;
+}
+
+p {
+  color: #fff;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card {
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 20px;
+  width: 220px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card h3 {
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(160,1,9,0.7);
+}
+
+.btn-ver {
+  background: #a00109;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn-ver:hover {
+  background: #ff1a23;
+}
+
+/* Carrusel básico */
+.carrusel {
+  display: flex;
+  overflow-x: auto;
+  gap: 15px;
+  padding: 10px;
+  scroll-snap-type: x mandatory;
+}
+
+.carrusel::-webkit-scrollbar {
+  height: 6px;
+}
+
+.carrusel::-webkit-scrollbar-thumb {
+  background: #a00109;
+  border-radius: 5px;
+}
+
+.slide {
+  min-width: 200px;
+  flex-shrink: 0;
+  background: #1e1e1e;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  scroll-snap-align: start;
+}
+
+.slide img {
+  max-height: 150px;
+  border-radius: 8px;
+  margin-bottom: 5px;
+}
+
+.slide p {
+  font-size: 14px;
+  color: #fff;
+  margin: 0;
+}
+
