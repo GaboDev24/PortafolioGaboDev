@@ -21,7 +21,8 @@ app.use(
 );
 
 // -------------------- STATIC FILES --------------------
-app.use("/public", express.static(path.join(process.cwd(), "public")));
+// Archivos estáticos
+app.use(express.static(path.join(process.cwd(), "public")));
 
 // -------------------- VIEWS --------------------
 app.set("views", path.join(process.cwd(), "views"));
