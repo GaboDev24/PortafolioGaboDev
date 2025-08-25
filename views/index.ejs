@@ -11,6 +11,10 @@
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+  <!-- Intro -->
+  <div id="intro">
+    <img src="/img/logo-rojo.png" alt="Logo Intro" class="intro-logo">
+  </div>
   <!-- Header -->
   <div class="header_cont">
     <header>
@@ -114,5 +118,14 @@
       <i class="fa-brands fa-discord" class="redes-icon"></i> Discord
     </a>
   </footer>
+<script>
+  window.addEventListener('load', () => {
+    const intro = document.getElementById('intro');
+    setTimeout(() => {
+      intro.classList.add('hidden'); // fade out
+      setTimeout(() => intro.remove(), 1000); // eliminar del DOM
+    }, 2500); // duración total de la intro
+  });
+</script>
 </body>
 </html>
