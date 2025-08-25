@@ -282,33 +282,9 @@ i {
 ==================== */
 
 /* Tablets (max-width: 1024px) */
-@media (max-width: 1024px) {
-  .btn-contacto {
-    font-size: 14px;
-    padding: 8px 12px;
-  }
-
-  .logo {
-    max-width: 120px;
-  }
-
-  .saludo {
-    margin: 20px;
-    font-size: 18px;
-  }
-
-  .card {
-    width: 180px;
-    padding: 15px;
-  }
-
-  .logo-skill {
-    max-width: 80px;
-  }
-}
-
-/* Celulares (max-width: 768px) */
 @media (max-width: 768px) {
+
+  /* Header */
   header {
     display: flex;
     flex-direction: column;
@@ -322,67 +298,103 @@ i {
     top: 0;
     transform: none;
     margin: 10px 0;
+    font-size: 14px;
+    padding: 10px 15px;
   }
 
+  /* Presentación vertical */
   .presentacion-contenido {
     flex-direction: column;
     text-align: center;
+    gap: 20px;
+  }
+
+  .mi-foto {
+    max-width: 80%; /* más grande */
+    margin: 0 auto;
   }
 
   .saludo {
     margin: 20px;
+    font-size: 18px;
     text-align: center;
-    font-size: 16px;
   }
 
-  .mi-foto {
-    max-width: 300px;
-  }
-
+  /* Cards en columna y más grandes */
   .cards {
     flex-direction: column;
     align-items: center;
+    gap: 25px;
   }
 
   .card {
     width: 90%;
-    max-width: 300px;
+    max-width: 350px; /* más grande */
+    padding: 25px;
   }
 
-  .logo-skill {
-    max-width: 60px;
+  .btn-ver {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+
+  /* Carrusel sigue horizontal pero con slides más grandes */
+  .carrusel {
+    padding: 10px 0;
+    gap: 20px;
   }
 
   .slide {
-    min-width: 80%;
+    min-width: 85%; /* ocupa más pantalla */
+    max-width: 350px;
+    padding: 15px;
+  }
+
+  .slide img {
+    width: 100%;
+    max-height: 250px;
+  }
+
+  /* Logos de skills más grandes */
+  .logo-skill {
+    max-width: 80px;
+    padding: 25px;
   }
 }
 
 /* Celulares pequeños (max-width: 480px) */
 @media (max-width: 480px) {
-  body {
-    font-size: 14px;
-  }
-
-  .btn-contacto {
-    font-size: 13px;
-    padding: 6px 10px;
-  }
-
-  .logo {
-    max-width: 100px;
-  }
-
-  .saludo {
-    margin: 10px;
-    font-size: 14px;
+  .cards {
+    gap: 20px;
   }
 
   .card {
     width: 95%;
+    max-width: 320px;
+    padding: 25px;
+  }
+
+  .slide {
+    min-width: 90%;
+    max-width: 320px;
+    padding: 15px;
   }
 
   .slide img {
-    max-height: 180px;
+    max-height: 200px;
+  }
+
+  .logo-skill {
+    max-width: 70px;
+    padding: 20px;
+  }
+
+  .saludo {
+    font-size: 16px;
+    margin: 15px;
+  }
+
+  .mi-foto {
+    max-width: 90%;
   }
 }
