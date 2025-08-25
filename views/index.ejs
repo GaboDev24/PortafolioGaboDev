@@ -37,11 +37,16 @@
   <!-- Proyectos -->
   <main>
     <section class="proyectos">
-      <h2>💻 Proyectos de Programación</h2>
+      <h2>Proyectos de Programación</h2>
       <div class="cards">
         <% proyectos.filter(p => p.tipo === 'programacion').forEach(proyecto => { %>
           <div class="card">
             <h3><%= proyecto.titulo %></h3>
+
+            <% if (proyecto.imagen) { %>
+              <img src="<%= proyecto.imagen %>" alt="<%= proyecto.titulo %>" style="width:100%; border-radius:8px; margin-bottom:10px;">
+            <% } %>
+
             <% if (proyecto.link) { %>
               <a href="<%= proyecto.link %>" target="_blank" class="btn-ver">Ver proyecto</a>
             <% } %>
@@ -49,9 +54,8 @@
         <% }) %>
       </div>
     </section>
-
     <section class="proyectos">
-      <h2>🎨 Diseño Gráfico</h2>
+      <h2>Diseño Gráfico</h2>
       <div class="carrusel">
         <% proyectos.filter(p => p.tipo === 'diseno').forEach(proyecto => { %>
           <div class="slide">
@@ -61,15 +65,21 @@
         <% }) %>
       </div>
     </section>
-
     <section class="proyectos">
-      <h2>🎬 Edición de Videos</h2>
+      <h2>Edición de Videos</h2>
       <div class="cards">
         <% proyectos.filter(p => p.tipo === 'video').forEach(proyecto => { %>
           <div class="card">
             <h3><%= proyecto.titulo %></h3>
+            
             <% if (proyecto.link) { %>
-              <a href="<%= proyecto.link %>" target="_blank" class="btn-ver">Ver video</a>
+              <!-- Miniatura de YouTube -->
+              <% 
+                const videoId = proyecto.link.split("v=")[1] ? proyecto.link.split("v=")[1].split("&")[0] : proyecto.link.split("/").pop(); 
+              %>
+              <a href="<%= proyecto.link %>" target="_blank">
+                <img src="https://img.youtube.com/vi/<%= videoId %>/hqdefault.jpg" alt="<%= proyecto.titulo %>" style="width:100%; border-radius:8px;">
+              </a>
             <% } %>
           </div>
         <% }) %>
@@ -79,7 +89,7 @@
 
   <!-- Conocimientos -->
   <section class="skills">
-    <h2>🚀 Conocimientos</h2>
+    <h2>Conocimientos</h2>
     <div class="logos">
       <img src="/img/python.png" alt="Python" class="logo-skill">
       <img src="/img/node.png" alt="Node.js" class="logo-skill">
