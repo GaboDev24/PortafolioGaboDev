@@ -63,12 +63,21 @@
       <div class="carrusel">
         <% proyectos.filter(p => p.tipo === 'diseno').forEach(proyecto => { %>
           <div class="slide">
-            <img src="<%= proyecto.imagen %>" alt="<%= proyecto.titulo %>">
+            <img src="<%= proyecto.imagen %>" 
+                alt="<%= proyecto.titulo %>" 
+                data-img="<%= proyecto.imagen %>" 
+                class="carrusel-img">
             <p><%= proyecto.titulo %></p>
           </div>
         <% }) %>
       </div>
     </section>
+
+    <!-- Modal de imagen -->
+    <div id="modal" class="modal">
+      <span class="cerrar">&times;</span>
+      <img class="modal-contenido" id="modal-img">
+    </div>
     <section class="proyectos">
       <h2>Edición de Videos</h2>
       <div class="cards">
@@ -125,6 +134,18 @@
       intro.classList.add('hidden'); // fade out
       setTimeout(() => intro.remove(), 1000);
     }, 2500); 
+  });
+
+  // carrusel
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modal-img");
+  const cerrar = document.querySelector(".cerrar");
+
+  document.querySelectorAll(".carrusel-img").forEach(img => {
+    img.addEventListener("click", () => {
+      modal.style.display = "flex";
+      modalImg.src = img.dataset.img;
+    });
   });
 </script>
 </body>
