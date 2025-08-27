@@ -145,6 +145,11 @@ p {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+
+.carrusel-img {
+  cursor: pointer;
+}
+
 .card h3 {
   margin-bottom: 15px;
   color: #ffffff;
