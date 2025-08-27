@@ -209,6 +209,14 @@ p {
   object-fit: cover;
 }
 
+.card img, 
+.slide img {
+  width: 100%;
+  height: auto;
+  object-fit: contain; /* asegura que nunca se recorte */
+}
+
+
 /* Modal fullscreen */
 .modal {
   display: none;
@@ -275,34 +283,48 @@ i {
 
 
 
-@keyframes bounceIn {
+@keyframes zoomIn {
   0% {
-    transform: scale(0.7);
+    transform: scale(0.8);
     opacity: 0;
   }
   60% {
     transform: scale(1.05);
     opacity: 1;
   }
-  80% {
-    transform: scale(0.95);
-  }
   100% {
     transform: scale(1);
   }
 }
 
-.modal img.animar {
-  animation: bounceIn 0.4s ease;
+@keyframes zoomOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  40% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
 }
-
 
 .modal img {
   max-width: 90%;
   max-height: 90%;
   border-radius: 10px;
   cursor: default;
-  animation: bounceIn 0.4s ease; /* 👈 animación al entrar */
+}
+
+/* clases dinámicas */
+.modal img.zoomIn {
+  animation: zoomIn 0.4s ease forwards;
+}
+
+.modal img.zoomOut {
+  animation: zoomOut 0.3s ease forwards;
 }
 
 
@@ -347,23 +369,24 @@ i {
    RESPONSIVE DESIGN
 ==================== */
 
-/* Tablets (max-width: 1024px) */
-@media (max-width: 768px) {
+/* Tablets */
+@media (max-width: 1024px) {
   .presentacion-contenido {
-    flex-direction: column !important; /* vertical sí o sí */
+    flex-direction: column !important;
     text-align: center;
   }
 
   .saludo {
-    font-size: 22px; /* más grande */
+    font-size: 22px;
     line-height: 1.8;
+    margin: 20px;
   }
 
   .card {
     width: 95%;
-    max-width: 400px; /* proyectos gigantes */
+    max-width: 500px;
     font-size: 18px;
-    padding: 30px;
+    padding: 25px;
   }
 
   .card h3 {
@@ -377,7 +400,7 @@ i {
 
   .slide {
     min-width: 95%;
-    max-width: 400px;
+    max-width: 500px;
   }
 
   .slide p {
@@ -385,18 +408,61 @@ i {
   }
 }
 
-@media (max-width: 480px) {
+/* Smartphones grandes */
+@media (max-width: 768px) {
+  header {
+    padding: 10px;
+  }
+
+  .logo {
+    max-width: 100px;
+  }
+
+  .btn-contacto {
+    font-size: 14px;
+    padding: 8px 12px;
+    right: 15px;
+  }
+
   .saludo {
     font-size: 20px;
+    margin: 15px;
   }
 
   .card {
+    width: 100%;
     max-width: 420px;
-    font-size: 18px;
-    padding: 35px;
+    padding: 20px;
   }
 
   .card h3 {
-    font-size: 24px;
+    font-size: 20px;
+  }
+}
+
+/* Smartphones pequeños */
+@media (max-width: 480px) {
+  .saludo {
+    font-size: 18px;
+    margin: 10px;
+  }
+
+  .card {
+    max-width: 100%;
+    padding: 18px;
+    font-size: 16px;
+  }
+
+  .card h3 {
+    font-size: 20px;
+  }
+
+  .btn-ver {
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+
+  footer {
+    padding: 30px 10px;
   }
 }
