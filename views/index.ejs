@@ -128,15 +128,6 @@
     </a>
   </footer>
 <script>
-  window.addEventListener('load', () => {
-    const intro = document.getElementById('intro');
-    setTimeout(() => {
-      intro.classList.add('hidden'); // fade out
-      setTimeout(() => intro.remove(), 1000);
-    }, 2500); 
-  });
-
-  // carrusel
   const modal = document.getElementById("modal");
   const modalImg = document.getElementById("modal-img");
   const cerrar = document.querySelector(".cerrar");
@@ -147,6 +138,21 @@
       modalImg.src = img.dataset.img;
     });
   });
+
+  // cerrar con la X
+  cerrar.onclick = () => {
+    modal.style.display = "none";
+    modalImg.src = "";
+  };
+
+  // cerrar clickeando fuera de la imagen
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+      modalImg.src = "";
+    }
+  });
 </script>
+
 </body>
 </html>
