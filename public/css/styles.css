@@ -273,6 +273,39 @@ i {
   margin: 40px;
 }
 
+
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.modal img.animar {
+  animation: bounceIn 0.4s ease;
+}
+
+
+.modal img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+  cursor: default;
+  animation: bounceIn 0.4s ease; /* 👈 animación al entrar */
+}
+
+
 /* ====================
    INTRO ANIMATION
 ==================== */

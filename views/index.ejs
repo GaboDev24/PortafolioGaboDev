@@ -143,8 +143,14 @@
     img.addEventListener("click", () => {
       modal.style.display = "flex";
       modalImg.src = img.dataset.img;
+
+      // 👇 resetear animación
+      modalImg.classList.remove("animar");
+      void modalImg.offsetWidth; // hack para reiniciar
+      modalImg.classList.add("animar");
     });
   });
+
 
   // cerrar con la X
   cerrar.onclick = () => {
