@@ -198,8 +198,7 @@ p {
 
 /* Carrusel rectangular */
 .slide img {
-  max-width: 50%;
-  aspect-ratio: 1080 / 1350; /* rectangular vertical */
+  max-width: 100%;
   object-fit: cover;
   border-radius: 8px;
   cursor: pointer;
