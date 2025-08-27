@@ -311,218 +311,54 @@ i {
 
 /* Tablets (max-width: 1024px) */
 @media (max-width: 768px) {
-
-  /* Header */
-  header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px 0;
-  }
-
-  .btn-contacto {
-    position: relative;
-    right: 0;
-    top: 0;
-    transform: none;
-    margin: 10px 0;
-    font-size: 14px;
-    padding: 10px 15px;
-  }
-
-  /* Presentación vertical */
   .presentacion-contenido {
-    flex-direction: column;
+    flex-direction: column !important; /* vertical sí o sí */
     text-align: center;
-    gap: 20px;
-  }
-
-  .mi-foto {
-    max-width: 80%; /* más grande */
-    margin: 0 auto;
   }
 
   .saludo {
-    margin: 20px;
-    font-size: 18px;
-    text-align: center;
-  }
-
-  /* Cards en columna y más grandes */
-  .cards {
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
-  }
-
-  .card {
-    width: 90%;
-    max-width: 350px; /* más grande */
-    padding: 25px;
-  }
-
-  .btn-ver {
-    padding: 10px 20px;
-    font-size: 16px;
-  }
-
-  /* Carrusel sigue horizontal pero con slides más grandes */
-  .carrusel {
-    padding: 10px 0;
-    gap: 20px;
-  }
-
-  .slide {
-    min-width: 85%; /* ocupa más pantalla */
-    max-width: 350px;
-    padding: 15px;
-  }
-
-  .slide img {
-    width: 100%;
-    max-height: 250px;
-  }
-
-  /* Logos de skills más grandes */
-  .logo-skill {
-    max-width: 80px;
-    padding: 25px;
-  }
-}
-
-@media (max-width: 480px) {
-
-  /* Header */
-  header {
-    flex-direction: column;
-    align-items: center;
-    padding: 15px 10px;
-  }
-
-  .logo {
-    max-width: 120px;
-    margin-bottom: 10px;
-  }
-
-  .btn-contacto {
-    position: relative;
-    top: 0;
-    right: 0;
-    transform: none;
-    margin: 10px 0;
-    font-size: 16px;
-    padding: 12px 20px;
-  }
-
-  /* Presentación vertical tipo app */
-  .presentacion-contenido {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 20px;
-    margin: 0 auto;
-  }
-
-  .mi-foto {
-    max-width: 90%;
-    border-radius: 15px;
-    margin: 0 auto;
-  }
-
-  .saludo {
-    font-size: 18px;
-    margin: 15px;
-    line-height: 1.6;
-  }
-
-  .cv-btn {
-    font-size: 16px;
-    padding: 12px 25px;
-    margin: 15px 0;
-  }
-
-  /* Cards verticales grandes */
-  .cards {
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
+    font-size: 22px; /* más grande */
+    line-height: 1.8;
   }
 
   .card {
     width: 95%;
-    max-width: 360px;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 6px 15px rgba(160,1,9,0.7);
+    max-width: 400px; /* proyectos gigantes */
+    font-size: 18px;
+    padding: 30px;
+  }
+
+  .card h3 {
+    font-size: 22px;
   }
 
   .btn-ver {
-    font-size: 16px;
-    padding: 12px 25px;
-  }
-
-  /* Carrusel full width y grande */
-  .carrusel {
-    overflow-x: auto;
-    display: flex;
-    gap: 15px;
-    padding: 10px 0;
-    scroll-snap-type: x mandatory;
+    font-size: 18px;
+    padding: 15px 30px;
   }
 
   .slide {
-    flex-shrink: 0;
-    min-width: 90%;
-    max-width: 360px;
-    padding: 20px;
-    border-radius: 15px;
-    background: #1e1e1e;
-    scroll-snap-align: start;
-    box-shadow: 0 6px 15px rgba(160,1,9,0.7);
-  }
-
-  .slide img {
-    width: 100%;
-    max-height: 250px;
-    border-radius: 12px;
+    min-width: 95%;
+    max-width: 400px;
   }
 
   .slide p {
-    font-size: 16px;
-    margin-top: 8px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .saludo {
+    font-size: 20px;
   }
 
-  /* Skills más grandes y verticales */
-  .skills .logos {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+  .card {
+    max-width: 420px;
+    font-size: 18px;
+    padding: 35px;
   }
 
-  .logo-skill {
-    max-width: 100px;
-    padding: 20px;
-  }
-
-  /* Footer centrado, botones grandes */
-  footer {
-    padding: 40px 20px;
-  }
-
-  .redes-btn {
-    display: block;
-    margin: 15px auto;
-    padding: 12px 25px;
-    font-size: 16px;
-  }
-
-  /* Ajustes generales de texto y layout */
-  body {
-    font-size: 16px;
-  }
-
-  p, h2, h3 {
-    text-align: center;
+  .card h3 {
+    font-size: 24px;
   }
 }
