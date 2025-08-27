@@ -196,12 +196,12 @@ p {
   scroll-snap-align: start;
 }
 
-/* Carrusel rectangular */
 .slide img {
-  max-width: 100%;
-  object-fit: cover;
+  max-height: 300px;
   border-radius: 8px;
-  cursor: pointer;
+  margin-bottom: 5px;
+  width: 100%;
+  object-fit: cover;
 }
 
 /* Modal fullscreen */
@@ -229,7 +229,6 @@ p {
   color: white;
   cursor: pointer;
 }
-
 
 .slide p {
   font-size: 14px;
