@@ -284,32 +284,23 @@ i {
 
 
 @keyframes zoomIn {
-  0% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  60% {
-    transform: scale(1.05);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-  }
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 @keyframes zoomOut {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  40% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.8); opacity: 0; }
 }
+
+.zoomIn {
+  animation: zoomIn 0.3s ease forwards;
+}
+
+.zoomOut {
+  animation: zoomOut 0.3s ease forwards;
+}
+
 
 .modal img {
   max-width: 90%;
