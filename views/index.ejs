@@ -88,10 +88,27 @@
             <% if (proyecto.link) { %>
               <!-- Miniatura de YouTube -->
               <% 
-                const videoId = proyecto.link.split("v=")[1] ? proyecto.link.split("v=")[1].split("&")[0] : proyecto.link.split("/").pop(); 
+                function getYouTubeId(url) {
+                  let videoId = "";
+                  if (url.includes("youtube.com/watch?v=")) {
+                    videoId = url.split("v=")[1].split("&")[0];
+                  } else if (url.includes("youtu.be/")) {
+                    videoId = url.split("youtu.be/")[1].split("?")[0];
+                  } else if (url.includes("youtube.com/shorts/")) {
+                    videoId = url.split("shorts/")[1].split("?")[0];
+                  } else if (url.includes("youtube.com/embed/")) {
+                    videoId = url.split("embed/")[1].split("?")[0];
+                  }
+                  return videoId;
+                }
               %>
+
               <a href="<%= proyecto.link %>" target="_blank">
-                <img src="https://img.youtube.com/vi/<%= videoId %>/hqdefault.jpg" alt="<%= proyecto.titulo %>" style="width:100%; border-radius:8px;">
+                <img 
+                  src="https://img.youtube.com/vi/<%= getYouTubeId(proyecto.link) %>/hqdefault.jpg" 
+                  alt="<%= proyecto.titulo %>" 
+                  style="width:100%; border-radius:8px;"
+                >
               </a>
             <% } %>
           </div>

@@ -409,51 +409,83 @@ i {
     max-width: 100px;
   }
 
+  /* ✅ Botón "Contáctame" más grande */
   .btn-contacto {
-    font-size: 14px;
-    padding: 8px 12px;
+    font-size: 18px;
+    padding: 12px 20px;
     right: 15px;
   }
 
+  /* ✅ Centrar texto y CV */
   .saludo {
     font-size: 20px;
+    margin: 15px auto;
+    text-align: center;
+  }
+
+  .cv-btn {
+    display: block;
+    margin: 20px auto;
+    font-size: 18px;
+    padding: 12px 24px;
+  }
+
+  /* ✅ Footer botones más grandes */
+  .redes-btn {
+    display: inline-block;
+    font-size: 18px;
+    padding: 15px 20px;
     margin: 15px;
   }
 
-  .card {
-    width: 100%;
-    max-width: 420px;
-    padding: 20px;
+  /* ✅ Ajustar slides horizontalmente */
+  .slide {
+    flex: 0 0 90%;   /* ocupa casi todo el ancho */
+    max-width: 500px;
+    margin: 0 auto;
   }
 
-  .card h3 {
-    font-size: 20px;
+  .slide img {
+    width: 100%;
+    height: auto; /* mantiene proporción vertical */
+    object-fit: contain;
   }
 }
 
 /* Smartphones pequeños */
 @media (max-width: 480px) {
+  .btn-contacto {
+    font-size: 20px;
+    padding: 14px 26px;
+    right: 10px;
+  }
+
   .saludo {
     font-size: 18px;
+    margin: 10px auto;
+    text-align: center;
+  }
+
+  .cv-btn {
+    font-size: 16px;
+    padding: 12px 20px;
+    margin: 15px auto;
+  }
+
+  .redes-btn {
+    font-size: 20px;
+    padding: 18px 24px;
     margin: 10px;
   }
 
-  .card {
+  .slide {
+    flex: 0 0 100%;
     max-width: 100%;
-    padding: 18px;
-    font-size: 16px;
   }
 
-  .card h3 {
-    font-size: 20px;
-  }
-
-  .btn-ver {
-    font-size: 16px;
-    padding: 12px 20px;
-  }
-
-  footer {
-    padding: 30px 10px;
+  .slide img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
   }
 }
