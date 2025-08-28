@@ -400,8 +400,8 @@ i {
 
   /* 👉 Cards y slides más anchos */
   .card {
-    width: 80%;
-    max-width: 600px;
+    width: 60%;
+    max-width: 550px;
     font-size: 28px;
     padding: 25px;
   }
