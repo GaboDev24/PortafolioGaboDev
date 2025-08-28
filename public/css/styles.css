@@ -398,10 +398,21 @@ i {
     max-width: 380px;
   }
 
+  .btn-contacto {
+    font-size: 30px;
+  }
+
+  p {
+    font-size: 20px;
+  }
+
+  .btn-ver {
+    font-size: 30px;
+  }
   /* 👉 Cards y slides más anchos */
   .card {
-    width: 60%;
-    max-width: 550px;
+    width: 100%;
+    max-width: 600px;
     font-size: 28px;
     padding: 25px;
   }
@@ -515,6 +526,18 @@ i {
     font-size: 32px;
   }
 
+  .btn-contacto {
+    font-size: 30px;
+  }
+
+  p {
+    font-size: 20px;
+  }
+
+  .btn-ver {
+    font-size: 30px;
+  }
+
 }
 
 /* Smartphones pequeños */
@@ -568,6 +591,18 @@ i {
 
   .saludo {
     font-size: 32px;
+  }
+
+  .btn-contacto {
+    font-size: 30px;
+  }
+
+  p {
+    font-size: 20px;
+  }
+
+  .btn-ver {
+    font-size: 30px;
   }
 
 }
