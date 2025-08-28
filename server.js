@@ -5,6 +5,7 @@ import fetch from "node-fetch";
 import clientPromise from "./api/db.js";
 import { ObjectId } from "mongodb";
 import session from "express-session";
+import connectToDatabase from "./api/db.js";
 
 const app = express();
 app.use(express.json());
@@ -97,8 +98,7 @@ app.get("/logout", (req, res) => {
 // -------------------- PÁGINA PRINCIPAL --------------------
 app.get("/", async (req, res) => {
   try {
-    const client = await clientPromise;
-    const db = client.db("portafolio");
+    const { db } = await connectToDatabase();
     const collection = db.collection("proyectos");
     const proyectos = await collection.find({}).toArray();
     res.render("index", { proyectos });

@@ -6,23 +6,32 @@ if (!uri) {
   throw new Error("❌ Falta la variable MONGODB_URI en el entorno");
 }
 
-// Opciones recomendadas para MongoDB Atlas
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 20000, // timeout para selección de servidor
-  socketTimeoutMS: 45000           // timeout de socket
-};
+let cachedClient = null;
+let cachedDb = null;
 
-let client;
-let clientPromise;
+export default async function connectToDatabase() {
+  if (cachedClient && cachedDb) {
+    return { client: cachedClient, db: cachedDb };
+  }
 
-// Cache global para evitar reconexiones en serverless / Vercel
-if (!global._mongoClientPromise) {
-  client = new MongoClient(uri, options);
-  global._mongoClientPromise = client.connect();
+  const client = new MongoClient(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000, // Reducir el tiempo de espera a 5 segundos
+  });
+
+  try {
+    await client.connect();
+    const db = client.db("portafolio");
+
+    // Cachear la conexión
+    cachedClient = client;
+    cachedDb = db;
+
+    console.log("✅ Conectado a MongoDB");
+    return { client, db };
+  } catch (err) {
+    console.error("❌ Error de conexión a MongoDB:", err);
+    throw err;
+  }
 }
-
-clientPromise = global._mongoClientPromise;
-
-export default clientPromise;
