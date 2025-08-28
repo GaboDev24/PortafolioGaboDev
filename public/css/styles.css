@@ -430,7 +430,6 @@ i {
     padding: 12px 18px;
     margin: 12px;
   }
-}
 
   h2 {
     font-size: 49px;
@@ -447,6 +446,8 @@ i {
   .saludo {
     font-size: 32px;
   }
+
+}
 /* Smartphones grandes */
 @media (max-width: 768px) {
   header {
@@ -498,7 +499,6 @@ i {
     height: auto; /* mantiene proporción vertical */
     object-fit: contain;
   }
-}
 
   h2 {
     font-size: 49px;
@@ -514,6 +514,8 @@ i {
   .saludo {
     font-size: 32px;
   }
+
+}
 
 /* Smartphones pequeños */
 @media (max-width: 480px) {
@@ -551,7 +553,6 @@ i {
     height: auto;
     object-fit: contain;
   }
-}
 
   h2 {
     font-size: 49px;
@@ -568,3 +569,5 @@ i {
   .saludo {
     font-size: 32px;
   }
+
+}
