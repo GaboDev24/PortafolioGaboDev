@@ -368,6 +368,12 @@ i {
     padding: 20px;
   }
 
+  .carrusel {
+    overflow-x: auto;
+    display: flex;
+    gap: 15px;
+  }
+  
   .logo {
     max-width: 120px;
   }
@@ -427,12 +433,21 @@ i {
   }
 
   .slide {
-    min-width: 80%;
-    max-width: 600px;
+    flex: 0 0 auto;      /* no se encoge, ancho según contenido */
+    width: auto;          /* se ajusta al ancho de la imagen */
+    max-width: 90%;       /* evita que se pase del carrusel */
+    padding: 10px;
+  }
+
+  .slide img {
+    width: auto;          /* ancho real de la imagen */
+    max-width: 100%;      /* que no exceda el slide */
+    height: auto;
+    object-fit: contain;
   }
 
   .slide p {
-    font-size: 18px;
+    font-size: 30px;
   }
 
   /* 👉 Footer botones cómodos */
@@ -500,15 +515,18 @@ i {
 
   /* ✅ Ajustar slides horizontalmente */
   .slide {
-    flex: 0 0 70%;   /* ocupa casi todo el ancho */
-    max-width: 350px;
-    margin: 0 auto;
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 90%;
   }
 
   .slide img {
-    width: 100%;
-    height: auto; /* mantiene proporción vertical */
-    object-fit: contain;
+    width: auto;
+    max-width: 100%;
+  }
+
+  .slide p {
+    font-size: 30px;
   }
 
   h2 {
@@ -528,10 +546,6 @@ i {
 
   .btn-contacto {
     font-size: 30px;
-  }
-
-  p {
-    font-size: 20px;
   }
 
   .btn-ver {
@@ -567,14 +581,14 @@ i {
   }
 
   .slide {
-    flex: 0 0 80%;
-    max-width: 300px;
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 95%;
   }
 
   .slide img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
+    width: auto;
+    max-width: 100%;
   }
 
   h2 {
@@ -597,12 +611,12 @@ i {
     font-size: 30px;
   }
 
-  p {
-    font-size: 20px;
-  }
 
   .btn-ver {
     font-size: 30px;
+  }
+  .slide p {
+  font-size: 25px;
   }
 
 }
