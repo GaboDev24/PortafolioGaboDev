@@ -360,22 +360,48 @@ i {
    RESPONSIVE DESIGN
 ==================== */
 
-/* Tablets */
-@media (max-width: 1024px) {
+/* ====================
+   TABLETS (768px - 1024px)
+==================== */
+@media (max-width: 1024px) and (min-width: 769px) {
+  header {
+    padding: 20px;
+  }
+
+  .logo {
+    max-width: 120px;
+  }
+
+  .btn-contacto {
+    font-size: 18px;
+    padding: 12px 22px;
+    right: 20px;
+  }
+
+  /* 👉 Presentación apilada pero con foto más grande */
   .presentacion-contenido {
-    flex-direction: column !important;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
+    gap: 40px;
   }
 
   .saludo {
     font-size: 22px;
     line-height: 1.8;
-    margin: 20px;
+    margin: 20px auto;
+    max-width: 80%;
+    text-align: center;
   }
 
+  .mi-foto {
+    max-width: 380px;
+  }
+
+  /* 👉 Cards y slides más anchos */
   .card {
-    width: 95%;
-    max-width: 500px;
+    width: 80%;
+    max-width: 600px;
     font-size: 18px;
     padding: 25px;
   }
@@ -386,16 +412,23 @@ i {
 
   .btn-ver {
     font-size: 18px;
-    padding: 15px 30px;
+    padding: 14px 28px;
   }
 
   .slide {
-    min-width: 95%;
-    max-width: 500px;
+    min-width: 80%;
+    max-width: 600px;
   }
 
   .slide p {
     font-size: 18px;
+  }
+
+  /* 👉 Footer botones cómodos */
+  .redes-btn {
+    font-size: 18px;
+    padding: 12px 18px;
+    margin: 12px;
   }
 }
 
