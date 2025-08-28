@@ -432,6 +432,10 @@ i {
   }
 }
 
+  h2 {
+    font-size: 49px;
+  }
+
 /* Smartphones grandes */
 @media (max-width: 768px) {
   header {
@@ -485,6 +489,11 @@ i {
   }
 }
 
+  h2 {
+    font-size: 49px;
+  }
+
+
 /* Smartphones pequeños */
 @media (max-width: 480px) {
   .btn-contacto {
@@ -522,3 +531,7 @@ i {
     object-fit: contain;
   }
 }
+
+  h2 {
+    font-size: 49px;
+  }
