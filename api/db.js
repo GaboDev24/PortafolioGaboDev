@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 const uri = process.env.MONGODB_URI; // en .env de Vercel
 const options = {
   useNewUrlParser: true,
-  useUnifiedTopology: false,
+  useUnifiedTopology: true,
   connectTimeoutMS: 10000,
   socketTimeoutMS: 45000
 };
@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "development") {
   clientPromise = global._mongoClientPromise;
 } else {
   // En producción (Vercel)
-  client = new MongoClient(uri, options);
+  client = new MongoClient(uri, { serverSelectionTimeoutMS: 10000 });
   clientPromise = client.connect();
 }
 
