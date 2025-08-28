@@ -436,7 +436,7 @@ i {
     flex: 0 0 auto;      /* no se encoge, ancho según contenido */
     width: auto;          /* se ajusta al ancho de la imagen */
     max-width: 90%;       /* evita que se pase del carrusel */
-    padding: 20px;
+    padding: 25px;
   }
 
   .slide img {
@@ -518,6 +518,7 @@ i {
     flex: 0 0 auto;
     width: auto;
     max-width: 90%;
+    padding: 25px;
   }
 
   .slide img {
@@ -584,6 +585,7 @@ i {
     flex: 0 0 auto;
     width: auto;
     max-width: 95%;
+    padding: 25px;
   }
 
   .slide img {
