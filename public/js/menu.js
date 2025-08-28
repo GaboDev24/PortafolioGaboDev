@@ -21,3 +21,17 @@ document.querySelectorAll("header nav a").forEach(link => {
     overlay.classList.remove("active");
   });
 });
+
+document.querySelectorAll("header nav a[href^='#']").forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault(); // evitar salto brusco
+    const target = document.querySelector(link.getAttribute("href"));
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // cerrar menú después de navegar
+    nav.classList.remove("active");
+    overlay.classList.remove("active");
+  });
+});
