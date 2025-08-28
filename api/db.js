@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 const uri = process.env.MONGODB_URI; // en .env de Vercel
 const options = {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: false,
   connectTimeoutMS: 10000,
   socketTimeoutMS: 45000
 };
