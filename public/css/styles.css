@@ -436,7 +436,7 @@ i {
     flex: 0 0 auto;      /* no se encoge, ancho según contenido */
     width: auto;          /* se ajusta al ancho de la imagen */
     max-width: 90%;       /* evita que se pase del carrusel */
-    padding: 10px;
+    padding: 20px;
   }
 
   .slide img {
@@ -447,7 +447,7 @@ i {
   }
 
   .slide p {
-    font-size: 30px;
+    font-size: 24px;
   }
 
   /* 👉 Footer botones cómodos */
@@ -526,7 +526,7 @@ i {
   }
 
   .slide p {
-    font-size: 30px;
+    font-size: 24px;
   }
 
   h2 {
