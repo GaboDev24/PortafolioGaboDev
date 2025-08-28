@@ -596,10 +596,9 @@ i {
   }
 
   .cv-btn {
+    width: auto;
     display: block;
-    margin: 20px auto;
-    font-size: 18px;
-    padding: 15px;
+    margin: 0 auto;
   }
 
   /* ✅ Footer botones más grandes */
