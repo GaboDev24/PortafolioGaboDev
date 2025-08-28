@@ -112,7 +112,8 @@ p {
   text-align: left;
 }
 
-.cards {
+.cards,
+.habilidades-card {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
