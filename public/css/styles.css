@@ -379,7 +379,7 @@ i {
 /* ====================
    TABLETS (768px - 1024px)
 ==================== */
-@media (max-width: 1024px) and (min-width: 769px) {
+@media (max-width: 1170px) and (min-width: 769px) {
 
   .carrusel .slide {
     max-width: 600px;
@@ -425,7 +425,7 @@ i {
   }
 
   .saludo {
-    font-size: 22px;
+    font-size: 18px;
     line-height: 1.8;
     margin: 20px auto;
     max-width: 80%;
@@ -436,17 +436,10 @@ i {
     max-width: 380px;
   }
 
-  .btn-header {
-    font-size: 30px;
-  }
-
   p {
-    font-size: 20px;
+    font-size: 10px;
   }
 
-  .btn-ver {
-    font-size: 30px;
-  }
   /* 👉 Cards y slides más anchos */
   .card {
     width: 100%;
@@ -484,18 +477,18 @@ i {
 
   /* 👉 Footer botones cómodos */
   .redes-btn {
-    font-size: 30px;
+    font-size: 22px;
     padding: 12px 18px;
     margin: 12px;
   }
 
   h2 {
-    font-size: 49px;
+    font-size: 20px;
   }
 
   .cv-btn {
-    font-size: 30px;
-    padding: 25px;
+    font-size: 18px;
+    padding: 15px;
   }
 
   .mi-foto {
@@ -503,7 +496,7 @@ i {
   }
 
   .saludo {
-    font-size: 32px;
+    font-size: 18px;
   }
 
   /* ocultar nav en mobile */
@@ -599,13 +592,13 @@ i {
     display: block;
     margin: 20px auto;
     font-size: 18px;
-    padding: 12px 24px;
+    padding: 15px;
   }
 
   /* ✅ Footer botones más grandes */
   .redes-btn {
     display: inline-block;
-    font-size: 30px;
+    font-size: 22px;
     padding: 15px 20px;
     margin: 15px;
   }
@@ -628,11 +621,7 @@ i {
   }
 
   h2 {
-    font-size: 49px;
-  }
-  .cv-btn {
-    font-size: 30px;
-    padding: 25px;
+    font-size: 29px;
   }
 
   .mi-foto {
@@ -640,15 +629,7 @@ i {
   }
 
   .saludo {
-    font-size: 32px;
-  }
-
-  .btn-header {
-    font-size: 30px;
-  }
-
-  .btn-ver {
-    font-size: 30px;
+    font-size: 20px;
   }
 
   /* ocultar nav en mobile */
@@ -734,7 +715,7 @@ i {
   }
 
   .redes-btn {
-    font-size: 32px;
+    font-size: 22px;
     padding: 18px 24px;
     margin: 10px;
   }
@@ -752,30 +733,13 @@ i {
   }
 
   h2 {
-    font-size: 49px;
-  }
-
-  .cv-btn {
-    font-size: 30px;
-    padding: 25px;
+    font-size: 29px;
   }
 
   .mi-foto {
     max-width: 590px;
   }
 
-  .saludo {
-    font-size: 32px;
-  }
-
-  .btn-header {
-    font-size: 30px;
-  }
-
-
-  .btn-ver {
-    font-size: 30px;
-  }
   .slide p {
   font-size: 25px;
   }
