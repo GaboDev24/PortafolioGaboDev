@@ -500,8 +500,8 @@ i {
 
   /* ✅ Ajustar slides horizontalmente */
   .slide {
-    flex: 0 0 90%;   /* ocupa casi todo el ancho */
-    max-width: 500px;
+    flex: 0 0 70%;   /* ocupa casi todo el ancho */
+    max-width: 350px;
     margin: 0 auto;
   }
 
@@ -567,8 +567,8 @@ i {
   }
 
   .slide {
-    flex: 0 0 100%;
-    max-width: 100%;
+    flex: 0 0 80%;
+    max-width: 300px;
   }
 
   .slide img {
