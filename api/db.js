@@ -1,31 +1,28 @@
 import { MongoClient } from "mongodb";
 
-const uri = process.env.MONGODB_URI; // en .env de Vercel
+const uri = process.env.MONGODB_URI;
+
+if (!uri) {
+  throw new Error("❌ Falta la variable MONGODB_URI en el entorno");
+}
+
+// Opciones recomendadas para MongoDB Atlas
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  connectTimeoutMS: 10000,
-  socketTimeoutMS: 45000
+  serverSelectionTimeoutMS: 10000, // timeout para selección de servidor
+  socketTimeoutMS: 45000           // timeout de socket
 };
 
 let client;
 let clientPromise;
 
-if (!process.env.MONGODB_URI) {
-  throw new Error("❌ Falta la variable MONGODB_URI en el entorno");
+// Cache global para evitar reconexiones en serverless / Vercel
+if (!global._mongoClientPromise) {
+  client = new MongoClient(uri, options);
+  global._mongoClientPromise = client.connect();
 }
 
-if (process.env.NODE_ENV === "development") {
-  // En desarrollo: usar cache global
-  if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options);
-    global._mongoClientPromise = client.connect();
-  }
-  clientPromise = global._mongoClientPromise;
-} else {
-  // En producción (Vercel)
-  client = new MongoClient(uri, { serverSelectionTimeoutMS: 10000 });
-  clientPromise = client.connect();
-}
+clientPromise = global._mongoClientPromise;
 
 export default clientPromise;
