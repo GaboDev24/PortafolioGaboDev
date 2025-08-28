@@ -289,7 +289,6 @@ footer {
 }
 
 i {
-  size: 30px;
   margin: 5px;
 }
 
@@ -530,6 +529,7 @@ i {
   }
 
   .menu-toggle {
+    font-size: 30px;
     display: block;
   }
 
@@ -548,6 +548,8 @@ i {
   .overlay.active {
     display: block;
   }
+
+
 
 }
 /* Smartphones grandes */
@@ -670,6 +672,7 @@ i {
   }
 
   .menu-toggle {
+    font-size: 30px;
     display: block;
   }
 
@@ -798,6 +801,7 @@ i {
   }
 
   .menu-toggle {
+    font-size: 30px;
     display: block;
   }
 
