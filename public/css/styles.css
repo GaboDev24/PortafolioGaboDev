@@ -37,6 +37,15 @@ header nav {
   gap: 20px; /* separa los enlaces */
 }
 
+/* --- BOTÓN HAMBURGUESA (oculto en desktop) --- */
+.menu-toggle {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 .btn-header {
   background-color: #a00109;
   color: #ffffff;
@@ -495,6 +504,30 @@ i {
     font-size: 32px;
   }
 
+  /* mostrar botón */
+  .menu-toggle {
+    display: block;
+  }
+
+  /* nav oculto por defecto */
+  header nav {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  /* nav activo */
+  header nav.active {
+    display: flex;
+  }
+
 }
 /* Smartphones grandes */
 @media (max-width: 768px) {
@@ -593,6 +626,30 @@ i {
     font-size: 30px;
   }
 
+  /* mostrar botón */
+  .menu-toggle {
+    display: block;
+  }
+
+  /* nav oculto por defecto */
+  header nav {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  /* nav activo */
+  header nav.active {
+    display: flex;
+  }
+
 }
 
 /* Smartphones pequeños */
@@ -677,6 +734,30 @@ i {
   }
   .slide p {
   font-size: 25px;
+  }
+
+  /* mostrar botón */
+  .menu-toggle {
+    display: block;
+  }
+
+  /* nav oculto por defecto */
+  header nav {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  /* nav activo */
+  header nav.active {
+    display: flex;
   }
 
 }
