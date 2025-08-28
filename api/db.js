@@ -10,7 +10,7 @@ if (!uri) {
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 10000, // timeout para selección de servidor
+  serverSelectionTimeoutMS: 20000, // timeout para selección de servidor
   socketTimeoutMS: 45000           // timeout de socket
 };
 
