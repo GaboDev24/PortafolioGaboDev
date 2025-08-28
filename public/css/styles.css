@@ -30,7 +30,7 @@ header {
   height: auto;
 }
 
-.btn-contacto {
+.btn-header {
   position: absolute;
   background-color: #a00109;
   color: #ffffff;
@@ -44,7 +44,7 @@ header {
   font-size: 16px;
 }
 
-.btn-contacto:hover {
+.btn-header:hover {
   background-color: #121212;
 }
 
@@ -396,7 +396,7 @@ i {
     max-width: 120px;
   }
 
-  .btn-contacto {
+  .btn-header {
     font-size: 18px;
     padding: 12px 22px;
     right: 20px;
@@ -422,7 +422,7 @@ i {
     max-width: 380px;
   }
 
-  .btn-contacto {
+  .btn-header {
     font-size: 30px;
   }
 
@@ -521,7 +521,7 @@ i {
   }
 
   /* ✅ Botón "Contáctame" más grande */
-  .btn-contacto {
+  .btn-header {
     font-size: 18px;
     padding: 12px 20px;
     right: 15px;
@@ -582,7 +582,7 @@ i {
     font-size: 32px;
   }
 
-  .btn-contacto {
+  .btn-header {
     font-size: 30px;
   }
 
@@ -594,7 +594,7 @@ i {
 
 /* Smartphones pequeños */
 @media (max-width: 480px) {
-  .btn-contacto {
+  .btn-header {
     font-size: 20px;
     padding: 14px 26px;
     right: 10px;
@@ -664,7 +664,7 @@ i {
     font-size: 32px;
   }
 
-  .btn-contacto {
+  .btn-header {
     font-size: 30px;
   }
 

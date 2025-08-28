@@ -19,7 +19,12 @@
   <div class="header_cont">
     <header>
       <img src="/img/logo.png" alt="Logo" class="logo">
-      <a href="https://gabodevclient.vercel.app/" class="btn-contacto">¡Contáctame!</a>
+      <a href="https://gabodevclient.vercel.app/" class="btn-header">¡Contáctame!</a>
+      <a href="#habilidades" class="btn-header">Habilidades</a>
+      <a href="#programacion" class="btn-header">Programación</a>
+      <a href="#diseno" class="btn-header">Diseño Gráfico</a>
+      <a href="#edicion" class="btn-header">Edición</a>
+      <a href="#Conocimientos" class="btn-header">Conocimientos</a>
     </header>
   </div>
   <!-- Presentación -->
@@ -40,7 +45,7 @@
 
   <!-- Proyectos -->
   <main>
-    <section class="habilidades">
+    <section class="habilidades" id="habilidades">
       <h2> Hábilidades </h2>
       <div class="habilidades-card">
         <div class="card">
@@ -55,7 +60,7 @@
         </div>
       </div>
     </section>
-    <section class="proyectos">
+    <section class="proyectos" id="programacion">
       <h2>Proyectos de Programación</h2>
       <div class="cards">
         <% proyectos.filter(p => p.tipo === 'programacion').forEach(proyecto => { %>
@@ -73,7 +78,7 @@
         <% }) %>
       </div>
     </section>
-    <section class="proyectos">
+    <section class="proyectos" id="Diseno">
       <h2>Diseño Gráfico</h2>
       <div class="carrusel">
         <% proyectos.filter(p => p.tipo === 'diseno').forEach(proyecto => { %>
@@ -93,7 +98,7 @@
       <span class="cerrar">&times;</span>
       <img class="modal-contenido" id="modal-img">
     </div>
-    <section class="proyectos">
+    <section class="proyectos" id="edicion">
       <h2>Edición de Videos</h2>
       <div class="cards">
         <% proyectos.filter(p => p.tipo === 'video').forEach(proyecto => { %>
@@ -133,7 +138,7 @@
   </main>
 
   <!-- Conocimientos -->
-  <section class="skills">
+  <section class="skills" id="conocimientos">
     <h2>Conocimientos</h2>
     <div class="logos">
       <img src="/img/html.png" alt="HTML5" class="logo-skill">
