@@ -26,8 +26,10 @@ header {
   padding: 10px 30px;
 }
 
-header .logo {
-  margin: 0; /* quitamos margen extra */
+.logo {
+  margin: 15px;
+  max-width: 130px;
+  height: auto;
 }
 
 header nav {
