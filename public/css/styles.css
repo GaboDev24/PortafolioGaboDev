@@ -364,6 +364,22 @@ i {
    TABLETS (768px - 1024px)
 ==================== */
 @media (max-width: 1024px) and (min-width: 769px) {
+
+  .carrusel .slide {
+    max-width: 600px;
+    padding: 30px;
+    font-size: 22px;
+  }
+
+  .carrusel .slide img {
+    max-height: 400px;
+  }
+
+  .carrusel .slide p {
+    font-size: 22px;
+    margin-top: 12px;
+  }
+
   header {
     padding: 20px;
   }
@@ -480,6 +496,23 @@ i {
     padding: 10px;
   }
 
+
+  .carrusel .slide {
+    max-width: 600px;
+    padding: 30px;
+    font-size: 22px;
+  }
+
+  .carrusel .slide img {
+    max-height: 400px;
+  }
+
+  .carrusel .slide p {
+    font-size: 22px;
+    margin-top: 12px;
+  }
+  
+
   .logo {
     max-width: 100px;
   }
@@ -562,6 +595,23 @@ i {
     padding: 14px 26px;
     right: 10px;
   }
+
+
+  .carrusel .slide {
+    max-width: 600px;
+    padding: 30px;
+    font-size: 22px;
+  }
+
+  .carrusel .slide img {
+    max-height: 400px;
+  }
+
+  .carrusel .slide p {
+    font-size: 22px;
+    margin-top: 12px;
+  }
+  
 
   .saludo {
     font-size: 18px;
