@@ -402,7 +402,7 @@ i {
   .card {
     width: 80%;
     max-width: 600px;
-    font-size: 18px;
+    font-size: 28px;
     padding: 25px;
   }
 
@@ -426,7 +426,7 @@ i {
 
   /* 👉 Footer botones cómodos */
   .redes-btn {
-    font-size: 18px;
+    font-size: 30px;
     padding: 12px 18px;
     margin: 12px;
   }
@@ -436,6 +436,17 @@ i {
     font-size: 49px;
   }
 
+  .cv-btn {
+    font-size: 30px;
+  }
+
+  .mi-foto {
+    max-width: 590px;
+  }
+
+  .saludo {
+    font-size: 32px;
+  }
 /* Smartphones grandes */
 @media (max-width: 768px) {
   header {
@@ -470,7 +481,7 @@ i {
   /* ✅ Footer botones más grandes */
   .redes-btn {
     display: inline-block;
-    font-size: 18px;
+    font-size: 30px;
     padding: 15px 20px;
     margin: 15px;
   }
@@ -492,7 +503,17 @@ i {
   h2 {
     font-size: 49px;
   }
+  .cv-btn {
+    font-size: 30px;
+  }
 
+  .mi-foto {
+    max-width: 590px;
+  }
+
+  .saludo {
+    font-size: 32px;
+  }
 
 /* Smartphones pequeños */
 @media (max-width: 480px) {
@@ -515,7 +536,7 @@ i {
   }
 
   .redes-btn {
-    font-size: 20px;
+    font-size: 32px;
     padding: 18px 24px;
     margin: 10px;
   }
@@ -534,4 +555,16 @@ i {
 
   h2 {
     font-size: 49px;
+  }
+
+  .cv-btn {
+    font-size: 30px;
+  }
+
+  .mi-foto {
+    max-width: 590px;
+  }
+
+  .saludo {
+    font-size: 32px;
   }
