@@ -12,25 +12,21 @@
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <!-- Intro -->
-  <div id="intro">
-  <a href="https://portafolio-gabo-dev.vercel.app/">
-    <img src="/img/logo-rojo.png" alt="Logo Intro" class="intro-logo">
-  </a>
-  </div>
   <!-- Header -->
   <div class="header_cont">
     <header>
+    <a href="https://portafolio-gabo-dev.vercel.app/">
       <img src="/img/logo.png" alt="Logo" class="logo">
+    </a>
       <!-- Botón hamburguesa -->
       <button class="menu-toggle" aria-label="Abrir menú">
         <i class="fa-solid fa-bars"></i>
       </button>
       <nav>
         <a href="https://gabodevclient.vercel.app/" class="btn-header">¡Contáctame!</a>
-        <a href="#habilidades" class="btn-header">Habilidades</a>
-        <a href="#proyectos" class="btn-header">Proyectos</a>
-        <a href="#conocimientos" class="btn-header">Conocimientos</a>
+        <a href="https://portafolio-gabo-dev.vercel.app/#habilidades" class="btn-header">Habilidades</a>
+        <a href="https://portafolio-gabo-dev.vercel.app/#proyectos" class="btn-header">Proyectos</a>
+        <a href="https://portafolio-gabo-dev.vercel.app/#conocimientos" class="btn-header">Conocimientos</a>
         <a href="#footer" class="btn-header">Otros contactos</a>
       </nav>    
     </header>
@@ -55,28 +51,11 @@
 
   <!-- Proyectos -->
   <main>
-    <section class="habilidades" id="habilidades">
-      <h2> Hábilidades </h2>
-      <div class="habilidades-card">
-        <div class="card">
-          <i class="fa-solid fa-terminal"></i>
-          <h3> Páginas Web </h3>
-          <p> Desarrollo de páginas web HTML5, CSS, JavaScript y NodeJS con manejo de base de datos MongoDB.</p>
-        </div>
-        <div class="card">
-          <i class="fa-brands fa-youtube"></i>
-          <h3> Canal de Youtube y Redes </h3>
-          <p> Proximamente. </p>
-        </div>
-      </div>
-    </section>
-    <h1> Proyectos Destacados </h1>
+    <h1> Todos mis proyectos </h1>
     <section class="proyectos" id="proyectos">
       <h2>Proyectos de Programación</h2>
       <div class="cards">
-      <% proyectos.filter(p => p.tipo === 'programacion' && p.destacado).forEach(proyecto => { %>
-        ...
-      <% }) %>
+        <% proyectos.filter(p => p.tipo === 'programacion').forEach(proyecto => { %>
           <div class="card">
             <h3><%= proyecto.titulo %></h3>
 
@@ -94,7 +73,7 @@
     <section class="proyectos" id="Diseno">
       <h2>Diseño Gráfico</h2>
       <div class="carrusel">
-        <% proyectos.filter(p => p.tipo === 'diseno' && p.destacado).forEach(...) %>
+        <% proyectos.filter(p => p.tipo === 'diseno').forEach(proyecto => { %>
           <div class="slide">
             <img src="<%= proyecto.imagen %>" 
                 alt="<%= proyecto.titulo %>" 
@@ -114,7 +93,7 @@
     <section class="proyectos" id="edicion">
       <h2>Edición de Videos</h2>
       <div class="cards">
-        <% proyectos.filter(p => p.tipo === 'video' && p.destacado).forEach(...) %>
+        <% proyectos.filter(p => p.tipo === 'video').forEach(proyecto => { %>
           <div class="card">
             <h3><%= proyecto.titulo %></h3>
             
@@ -150,22 +129,6 @@
     </section>
   </main>
 
-  <!-- Conocimientos -->
-  <section class="skills" id="conocimientos">
-    <h2>Conocimientos</h2>
-    <div class="logos">
-      <img src="/img/html.png" alt="HTML5" class="logo-skill">
-      <img src="/img/css.png" alt="CSS" class="logo-skill">
-      <img src="/img/js.png" alt="JavaScript" class="logo-skill">
-      <img src="/img/python.png" alt="Python" class="logo-skill">
-      <img src="/img/node.png" alt="Node.js" class="logo-skill">
-      <img src="/img/mongo.png" alt="MongoDB" class="logo-skill">
-      <img src="/img/database.png" alt="Database" class="logo-skill">
-      <img src="/img/photoshop.png" alt="PS" class="logo-skill">
-      <img src="/img/illustrator.png" alt="IA" class="logo-skill">
-      <img src="/img/premiere.png" alt="PR" class="logo-skill">
-    </div>
-  </section>
   <footer id="footer">
     <h1 class="footer-h1">
       Tambien podes contactarme en:

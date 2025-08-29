@@ -45,18 +45,26 @@ app.get("/api/projects", async (req, res) => {
 
 app.post("/api/projects", async (req, res) => {
   try {
-    const { titulo, link, tipo, imagen } = req.body;
+    const { titulo, link, tipo, imagen, destacado } = req.body;
     if (!titulo || !tipo) return res.status(400).json({ error: "Faltan datos" });
 
     const client = await clientPromise;
     const db = client.db("portafolio");
     const collection = db.collection("proyectos");
-    await collection.insertOne({ titulo, link, tipo, imagen });
+    await collection.insertOne({ 
+      titulo, 
+      link, 
+      tipo, 
+      imagen, 
+      destacado: destacado === "true" || destacado === true 
+    });
+
     res.status(201).json({ message: "Proyecto agregado" });
   } catch (err) {
     res.status(500).json({ error: "Error al agregar proyecto" });
   }
 });
+
 
 app.delete("/api/projects/:id", async (req, res) => {
   try {
@@ -107,6 +115,20 @@ app.get("/", async (req, res) => {
     res.render("index", { proyectos: [] });
   }
 });
+
+app.get("/proyectos", async (req, res) => {
+  try {
+    const client = await clientPromise;
+    const db = client.db("portafolio");
+    const collection = db.collection("proyectos");
+    const proyectos = await collection.find({}).toArray();
+    res.render("proyectos", { proyectos });
+  } catch (err) {
+    console.error("Error cargando proyectos:", err);
+    res.render("proyectos", { proyectos: [] });
+  }
+});
+
 
 // -------------------- LOCAL SERVER --------------------
 if (process.env.NODE_ENV !== "production") {

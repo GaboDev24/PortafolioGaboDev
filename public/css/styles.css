@@ -15,6 +15,14 @@ main {
   flex: 1; /* hace que el main ocupe el espacio disponible */
 }
 
+h1 {
+  text-align: center;
+  color: #121212;
+  background-color: #a00109;
+  border-radius: 10px;
+  padding: 20px;
+}
+
 .header_cont {
   background-color: #a00109;
 }
@@ -382,6 +390,15 @@ i {
   header {
     padding: 10px;
   }
+
+  h1 {
+    text-align: center;
+    color: #121212;
+    background-color: #a00109;
+    border-radius: 10px;
+    padding: 15px;
+  }
+
 
   .presentacion-contenido {
     flex-direction: column;
