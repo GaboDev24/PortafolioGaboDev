@@ -385,7 +385,9 @@ i {
 
 
 .all-btn {
-  text-align: center;
+  display: block;
+  width: fit-content;   /* para que el ancho se ajuste al contenido */
+  margin: 0 auto;       /* centra horizontalmente */
   background: #a00109;
   border: solid 2px #a00109;
   color: #fff;
@@ -394,7 +396,9 @@ i {
   text-decoration: none;
   font-weight: bold;
   transition: all 0.5s ease;
+  text-align: center;
 }
+
 
 .all-btn:hover {
   background: #12121200;
@@ -476,9 +480,9 @@ i {
   /* ✅ Footer botones más grandes */
   .redes-btn {
     display: inline-block;
-    font-size: 22px;
-    padding: 15px 20px;
-    margin: 15px;
+    font-size: 15px;
+    padding: 8px 10px;
+    margin: 7px;
   }
 
   /* ✅ Ajustar slides horizontalmente */
@@ -607,12 +611,6 @@ i {
     font-size: 16px;
     padding: 12px 20px;
     margin: 15px auto;
-  }
-
-  .redes-btn {
-    font-size: 22px;
-    padding: 18px 24px;
-    margin: 10px;
   }
 
   .slide {
