@@ -19,7 +19,6 @@ main {
   text-align: center;
   color: #121212;
   background-color: #a00109;
-  border-radius: 10px;
   padding: 20px;
 }
 
@@ -385,6 +384,23 @@ i {
 }
 
 
+.all-btn {
+  text-align: center;
+  background: #a00109;
+  border: solid 2px #a00109;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.5s ease;
+}
+
+.all-btn:hover {
+  background: #12121200;
+  color: #fff;
+}
+
 
 /* ====================
    RESPONSIVE DESIGN
@@ -538,8 +554,13 @@ i {
   }
 
   .logo-skill {
-    max-width: 20px;
+    max-width: 40px;
     padding: 7px;
+  }
+
+  .logo-skill:hover {
+    padding-left: 14px;
+    padding-right: 14px;
   }
 
 }
