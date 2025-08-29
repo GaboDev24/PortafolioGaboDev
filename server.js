@@ -117,8 +117,7 @@ app.get("/", async (req, res) => {
 
 app.get("/proyectos", async (req, res) => {
   try {
-    const client = await connectToDatabase;
-    const db = client.db("portafolio");
+    const { db } = await connectToDatabase();
     const collection = db.collection("proyectos");
     const proyectos = await collection.find({}).toArray();
     res.render("proyectos", { proyectos });
