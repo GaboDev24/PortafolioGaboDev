@@ -416,13 +416,6 @@ i {
     padding: 10px;
   }
 
-  h1 {
-    text-align: center;
-    color: #121212;
-    background-color: #a00109;
-    padding: 15px;
-  }
-
   .all-projects {
     text-align: center;
     color: #fff;
@@ -576,6 +569,13 @@ i {
     max-width: 70%;   /* reducir tamaño si hace falta */
     width: auto;
     margin: 0;        /* quitar márgenes que puedan descentrar */
+  }
+
+  #intro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
   }
 
 }
