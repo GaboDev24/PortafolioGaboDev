@@ -23,6 +23,11 @@ h1 {
   padding: 20px;
 }
 
+.all-projects {
+  text-align: center;
+  color: #fff;
+}
+
 .header_cont {
   background-color: #a00109;
 }
@@ -395,8 +400,12 @@ i {
     text-align: center;
     color: #121212;
     background-color: #a00109;
-    border-radius: 10px;
     padding: 15px;
+  }
+
+  .all-projects {
+    text-align: center;
+    color: #fff;
   }
 
 
@@ -526,6 +535,11 @@ i {
 
   .overlay.active {
     display: block;
+  }
+
+  .logo-skill {
+    max-width: 50px;
+    padding: 20px;
   }
 
 }
