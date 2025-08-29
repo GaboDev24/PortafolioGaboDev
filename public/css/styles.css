@@ -485,6 +485,11 @@ i {
     margin: 7px;
   }
 
+  .redes-btn:hover {
+    background-color: #700006;
+    margin: 12px;
+  }
+
   /* ✅ Ajustar slides horizontalmente */
   .slide {
     flex: 0 0 auto;
@@ -565,6 +570,12 @@ i {
   .logo-skill:hover {
     padding-left: 14px;
     padding-right: 14px;
+  }
+
+  .intro-logo {
+    max-width: 70%;   /* reducir tamaño si hace falta */
+    width: auto;
+    margin: 0;        /* quitar márgenes que puedan descentrar */
   }
 
 }
