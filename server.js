@@ -2,7 +2,6 @@ import "dotenv/config";
 import express from "express";
 import path from "path";
 import fetch from "node-fetch";
-import clientPromise from "./api/db.js";
 import { ObjectId } from "mongodb";
 import session from "express-session";
 import connectToDatabase from "./api/db.js";
@@ -32,7 +31,7 @@ app.set("view engine", "ejs");
 // -------------------- API --------------------
 app.get("/api/projects", async (req, res) => {
   try {
-    const client = await clientPromise;
+    const client = await connectToDatabase;
     const db = client.db("portafolio");
     const collection = db.collection("proyectos");
     const proyectos = await collection.find({}).toArray();
@@ -48,7 +47,7 @@ app.post("/api/projects", async (req, res) => {
     const { titulo, link, tipo, imagen, destacado } = req.body;
     if (!titulo || !tipo) return res.status(400).json({ error: "Faltan datos" });
 
-    const client = await clientPromise;
+    const client = await connectToDatabase;
     const db = client.db("portafolio");
     const collection = db.collection("proyectos");
     await collection.insertOne({ 
@@ -69,7 +68,7 @@ app.post("/api/projects", async (req, res) => {
 app.delete("/api/projects/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const client = await clientPromise;
+    const client = await connectToDatabase;
     const db = client.db("portafolio");
     const collection = db.collection("proyectos");
     await collection.deleteOne({ _id: new ObjectId(id) });
@@ -118,7 +117,7 @@ app.get("/", async (req, res) => {
 
 app.get("/proyectos", async (req, res) => {
   try {
-    const client = await clientPromise;
+    const client = await connectToDatabase;
     const db = client.db("portafolio");
     const collection = db.collection("proyectos");
     const proyectos = await collection.find({}).toArray();
