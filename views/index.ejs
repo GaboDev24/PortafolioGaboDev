@@ -70,9 +70,9 @@
         </div>
       </div>
     </section>
-    <h1> Proyectos Destacados </h1>
+    <h1 class="proyecto-destacado"> Proyectos Destacados </h1>
     <section class="proyectos" id="proyectos">
-      <h2>Proyectos de Programación</h2>
+      <h2>Programación</h2>
       <div class="cards">
         <% proyectos.filter(p => p.tipo === 'programacion' && p.destacado).forEach(proyecto => { %>
           <div class="card">
@@ -148,6 +148,7 @@
         <% }) %>
       </div>
     </section>
+    <a href="https://portafolio-gabo-dev.vercel.app/proyectos"> Ver todo mi trabajo </a>
   </main>
 
   <!-- Conocimientos -->
