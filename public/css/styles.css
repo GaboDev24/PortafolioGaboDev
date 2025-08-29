@@ -565,19 +565,6 @@ i {
     padding-right: 14px;
   }
 
-  .intro-logo {
-    max-width: 70%;   /* reducir tamaño si hace falta */
-    width: auto;
-    margin: 0;        /* quitar márgenes que puedan descentrar */
-  }
-
-  #intro {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-
 }
 
 /* Smartphones pequeños */
