@@ -74,12 +74,14 @@
     <section class="proyectos" id="proyectos">
       <h2>Proyectos de Programación</h2>
       <div class="cards">
-      <% proyectos.filter(p => p.tipo === 'programacion' && p.destacado).forEach(proyecto => { %>
+        <% proyectos.filter(p => p.tipo === 'programacion' && p.destacado).forEach(proyecto => { %>
           <div class="card">
             <h3><%= proyecto.titulo %></h3>
 
             <% if (proyecto.imagen) { %>
-              <img src="<%= proyecto.imagen %>" alt="<%= proyecto.titulo %>" style="width:100%; border-radius:8px; margin-bottom:10px;">
+              <img src="<%= proyecto.imagen %>" 
+                   alt="<%= proyecto.titulo %>" 
+                   style="width:100%; border-radius:8px; margin-bottom:10px;">
             <% } %>
 
             <% if (proyecto.link) { %>
@@ -92,12 +94,12 @@
     <section class="proyectos" id="Diseno">
       <h2>Diseño Gráfico</h2>
       <div class="carrusel">
-        <% proyectos.filter(p => p.tipo === 'diseno' && p.destacado).forEach %>
+        <% proyectos.filter(p => p.tipo === 'diseno' && p.destacado).forEach(proyecto => { %>
           <div class="slide">
             <img src="<%= proyecto.imagen %>" 
-                alt="<%= proyecto.titulo %>" 
-                data-img="<%= proyecto.imagen %>" 
-                class="carrusel-img">
+                 alt="<%= proyecto.titulo %>" 
+                 data-img="<%= proyecto.imagen %>" 
+                 class="carrusel-img">
             <p><%= proyecto.titulo %></p>
           </div>
         <% }) %>
@@ -112,7 +114,7 @@
     <section class="proyectos" id="edicion">
       <h2>Edición de Videos</h2>
       <div class="cards">
-        <% proyectos.filter(p => p.tipo === 'video' && p.destacado).forEach %>
+        <% proyectos.filter(p => p.tipo === 'video' && p.destacado).forEach(proyecto => { %>
           <div class="card">
             <h3><%= proyecto.titulo %></h3>
             
