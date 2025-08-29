@@ -75,7 +75,6 @@
       <h2>Proyectos de Programación</h2>
       <div class="cards">
       <% proyectos.filter(p => p.tipo === 'programacion' && p.destacado).forEach(proyecto => { %>
-        ...
       <% }) %>
           <div class="card">
             <h3><%= proyecto.titulo %></h3>
@@ -94,7 +93,7 @@
     <section class="proyectos" id="Diseno">
       <h2>Diseño Gráfico</h2>
       <div class="carrusel">
-        <% proyectos.filter(p => p.tipo === 'diseno' && p.destacado).forEach(...) %>
+        <% proyectos.filter(p => p.tipo === 'diseno' && p.destacado).forEach %>
           <div class="slide">
             <img src="<%= proyecto.imagen %>" 
                 alt="<%= proyecto.titulo %>" 
@@ -114,7 +113,7 @@
     <section class="proyectos" id="edicion">
       <h2>Edición de Videos</h2>
       <div class="cards">
-        <% proyectos.filter(p => p.tipo === 'video' && p.destacado).forEach(...) %>
+        <% proyectos.filter(p => p.tipo === 'video' && p.destacado).forEach %>
           <div class="card">
             <h3><%= proyecto.titulo %></h3>
             
