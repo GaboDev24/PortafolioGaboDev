@@ -13,20 +13,20 @@
 </head>
 <body>
   <!-- Header -->
-  <div class="header_cont">
-    <header>
+  <div class="header-projects_cont">
+    <header class="header-projects">
     <a href="https://portafolio-gabo-dev.vercel.app/">
       <img src="/img/logo.png" alt="Logo" class="logo">
     </a>
       <!-- Botón hamburguesa -->
       <button class="menu-toggle" aria-label="Abrir menú">
-        <i class="fa-solid fa-bars"></i>
+        <i class="fa-solid fa-bars" id="project-bar"></i>
       </button>
       <nav>
-        <a href="https://gabodevclient.vercel.app/" class="btn-header">¡Contáctame!</a>
-        <a href="https://portafolio-gabo-dev.vercel.app/#habilidades" class="btn-header">Habilidades</a>
-        <a href="https://portafolio-gabo-dev.vercel.app/#conocimientos" class="btn-header">Conocimientos</a>
-        <a href="#footer" class="btn-header">Otros contactos</a>
+        <a href="https://gabodevclient.vercel.app/" class="btn-header2">¡Contáctame!</a>
+        <a href="https://portafolio-gabo-dev.vercel.app/#habilidades" class="btn-header2">Habilidades</a>
+        <a href="https://portafolio-gabo-dev.vercel.app/#conocimientos" class="btn-header2">Conocimientos</a>
+        <a href="#footer" class="btn-header2">Otros contactos</a>
       </nav>    
     </header>
   </div>
@@ -34,7 +34,9 @@
   <div class="overlay"></div>
   <!-- Proyectos -->
   <main>
-    <h1 class="all-projects"> Todos mis proyectos </h1>
+    <div class="special-projects_cont">
+    <img src="/img/proyectos.png" alt="proyectos" class="special-projects">
+    </div>
     <section class="proyectos" id="proyectos">
       <h2>Programación</h2>
       <div class="cards">
@@ -71,7 +73,9 @@
     <!-- Modal de imagen -->
     <div id="modal" class="modal">
       <span class="cerrar">&times;</span>
+      <span class="prev">&#10094;</span> <!-- flecha izquierda -->
       <img class="modal-contenido" id="modal-img">
+      <span class="next">&#10095;</span> <!-- flecha derecha -->
     </div>
     <section class="proyectos" id="edicion">
       <h2>Edición de Videos</h2>
@@ -129,6 +133,10 @@
       <i class="fa-brands fa-discord" class="redes-icon"></i> Discord
     </a>
   </footer>
+<!-- Botón "ir arriba" -->
+<button id="scrollTopBtn" title="Subir">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
 <script>
   window.addEventListener('load', () => {
     const intro = document.getElementById('intro');
@@ -140,21 +148,31 @@
 
   const modal = document.getElementById("modal");
   const modalImg = document.getElementById("modal-img");
-  const closeBtn = document.querySelector(".cerrar"); // ✅ ahora selecciona bien la X
+  const closeBtn = document.querySelector(".cerrar");
+  const prevBtn = document.querySelector(".prev");
+  const nextBtn = document.querySelector(".next");
 
-  // Abrir modal con zoomIn
-  document.querySelectorAll(".carrusel-img").forEach(img => {
+  const images = Array.from(document.querySelectorAll(".carrusel-img"));
+  let currentIndex = 0;
+
+  // Abrir modal
+  images.forEach((img, index) => {
     img.addEventListener("click", () => {
-      modal.style.display = "flex";
-      modalImg.src = img.dataset.img;
-
-      modalImg.classList.remove("zoomOut");
-      void modalImg.offsetWidth; // hack para reiniciar animación
-      modalImg.classList.add("zoomIn");
+      currentIndex = index;
+      abrirModal();
     });
   });
 
-  // Función cerrar con animación
+  function abrirModal() {
+    modal.style.display = "flex";
+    modalImg.src = images[currentIndex].dataset.img;
+
+    modalImg.classList.remove("zoomOut");
+    void modalImg.offsetWidth; // reinicia animación
+    modalImg.classList.add("zoomIn");
+  }
+
+  // Función cerrar
   function cerrarModal() {
     modalImg.classList.remove("zoomIn");
     modalImg.classList.add("zoomOut");
@@ -167,14 +185,65 @@
     }, { once: true });
   }
 
-  // Cerrar con la X
+  // Navegación
+  function mostrarAnterior() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    abrirModal();
+  }
+
+  function mostrarSiguiente() {
+    currentIndex = (currentIndex + 1) % images.length;
+    abrirModal();
+  }
+
+  // Eventos
   closeBtn.addEventListener("click", cerrarModal);
+  prevBtn.addEventListener("click", mostrarAnterior);
+  nextBtn.addEventListener("click", mostrarSiguiente);
 
   // Cerrar clickeando fuera de la imagen
   modal.addEventListener("click", e => {
     if (e.target === modal) {
       cerrarModal();
     }
+  });
+
+  // Navegar con teclado
+  document.addEventListener("keydown", e => {
+    if (modal.style.display === "flex") {
+      if (e.key === "ArrowLeft") mostrarAnterior();
+      if (e.key === "ArrowRight") mostrarSiguiente();
+      if (e.key === "Escape") cerrarModal();
+    }
+  });
+
+
+  // Navegar con teclado
+  document.addEventListener("keydown", e => {
+    if (modal.style.display === "flex") {
+      if (e.key === "ArrowLeft") mostrarAnterior();
+      if (e.key === "ArrowRight") mostrarSiguiente();
+      if (e.key === "Escape") cerrarModal();
+    }
+  });
+
+  const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+  // Mostrar el botón al bajar
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+      scrollTopBtn.style.display = "block";
+    } else {
+      scrollTopBtn.style.display = "none";
+    }
+  });
+
+  // Subir al hacer click
+  scrollTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   });
 </script>
 <script src="/js/menu.js"></script>

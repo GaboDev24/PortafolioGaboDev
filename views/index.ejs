@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GaboDev</title>
+  <title>Gabo Dev</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -15,13 +15,13 @@
   <!-- Intro -->
   <div id="intro">
   <a href="https://portafolio-gabo-dev.vercel.app/">
-    <img src="/img/logo-rojo.png" alt="Logo Intro" class="intro-logo">
+    <img src="/img/logo-rojo-oscuro.png" alt="Logo Intro" class="intro-logo">
   </a>
   </div>
   <!-- Header -->
   <div class="header_cont">
     <header>
-      <img src="/img/logo.png" alt="Logo" class="logo">
+      <img src="/img/logo-rojo-oscuro.png" alt="Logo" class="logo">
       <!-- Botón hamburguesa -->
       <button class="menu-toggle" aria-label="Abrir menú">
         <i class="fa-solid fa-bars"></i>
@@ -40,36 +40,43 @@
   <section class="presentacion" id="sobremi">
     <div class="presentacion-contenido">
       <img src="/img/foto.png" alt="Mi foto" class="mi-foto">
-      <p class="saludo">
-        ¡Hola! Me llamo Gabriel Reina, soy desarrollador web, diseñador gráfico autodidacta y creador de videos en YT. 
-        Actualmente me encuentro estudiando "Desarrollador de Software" en el Instituto Nuevo Cuyo, ubicado en Mendoza, Argentina.   
-        Acá encontrarás mis proyectos de programación, diseño gráfico y edición de videos.
-        <br><br>
-      <a href="/CV.pdf" download="CV.pdf" class="cv-btn">
-        Curriculum
-      </a>
-      </p>
+      <div class="presentacion-text">
+        <p class="saludo">
+          ¡Hola! Me llamo Gabriel Reina, soy desarrollador web, diseñador gráfico autodidacta y creador de videos en YT. <br> 
+          Actualmente me encuentro estudiando "Desarrollador de Software" en el Instituto Nuevo Cuyo, ubicado en Mendoza, Argentina. <br>   
+          Acá encontrarás mis proyectos de programación, diseño gráfico y edición de videos.
+          <br><br>
+        <a href="/CV.pdf" download="CV.pdf" class="cv-btn">
+          Curriculum
+        </a>
+        </p>
+        <div class="habilidades-card">
+          <div class="card-skill">
+            <i class="fa-solid fa-terminal"></i>
+            <h3> Páginas Web </h3>
+          </div>
+          <div class="card-skill">
+            <i class="fa-brands fa-youtube"></i>
+            <h3> Youtube y Redes </h3>
+          </div>
+          <div class="card-skill">
+            <i class="fa-solid fa-circle-user"></i>
+            <h3> Trabajo en Equipo </h3>
+          </div>
+          <div class="card-skill">
+            <i class="fa-solid fa-clock"></i>
+            <h3> Puntualidad </h3>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- Proyectos -->
   <main>
-    <section class="habilidades" id="habilidades">
-      <h2> Hábilidades </h2>
-      <div class="habilidades-card">
-        <div class="card">
-          <i class="fa-solid fa-terminal"></i>
-          <h3> Páginas Web </h3>
-          <p> Desarrollo de páginas web HTML5, CSS, JavaScript y NodeJS con manejo de base de datos MongoDB.</p>
-        </div>
-        <div class="card">
-          <i class="fa-brands fa-youtube"></i>
-          <h3> Canal de Youtube y Redes </h3>
-          <p> Proximamente. </p>
-        </div>
-      </div>
-    </section>
-    <h1 class="proyecto-destacado"> Proyectos Destacados </h1>
+    <div class="special-projects_cont">
+    <img src="/img/proyectos-destacados.png" alt="proyectos destacados" class="special-projects">
+    </div>
     <section class="proyectos" id="proyectos">
       <h2>Programación</h2>
       <div class="cards">
@@ -108,7 +115,9 @@
     <!-- Modal de imagen -->
     <div id="modal" class="modal">
       <span class="cerrar">&times;</span>
+      <span class="prev">&#10094;</span> <!-- flecha izquierda -->
       <img class="modal-contenido" id="modal-img">
+      <span class="next">&#10095;</span> <!-- flecha derecha -->
     </div>
     <section class="proyectos" id="edicion">
       <h2>Edición de Videos</h2>
@@ -183,6 +192,10 @@
       <i class="fa-brands fa-discord" class="redes-icon"></i> Discord
     </a>
   </footer>
+<!-- Botón "ir arriba" -->
+<button id="scrollTopBtn" title="Subir">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
 <script>
   window.addEventListener('load', () => {
     const intro = document.getElementById('intro');
@@ -194,21 +207,31 @@
 
   const modal = document.getElementById("modal");
   const modalImg = document.getElementById("modal-img");
-  const closeBtn = document.querySelector(".cerrar"); // ✅ ahora selecciona bien la X
+  const closeBtn = document.querySelector(".cerrar");
+  const prevBtn = document.querySelector(".prev");
+  const nextBtn = document.querySelector(".next");
 
-  // Abrir modal con zoomIn
-  document.querySelectorAll(".carrusel-img").forEach(img => {
+  const images = Array.from(document.querySelectorAll(".carrusel-img"));
+  let currentIndex = 0;
+
+  // Abrir modal
+  images.forEach((img, index) => {
     img.addEventListener("click", () => {
-      modal.style.display = "flex";
-      modalImg.src = img.dataset.img;
-
-      modalImg.classList.remove("zoomOut");
-      void modalImg.offsetWidth; // hack para reiniciar animación
-      modalImg.classList.add("zoomIn");
+      currentIndex = index;
+      abrirModal();
     });
   });
 
-  // Función cerrar con animación
+  function abrirModal() {
+    modal.style.display = "flex";
+    modalImg.src = images[currentIndex].dataset.img;
+
+    modalImg.classList.remove("zoomOut");
+    void modalImg.offsetWidth; // reinicia animación
+    modalImg.classList.add("zoomIn");
+  }
+
+  // Función cerrar
   function cerrarModal() {
     modalImg.classList.remove("zoomIn");
     modalImg.classList.add("zoomOut");
@@ -221,14 +244,55 @@
     }, { once: true });
   }
 
-  // Cerrar con la X
+  // Navegación
+  function mostrarAnterior() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    abrirModal();
+  }
+
+  function mostrarSiguiente() {
+    currentIndex = (currentIndex + 1) % images.length;
+    abrirModal();
+  }
+
+  // Eventos
   closeBtn.addEventListener("click", cerrarModal);
+  prevBtn.addEventListener("click", mostrarAnterior);
+  nextBtn.addEventListener("click", mostrarSiguiente);
 
   // Cerrar clickeando fuera de la imagen
   modal.addEventListener("click", e => {
     if (e.target === modal) {
       cerrarModal();
     }
+  });
+
+  // Navegar con teclado
+  document.addEventListener("keydown", e => {
+    if (modal.style.display === "flex") {
+      if (e.key === "ArrowLeft") mostrarAnterior();
+      if (e.key === "ArrowRight") mostrarSiguiente();
+      if (e.key === "Escape") cerrarModal();
+    }
+  });
+
+  const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+  // Mostrar el botón al bajar
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+      scrollTopBtn.style.display = "block";
+    } else {
+      scrollTopBtn.style.display = "none";
+    }
+  });
+
+  // Subir al hacer click
+  scrollTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   });
 </script>
 <script src="/js/menu.js"></script>
