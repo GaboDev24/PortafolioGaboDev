@@ -5,10 +5,19 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
   background-color: #121212;
   min-height: 100vh; /* asegura que body ocupe toda la pantalla */
   display: flex;
   flex-direction: column;
+}
+
+h2 {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
 }
 
 main {
