@@ -120,13 +120,13 @@ header nav {
 }
 
 .presentacion-contenido {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 30px;
-  flex-wrap: wrap;
-  flex-direction: row-reverse; /* 👉 invierte columnas */
-  padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    padding: 2rem;
 }
 
 .saludo {
