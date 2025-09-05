@@ -119,6 +119,12 @@ header nav {
   min-height: 10vh;
 }
 
+button.nuestro-menu {
+  background-color: #121212;
+  padding: 10px;
+
+}
+
 .presentacion-contenido {
     display: flex;
     align-items: center;
