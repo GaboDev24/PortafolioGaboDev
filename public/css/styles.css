@@ -164,6 +164,10 @@ button.nuestro-menu {
   text-align: center;
 }
 
+ul {
+  list-style-type: none;
+}
+
 .proyectos,
 .skills,
 .habilidades,
