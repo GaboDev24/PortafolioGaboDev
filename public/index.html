@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="GaboDev - Gabriel Leandro Reina. Diseñador Grafico, Editor de Video y Full Stack Developer. Portfolio inspirado en Metal Gear Solid." />
+  <meta name="keywords" content="GaboDev, Gabriel Reina, Full Stack Developer, Diseño Grafico, Edicion Video, Portfolio" />
+  <title>GaboDev | Gabriel Leandro Reina</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Barlow+Condensed:ital,wght@0,100;0,300;0,400;0,600;0,700;0,900;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- ══ NAVEGACION ══ -->
+  <nav class="nav" id="navbar" role="navigation" aria-label="Navegacion principal">
+    <div class="nav__container">
+
+      <a href="#inicio" class="nav__logo" id="nav-logo" aria-label="GaboDev Inicio">
+        <span class="nav__logo-text">GABO<span class="nav__logo-accent">DEV</span></span>
+        <span class="nav__logo-sub">// PORTAFOLIO WEB //</span>
+      </a>
+
+      <ul class="nav__links" id="nav-links" role="list">
+        <li><a href="#inicio"     class="nav__link active" id="nav-inicio"     data-label="01">Inicio</a></li>
+        <li><a href="#sobre"      class="nav__link"        id="nav-sobre"      data-label="02">Sobre Mi</a></li>
+        <li><a href="#portafolio" class="nav__link"        id="nav-portafolio" data-label="03">Portafolio</a></li>
+        <li><a href="#servicios"  class="nav__link"        id="nav-servicios"  data-label="04">Servicios</a></li>
+        <li><a href="#contacto"   class="nav__link"        id="nav-contacto"   data-label="05">Contacto</a></li>
+      </ul>
+
+      <div class="nav__controls">
+        <button class="nav__theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
+          <i class="fa-solid fa-moon" id="theme-icon"></i>
+        </button>
+        <button class="nav__hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <section class="hero" id="inicio" aria-label="Seccion principal">
+
+    <!-- HUD -->
+    <div class="hud hud--tl" aria-hidden="true">
+      <span class="hud__line"></span>
+      <span class="hud__text">SYS: ONLINE</span>
+    </div>
+    <div class="hud hud--tr" aria-hidden="true">
+      <span class="hud__text">LOC: ARGENTINA</span>
+      <span class="hud__line"></span>
+    </div>
+    <div class="hud hud--bl" aria-hidden="true">
+      <span class="hud__text mono">ID: GABODEV-24</span>
+    </div>
+    <div class="hud hud--br" aria-hidden="true">
+      <span class="hud__text mono">STATUS: ACTIVE</span>
+    </div>
+
+    <!-- Reticle -->
+    <div class="target-reticle" id="target-reticle" aria-hidden="true">
+      <div class="target-reticle__corner tl"></div>
+      <div class="target-reticle__corner tr"></div>
+      <div class="target-reticle__corner bl"></div>
+      <div class="target-reticle__corner br"></div>
+      <div class="target-reticle__cross-h"></div>
+      <div class="target-reticle__cross-v"></div>
+    </div>
+
+    <!-- Ink splashes (visible on both modes) -->
+    <div class="ink-bg" aria-hidden="true">
+      <svg class="ink-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <filter id="ink-rough">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <filter id="ink-blur">
+            <feGaussianBlur stdDeviation="2"/>
+          </filter>
+        </defs>
+        <ellipse cx="260" cy="480" rx="300" ry="360" class="ink-shape" opacity="0.12" filter="url(#ink-rough)"/>
+        <ellipse cx="150" cy="110" rx="130" ry="85"  class="ink-shape" opacity="0.08" filter="url(#ink-rough)"/>
+        <ellipse cx="1100" cy="200" rx="150" ry="200" class="ink-shape" opacity="0.07" filter="url(#ink-rough)"/>
+        <ellipse cx="330" cy="430" rx="55" ry="55" fill="#D90429" opacity="0.18" filter="url(#ink-blur)"/>
+        <path d="M0 600 Q 200 550 600 620 T 1440 580" class="ink-stroke" stroke-width="160" fill="none" opacity="0.07" filter="url(#ink-rough)" stroke-linecap="round"/>
+        <path d="M-60 700 Q 300 680 700 730 T 1500 700" class="ink-stroke" stroke-width="70" fill="none" opacity="0.1" filter="url(#ink-rough)" stroke-linecap="round"/>
+        <circle cx="680" cy="150" r="18" class="ink-shape" opacity="0.12"/>
+        <circle cx="720" cy="180" r="9"  class="ink-shape" opacity="0.09"/>
+        <circle cx="640" cy="200" r="12" class="ink-shape" opacity="0.10"/>
+        <circle cx="750" cy="130" r="5"  fill="#D90429" opacity="0.85"/>
+        <circle cx="780" cy="160" r="7"  fill="#D90429" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <!-- LOGO IMAGE (reemplaza el robot SVG) -->
+    <div class="hero__logo-wrap" aria-hidden="true">
+      <img
+        id="hero-logo-img"
+        src="img/negro.png"
+        alt="GaboDev Logo"
+        class="hero-logo-img"
+        onerror="this.style.opacity='0'"
+      />
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="hero__content">
+      <div class="hero__tag mono">
+        <span class="hero__tag-dot"></span>
+        DESARROLLADOR WEB // CREATIVO
+      </div>
+
+      <h1 class="hero__name" id="hero-name">
+        <span class="hero__name-line" data-text="GABODEV">GABODEV</span>
+      </h1>
+
+      <p class="hero__subtitle">
+        Diseñador Grafico <span class="accent">&bull;</span>
+        Editor de Video <span class="accent">&bull;</span>
+        Full Stack Developer
+      </p>
+
+      <div class="hero__divider" aria-hidden="true">
+        <span class="hero__divider-line"></span>
+        <span class="hero__divider-icon"><i class="fa-solid fa-crosshairs"></i></span>
+        <span class="hero__divider-line"></span>
+      </div>
+
+      <div class="hero__actions">
+        <a href="#portafolio" class="btn btn--primary" id="btn-portafolio">
+          <i class="fa-solid fa-folder-open"></i>
+          <span>Ver Portafolio</span>
+          <span class="btn__glitch" aria-hidden="true"></span>
+        </a>
+        <a href="#contacto" class="btn btn--outline" id="btn-contacto">
+          <i class="fa-solid fa-satellite-dish"></i>
+          <span>Contactame</span>
+        </a>
+        <a href="/cv" download class="btn btn--cv" id="btn-cv">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>Descargar CV</span>
+        </a>
+      </div>
+
+      <div class="hero__stats" aria-label="Estadisticas">
+        <div class="stat">
+          <span class="stat__num" data-count="5">0</span>
+          <span class="stat__label">Anos Exp.</span>
+        </div>
+        <div class="stat__sep" aria-hidden="true"></div>
+        <div class="stat">
+          <span class="stat__num" id="stat-projects" data-count="0">0</span>
+          <span class="stat__label">Proyectos</span>
+        </div>
+        <div class="stat__sep" aria-hidden="true"></div>
+        <div class="stat">
+          <span class="stat__num" data-count="6">0</span>
+          <span class="stat__label">Servicios</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__scroll" aria-label="Desplazar hacia abajo">
+      <span class="hero__scroll-label mono">SCROLL</span>
+      <span class="hero__scroll-arrow"><i class="fa-solid fa-chevron-down"></i></span>
+    </div>
+  </section>
+
+  <!-- ══ SOBRE MI ══ -->
+  <section class="about section" id="sobre" aria-label="Sobre mi">
+    <div class="section__header">
+      <span class="section__num mono">02</span>
+      <h2 class="section__title">Sobre Mi</h2>
+      <span class="section__line" aria-hidden="true"></span>
+    </div>
+
+    <div class="about__container">
+
+      <!-- Ficha personal (izquierda) -->
+      <div class="about__dossier">
+        <div class="dossier__card">
+          <div class="dossier__label mono">PERFIL PROFESIONAL</div>
+          <div class="dossier__stamp">DESTACADO</div>
+
+          <!-- ESPACIO PARA FOTO -->
+          <div class="dossier__photo">
+            <div class="dossier__photo-inner">
+              <img
+                src="img/foto.jpg"
+                alt="Gabriel Leandro Reina"
+                class="profile-photo"
+                id="profile-photo"
+                onerror="this.style.display='none'; document.getElementById('photo-fallback').style.display='flex';"
+              />
+              <div class="photo-fallback" id="photo-fallback">
+                <i class="fa-solid fa-user-secret"></i>
+                <span class="mono photo-fallback__label">FOTO.JPG</span>
+              </div>
+            </div>
+            <div class="dossier__photo-frame" aria-hidden="true"></div>
+          </div>
+
+          <div class="dossier__id">
+            <div class="dossier__row">
+              <span class="dossier__key mono">NOMBRE</span>
+              <span class="dossier__val">Gabriel L. Reina</span>
+            </div>
+            <div class="dossier__row">
+              <span class="dossier__key mono">CODIGO</span>
+              <span class="dossier__val">GaboDev</span>
+            </div>
+            <div class="dossier__row">
+              <span class="dossier__key mono">UBICACION</span>
+              <span class="dossier__val">Argentina</span>
+            </div>
+            <div class="dossier__row">
+              <span class="dossier__key mono">ESTADO</span>
+              <span class="dossier__val status-active">ACTIVO</span>
+            </div>
+            <div class="dossier__row">
+              <span class="dossier__key mono">NIVEL</span>
+              <span class="dossier__val accent">NIVEL 5</span>
+            </div>
+          </div>
+
+          <div class="dossier__socials">
+            <a href="https://github.com/GaboDev24" target="_blank" rel="noopener" class="social-link" id="social-github" aria-label="GitHub">
+              <i class="fa-brands fa-github"></i>
+              <span>GaboDev24</span>
+            </a>
+            <a href="https://www.instagram.com/gabodev24/" target="_blank" rel="noopener" class="social-link" id="social-instagram" aria-label="Instagram">
+              <i class="fa-brands fa-instagram"></i>
+              <span>gabodev24</span>
+            </a>
+          </div>
+
+          <div class="dossier__cv">
+            <a href="/cv" download class="btn btn--cv btn--full" id="btn-cv-dossier">
+              <i class="fa-solid fa-file-pdf"></i>
+              <span>Descargar CV</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bio (derecha) -->
+      <div class="about__bio">
+        <div class="bio__section">
+          <h3 class="bio__heading mono">// ACERCA DE MÍ</h3>
+          <p class="bio__text">
+            Desarrollador Full Stack, Diseñador Grafico y Editor de Video con pasion por crear
+            experiencias digitales impactantes. Combino habilidades tecnicas y creativas para
+            entregar proyectos que superan lo convencional.
+          </p>
+          <p class="bio__text">
+            Con dominio de tecnologias modernas tanto en frontend como backend, junto con
+            herramientas profesionales de diseño y edicion, ofrezco soluciones completas y
+            de alta calidad para cualquier desafio digital.
+          </p>
+        </div>
+
+        <div class="bio__section">
+          <h3 class="bio__heading mono">// HABILIDADES TÉCNICAS</h3>
+          <div class="skills-grid">
+
+            <div class="skill-group">
+              <div class="skill-group__label">
+                <i class="fa-solid fa-code"></i><span>Desarrollo</span>
+              </div>
+              <div class="skill-bar"><div class="skill-bar__label"><span>HTML / CSS</span><span class="skill-bar__pct">95%</span></div><div class="skill-bar__track"><div class="skill-bar__fill" style="--w:95%"></div></div></div>
+              <div class="skill-bar"><div class="skill-bar__label"><span>JavaScript</span><span class="skill-bar__pct">85%</span></div><div class="skill-bar__track"><div class="skill-bar__fill" style="--w:85%"></div></div></div>
+              <div class="skill-bar"><div class="skill-bar__label"><span>Node.js</span><span class="skill-bar__pct">80%</span></div><div class="skill-bar__track"><div class="skill-bar__fill" style="--w:80%"></div></div></div>
+              <div class="skill-bar"><div class="skill-bar__label"><span>Python</span><span class="skill-bar__pct">75%</span></div><div class="skill-bar__track"><div class="skill-bar__fill" style="--w:75%"></div></div></div>
+              <div class="skill-bar"><div class="skill-bar__label"><span>MongoDB / SQL</span><span class="skill-bar__pct">78%</span></div><div class="skill-bar__track"><div class="skill-bar__fill" style="--w:78%"></div></div></div>
+            </div>
+
+            <div class="skill-group">
+              <div class="skill-group__label">
+                <i class="fa-solid fa-pen-nib"></i><span>Diseño</span>
+              </div>
+              <div class="skill-bar"><div class="skill-bar__label"><span>Photoshop</span><span class="skill-bar__pct">88%</span></div><div class="skill-bar__track"><div class="skill-bar__fill" style="--w:88%"></div></div></div>
+              <div class="skill-bar"><div class="skill-bar__label"><span>Illustrator</span><span class="skill-bar__pct">82%</span></div><div class="skill-bar__track"><div class="skill-bar__fill" style="--w:82%"></div></div></div>
+            </div>
+
+            <div class="skill-group">
+              <div class="skill-group__label">
+                <i class="fa-solid fa-film"></i><span>Edicion de Video</span>
+              </div>
+              <div class="skill-bar"><div class="skill-bar__label"><span>Premiere Pro</span><span class="skill-bar__pct">85%</span></div><div class="skill-bar__track"><div class="skill-bar__fill" style="--w:85%"></div></div></div>
+              <div class="skill-bar"><div class="skill-bar__label"><span>Sony Vegas</span><span class="skill-bar__pct">80%</span></div><div class="skill-bar__track"><div class="skill-bar__fill" style="--w:80%"></div></div></div>
+              <div class="skill-bar"><div class="skill-bar__label"><span>CapCut</span><span class="skill-bar__pct">90%</span></div><div class="skill-bar__track"><div class="skill-bar__fill" style="--w:90%"></div></div></div>
+            </div>
+
+            <div class="skill-group">
+              <div class="skill-group__label">
+                <i class="fa-solid fa-brain"></i><span>Inteligencia Artificial</span>
+              </div>
+              <div class="skill-bar"><div class="skill-bar__label"><span>Uso avanzado de IA / Prompt Engineer</span><span class="skill-bar__pct">90%</span></div><div class="skill-bar__track"><div class="skill-bar__fill" style="--w:90%"></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tech-icons" aria-label="Tecnologias">
+          <div class="tech-icon" title="HTML5"><i class="fa-brands fa-html5"></i></div>
+          <div class="tech-icon" title="CSS3"><i class="fa-brands fa-css3-alt"></i></div>
+          <div class="tech-icon" title="JavaScript"><i class="fa-brands fa-js"></i></div>
+          <div class="tech-icon" title="Node.js"><i class="fa-brands fa-node-js"></i></div>
+          <div class="tech-icon" title="Python"><i class="fa-brands fa-python"></i></div>
+          <div class="tech-icon" title="Git"><i class="fa-brands fa-git-alt"></i></div>
+          <div class="tech-icon" title="GitHub"><i class="fa-brands fa-github"></i></div>
+          <div class="tech-icon" title="Base de datos"><i class="fa-solid fa-database"></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PORTAFOLIO ══ -->
+  <section class="portfolio section" id="portafolio" aria-label="Portafolio">
+    <div class="section__header">
+      <span class="section__num mono">03</span>
+      <h2 class="section__title">Portafolio</h2>
+      <span class="section__line" aria-hidden="true"></span>
+    </div>
+
+    <div class="portfolio__filters" role="tablist" aria-label="Categorias">
+      <button class="filter-btn active" role="tab" data-filter="all"    id="filter-all"    aria-selected="true">Todos</button>
+      <button class="filter-btn"        role="tab" data-filter="web"    id="filter-web"    aria-selected="false">Desarrollo Web</button>
+      <button class="filter-btn"        role="tab" data-filter="design" id="filter-design" aria-selected="false">Diseño</button>
+      <button class="filter-btn"        role="tab" data-filter="video"  id="filter-video"  aria-selected="false">Video</button>
+    </div>
+
+    <div class="portfolio__grid" id="portfolio-grid" role="tabpanel" aria-live="polite">
+      <div class="portfolio__loading" id="portfolio-loading">
+        <span class="mono">CARGANDO PROYECTOS...</span>
+        <div class="loading-bar"><div class="loading-bar__fill"></div></div>
+      </div>
+    </div>
+
+    <div class="portfolio__empty hidden" id="portfolio-empty">
+      <i class="fa-solid fa-folder-xmark"></i>
+      <p class="mono">SIN ARCHIVOS PARA ESTA CATEGORIA</p>
+    </div>
+  </section>
+
+  <!-- ══ SERVICIOS ══ -->
+  <section class="services section" id="servicios" aria-label="Servicios">
+    <div class="section__header">
+      <span class="section__num mono">04</span>
+      <h2 class="section__title">Servicios</h2>
+      <span class="section__line" aria-hidden="true"></span>
+    </div>
+
+    <div class="services__grid">
+      <article class="service-card" id="service-webdev">
+        <div class="service-card__icon"><i class="fa-solid fa-code"></i></div>
+        <div class="service-card__num mono">01</div>
+        <h3 class="service-card__title">Full Stack Development</h3>
+        <p class="service-card__desc">Desarrollo de aplicaciones web completas, desde la interfaz hasta el servidor y la base de datos.</p>
+        <ul class="service-card__list">
+          <li>Landing pages y portfolios</li>
+          <li>APIs REST con Node.js</li>
+          <li>Bases de datos SpiderWeb / MongoDB</li>
+          <li>Panel de administracion</li>
+        </ul>
+        <div class="service-card__border" aria-hidden="true"></div>
+      </article>
+
+      <article class="service-card" id="service-design">
+        <div class="service-card__icon"><i class="fa-solid fa-pen-ruler"></i></div>
+        <div class="service-card__num mono">02</div>
+        <h3 class="service-card__title">Diseño Grafico</h3>
+        <p class="service-card__desc">Identidad visual, logotipos, banners, flyers y material grafico digital e impreso de alta calidad.</p>
+        <ul class="service-card__list">
+          <li>Identidad de marca</li>
+          <li>Diseño editorial</li>
+          <li>Publicidad digital</li>
+          <li>Photoshop y Illustrator</li>
+        </ul>
+        <div class="service-card__border" aria-hidden="true"></div>
+      </article>
+
+      <article class="service-card" id="service-video">
+        <div class="service-card__icon"><i class="fa-solid fa-clapperboard"></i></div>
+        <div class="service-card__num mono">03</div>
+        <h3 class="service-card__title">Edicion de Video</h3>
+        <p class="service-card__desc">Edicion profesional de contenido audiovisual para redes sociales, YouTube y publicidad con efectos cinematograficos.</p>
+        <ul class="service-card__list">
+          <li>Reels y Shorts</li>
+          <li>YouTube Edits</li>
+          <li>Spots publicitarios</li>
+          <li>Premiere y Sony Vegas</li>
+        </ul>
+        <div class="service-card__border" aria-hidden="true"></div>
+      </article>
+
+      <article class="service-card" id="service-cm">
+        <div class="service-card__icon"><i class="fa-solid fa-bullhorn"></i></div>
+        <div class="service-card__num mono">04</div>
+        <h3 class="service-card__title">Community Manager</h3>
+        <p class="service-card__desc">Gestion integral de redes sociales, contenido estrategico y crecimiento de marca en plataformas digitales.</p>
+        <ul class="service-card__list">
+          <li>Creacion de contenido</li>
+          <li>Estrategia digital</li>
+          <li>Analisis de metricas</li>
+        </ul>
+        <div class="service-card__border" aria-hidden="true"></div>
+      </article>
+
+      <article class="service-card" id="service-tech">
+        <div class="service-card__icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+        <div class="service-card__num mono">05</div>
+        <h3 class="service-card__title">Reparacion PC / Celular</h3>
+        <p class="service-card__desc">Servicio tecnico de hardware y software para computadoras y telefonos. Diagnostico, reparacion y optimizacion.</p>
+        <ul class="service-card__list">
+          <li>Reparacion de hardware</li>
+          <li>Formateo e instalacion</li>
+          <li>Optimizacion de sistema</li>
+        </ul>
+        <div class="service-card__border" aria-hidden="true"></div>
+      </article>
+
+      <article class="service-card" id="service-classes">
+        <div class="service-card__icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+        <div class="service-card__num mono">06</div>
+        <h3 class="service-card__title">Clases de Computacion</h3>
+        <p class="service-card__desc">Clases particulares para todos los niveles. Ofimatica, internet, introduccion a la programacion y herramientas digitales.</p>
+        <ul class="service-card__list">
+          <li>Nivel basico a avanzado</li>
+          <li>Ofimatica (Office)</li>
+          <li>Intro a programacion</li>
+          <li>Clases virtuales</li>
+        </ul>
+        <div class="service-card__border" aria-hidden="true"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ══ CONTACTO ══ -->
+  <section class="contact section" id="contacto" aria-label="Contacto">
+    <div class="section__header">
+      <span class="section__num mono">05</span>
+      <h2 class="section__title">Contacto</h2>
+      <span class="section__line" aria-hidden="true"></span>
+    </div>
+
+    <div class="contact__container">
+
+      <div class="contact__terminal">
+        <div class="terminal__header">
+          <span class="terminal__dot red"></span>
+          <span class="terminal__dot yellow"></span>
+          <span class="terminal__dot green"></span>
+          <span class="terminal__title mono">CANAL_DE_COMUNICACION.exe</span>
+        </div>
+        <div class="terminal__body">
+          <div class="terminal__line"><span class="mono accent">&gt; </span><span class="mono">ESTABLECIENDO CONEXION SEGURA...</span></div>
+          <div class="terminal__line"><span class="mono accent">&gt; </span><span class="mono">ENCRIPTACION: AES-256</span></div>
+          <div class="terminal__line"><span class="mono accent">&gt; </span><span class="mono">CANAL ABIERTO. LISTO PARA TRANSMITIR.</span></div>
+          <div class="terminal__line terminal__line--blink"><span class="mono accent">&gt; </span><span class="mono" id="terminal-typing"></span><span class="cursor mono">_</span></div>
+        </div>
+
+        <div class="contact__links">
+          <a href="mailto:gabrielreina052@gmail.com" class="contact__link" id="contact-email">
+            <i class="fa-solid fa-envelope"></i><span>gabrielreina052@gmail.com</span>
+            <span class="contact__link-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+          </a>
+          <a href="https://github.com/GaboDev24" target="_blank" rel="noopener" class="contact__link" id="contact-github">
+            <i class="fa-brands fa-github"></i><span>GaboDev24</span>
+            <span class="contact__link-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+          </a>
+          <a href="https://www.instagram.com/gabodev24/" target="_blank" rel="noopener" class="contact__link" id="contact-instagram">
+            <i class="fa-brands fa-instagram"></i><span>gabodev24</span>
+            <span class="contact__link-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+          </a>
+          <a href="/cv" download class="contact__link" id="contact-cv">
+            <i class="fa-solid fa-file-pdf"></i><span>Descargar CV</span>
+            <span class="contact__link-arrow"><i class="fa-solid fa-download"></i></span>
+          </a>
+        </div>
+      </div>
+
+      <form class="contact__form" id="contact-form" novalidate>
+        <div class="form-group">
+          <label class="form-label mono" for="contact-name">// IDENTIFICATE</label>
+          <input class="form-input" type="text" id="contact-name" name="name" placeholder="Nombre completo" required autocomplete="name"/>
+          <span class="form-focus-bar"></span>
+        </div>
+        <div class="form-group">
+          <label class="form-label mono" for="contact-email">// CORREO DE RESPUESTA</label>
+          <input class="form-input" type="email" id="contact-email" name="email" placeholder="Email" required autocomplete="email"/>
+          <span class="form-focus-bar"></span>
+        </div>
+        <div class="form-group">
+          <label class="form-label mono" for="contact-subject">// ASUNTO DEL MENSAJE</label>
+          <input class="form-input" type="text" id="contact-subject" name="subject" placeholder="Asunto"/>
+          <span class="form-focus-bar"></span>
+        </div>
+        <div class="form-group">
+          <label class="form-label mono" for="contact-message">// TRANSMITIR MENSAJE</label>
+          <textarea class="form-input form-textarea" id="contact-message" name="message" placeholder="Mensaje..." rows="5" required></textarea>
+          <span class="form-focus-bar"></span>
+        </div>
+        <button type="submit" class="btn btn--primary btn--full" id="btn-send">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>Enviar Mensaje</span>
+          <span class="btn__glitch" aria-hidden="true"></span>
+        </button>
+        <div class="form-status" id="form-status" aria-live="polite"></div>
+      </form>
+
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__top">
+      <span class="footer__logo">GABO<span class="accent">DEV</span></span>
+      <div class="footer__sep" aria-hidden="true"></div>
+      <span class="footer__tagline mono">// PORTAFOLIO WEB //</span>
+    </div>
+    <div class="footer__bottom">
+      <span class="mono footer__copy">&copy; 2026 Gabriel Leandro Reina — GaboDev</span>
+      <div class="footer__links">
+        <a href="https://github.com/GaboDev24"         target="_blank" rel="noopener" id="footer-github"    aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.instagram.com/gabodev24/" target="_blank" rel="noopener" id="footer-instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="/cv" download id="footer-cv" aria-label="Descargar CV"><i class="fa-solid fa-file-pdf"></i></a>
+      </div>
+    </div>
+    <div class="footer__admin">
+      <a href="/admin/login" class="footer__admin-link mono" id="admin-link">
+        <i class="fa-solid fa-lock"></i> ADMIN
+      </a>
+    </div>
+  </footer>
+
+  <!-- Modal de proyecto -->
+  <div class="modal" id="project-modal" role="dialog" aria-modal="true" aria-label="Detalle del proyecto" hidden>
+    <div class="modal__backdrop" id="modal-backdrop"></div>
+    <div class="modal__box">
+      <button class="modal__close" id="modal-close" aria-label="Cerrar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="modal__media"   id="modal-media"></div>
+      <div class="modal__content">
+        <span class="modal__category mono" id="modal-category"></span>
+        <h3  class="modal__title"         id="modal-title"></h3>
+        <p   class="modal__desc"          id="modal-desc"></p>
+        <div class="modal__tags"          id="modal-tags"></div>
+        <a   class="btn btn--primary"     id="modal-link" href="#" target="_blank" rel="noopener" style="display:none">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Ver Proyecto
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

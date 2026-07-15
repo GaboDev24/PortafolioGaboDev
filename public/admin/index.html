@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GaboDev | Panel de Administracion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --red:#D90429;--black:#000;--dark:#0d0d0d;--gray:#1a1a1a;
+      --gray2:#242424;--gray-mid:#444;--gray-light:#888;
+      --mono:'Share Tech Mono',monospace;
+      --sidebar:260px;
+    }
+    body{min-height:100vh;background:var(--black);color:#fff;font-family:'Rajdhani',sans-serif;display:flex;overflow:hidden}
+    a{text-decoration:none;color:inherit}
+    button{border:none;background:none;cursor:pointer;font:inherit}
+    input,textarea,select{font:inherit}
+
+    /* ── SIDEBAR ── */
+    .sidebar{
+      width:var(--sidebar);min-height:100vh;background:var(--dark);
+      border-right:1px solid rgba(217,4,41,.15);display:flex;flex-direction:column;
+      flex-shrink:0;position:fixed;top:0;left:0;bottom:0;z-index:100;
+    }
+    .sidebar__logo{padding:1.8rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.05)}
+    .sidebar__logo span{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.1em}
+    .sidebar__logo em{color:var(--red);font-style:normal}
+    .sidebar__logo p{font-family:var(--mono);font-size:.5rem;letter-spacing:.3em;color:var(--gray-mid);margin-top:.1rem}
+
+    .sidebar__nav{flex:1;padding:1.5rem 0;overflow-y:auto}
+    .sidebar__section{font-family:var(--mono);font-size:.5rem;letter-spacing:.3em;color:var(--gray-mid);
+      padding:.5rem 1.5rem;margin-bottom:.3rem}
+    .sidebar__link{display:flex;align-items:center;gap:.8rem;padding:.75rem 1.5rem;
+      font-size:.9rem;font-weight:600;letter-spacing:.05em;color:var(--gray-light);
+      transition:all .2s;position:relative}
+    .sidebar__link i{width:18px;text-align:center;font-size:.95rem}
+    .sidebar__link:hover{color:#fff;background:rgba(255,255,255,.04)}
+    .sidebar__link.active{color:#fff;background:rgba(217,4,41,.12)}
+    .sidebar__link.active::before{content:'';position:absolute;left:0;top:20%;bottom:20%;
+      width:2px;background:var(--red)}
+
+    .sidebar__footer{padding:1.2rem 1.5rem;border-top:1px solid rgba(255,255,255,.05)}
+    .btn-logout{display:flex;align-items:center;gap:.6rem;width:100%;padding:.6rem 0;
+      font-family:var(--mono);font-size:.65rem;letter-spacing:.2em;color:var(--gray-mid);
+      transition:color .2s}
+    .btn-logout:hover{color:var(--red)}
+
+    /* ── MAIN ── */
+    .main{margin-left:var(--sidebar);flex:1;min-height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+    .topbar{background:var(--dark);border-bottom:1px solid rgba(255,255,255,.05);
+      padding:1rem 2rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50}
+    .topbar__title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.06em}
+    .topbar__badge{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;color:var(--red);
+      padding:.2rem .5rem;border:1px solid rgba(217,4,41,.3);margin-left:.5rem}
+    .topbar__actions{margin-left:auto;display:flex;gap:.8rem;align-items:center}
+
+    .content{padding:2rem;flex:1}
+
+    /* ── STATS CARDS ── */
+    .stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:2rem}
+    .stat-card{background:var(--gray);border:1px solid rgba(255,255,255,.06);padding:1.2rem;
+      clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+      position:relative;overflow:hidden}
+    .stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transition:transform .3s;transform-origin:left}
+    .stat-card:hover::after{transform:scaleX(1)}
+    .stat-card__num{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--red);line-height:1}
+    .stat-card__label{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;color:var(--gray-mid);margin-top:.2rem}
+
+    /* ── SECTION PANEL ── */
+    .panel{background:var(--gray);border:1px solid rgba(255,255,255,.06);margin-bottom:2rem;
+      clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px))}
+    .panel__header{display:flex;align-items:center;gap:1rem;padding:1rem 1.5rem;
+      border-bottom:1px solid rgba(255,255,255,.05)}
+    .panel__title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.06em}
+    .panel__title-tag{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;color:var(--red)}
+    .panel__body{padding:1.5rem}
+
+    /* ── FORM ── */
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+    .form-row.full{grid-template-columns:1fr}
+    .field{display:flex;flex-direction:column;gap:.3rem}
+    .field label{font-family:var(--mono);font-size:.58rem;letter-spacing:.22em;color:var(--red)}
+    .field input,.field textarea,.field select{
+      background:rgba(255,255,255,.04);border:none;border-bottom:1px solid rgba(255,255,255,.12);
+      padding:.65rem .2rem;color:#fff;outline:none;font-size:.95rem;transition:border-color .3s;
+      border-radius:0;
+    }
+    .field textarea{resize:vertical;min-height:90px}
+    .field input:focus,.field textarea:focus,.field select:focus{border-bottom-color:var(--red)}
+    .field select option{background:var(--dark)}
+
+    .field-check{display:flex;align-items:center;gap:.6rem;padding:.5rem 0}
+    .field-check input[type=checkbox]{accent-color:var(--red);width:16px;height:16px;cursor:pointer}
+    .field-check label{font-size:.9rem;color:var(--gray-light);cursor:pointer;font-family:var(--mono);font-size:.65rem;letter-spacing:.1em}
+
+    /* ── BUTTONS ── */
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.4rem;
+      font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:.1em;
+      text-transform:uppercase;cursor:pointer;border:none;transition:all .25s;
+      clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+    .btn-primary{background:var(--red);color:#fff}
+    .btn-primary:hover{background:#9b0320;box-shadow:0 0 20px rgba(217,4,41,.3)}
+    .btn-secondary{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.1)}
+    .btn-secondary:hover{background:rgba(255,255,255,.1)}
+    .btn-danger{background:rgba(217,4,41,.15);color:var(--red);border:1px solid rgba(217,4,41,.2)}
+    .btn-danger:hover{background:rgba(217,4,41,.3)}
+    .btn-sm{padding:.4rem .8rem;font-size:.78rem}
+
+    /* ── PROJECTS TABLE ── */
+    .proj-table{width:100%;border-collapse:collapse}
+    .proj-table th,.proj-table td{padding:.8rem 1rem;border-bottom:1px solid rgba(255,255,255,.04);font-size:.88rem;text-align:left}
+    .proj-table th{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--gray-mid);font-weight:400}
+    .proj-table tr:hover td{background:rgba(255,255,255,.02)}
+    .proj-table .cat-badge{font-family:var(--mono);font-size:.58rem;padding:.15rem .4rem;
+      border:1px solid rgba(217,4,41,.3);color:var(--red)}
+    .proj-table .proj-img{width:50px;height:40px;object-fit:cover;border:1px solid rgba(255,255,255,.06)}
+    .proj-table .proj-img-placeholder{width:50px;height:40px;background:var(--gray2);
+      display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--gray-mid)}
+    .actions-cell{display:flex;gap:.4rem;align-items:center}
+
+    .empty-state{text-align:center;padding:3rem;color:var(--gray-mid)}
+    .empty-state i{font-size:2.5rem;margin-bottom:.8rem;display:block}
+    .empty-state p{font-family:var(--mono);font-size:.65rem;letter-spacing:.2em}
+
+    .toast{position:fixed;bottom:2rem;right:2rem;background:var(--dark);border:1px solid rgba(217,4,41,.3);
+      padding:.8rem 1.5rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;
+      display:flex;align-items:center;gap:.6rem;z-index:9999;
+      transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none}
+    .toast.show{transform:translateY(0);opacity:1}
+    .toast.success i{color:#4caf50}
+    .toast.error i{color:var(--red)}
+
+    .upload-preview{margin-top:.6rem}
+    .upload-preview img{max-width:140px;max-height:100px;object-fit:cover;border:1px solid rgba(255,255,255,.1)}
+
+    /* modal edit */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);
+      z-index:500;display:flex;align-items:center;justify-content:center;padding:2rem;
+      opacity:0;pointer-events:none;transition:opacity .3s}
+    .modal-overlay.open{opacity:1;pointer-events:auto}
+    .modal-box{background:var(--gray);width:100%;max-width:640px;max-height:90vh;overflow-y:auto;
+      clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px));
+      animation:modalIn .3s ease}
+    @keyframes modalIn{from{opacity:0;transform:translateY(20px)}}
+    .modal-header{display:flex;align-items:center;padding:1.2rem 1.5rem;
+      border-bottom:1px solid rgba(255,255,255,.05)}
+    .modal-header h3{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.06em;flex:1}
+    .modal-close-btn{width:32px;height:32px;border:1px solid rgba(255,255,255,.1);
+      display:flex;align-items:center;justify-content:center;color:#fff;transition:all .2s}
+    .modal-close-btn:hover{background:var(--red);border-color:var(--red)}
+    .modal-body{padding:1.5rem}
+  </style>
+</head>
+<body>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar__logo">
+      <span>GABO<em>DEV</em></span>
+      <p>// ADMIN PANEL //</p>
+    </div>
+    <nav class="sidebar__nav">
+      <div class="sidebar__section">NAVEGACION</div>
+      <a href="#dashboard" class="sidebar__link active" data-view="dashboard">
+        <i class="fa-solid fa-gauge"></i> Dashboard
+      </a>
+      <a href="#projects" class="sidebar__link" data-view="projects">
+        <i class="fa-solid fa-folder-open"></i> Proyectos
+      </a>
+      <a href="#add-project" class="sidebar__link" data-view="add-project">
+        <i class="fa-solid fa-plus"></i> Agregar Proyecto
+      </a>
+      <div class="sidebar__section" style="margin-top:1.5rem">ACCESO</div>
+      <a href="/" class="sidebar__link" target="_blank">
+        <i class="fa-solid fa-eye"></i> Ver Portfolio
+      </a>
+    </nav>
+    <div class="sidebar__footer">
+      <button class="btn-logout" id="btn-logout">
+        <i class="fa-solid fa-right-from-bracket"></i> CERRAR SESION
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <span class="topbar__title" id="topbar-title">Dashboard</span>
+      <span class="topbar__badge" id="topbar-badge">// SECURE</span>
+      <div class="topbar__actions">
+        <span style="font-family:var(--mono);font-size:.6rem;color:var(--gray-mid)" id="admin-greeting"></span>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- DASHBOARD VIEW -->
+      <div id="view-dashboard" class="view">
+        <div class="stats-row" id="stats-row">
+          <div class="stat-card"><div class="stat-card__num" id="stat-total">0</div><div class="stat-card__label">TOTAL PROYECTOS</div></div>
+          <div class="stat-card"><div class="stat-card__num" id="stat-web">0</div><div class="stat-card__label">WEB DEV</div></div>
+          <div class="stat-card"><div class="stat-card__num" id="stat-design">0</div><div class="stat-card__label">DISENO</div></div>
+          <div class="stat-card"><div class="stat-card__num" id="stat-video">0</div><div class="stat-card__label">VIDEO</div></div>
+        </div>
+        <div class="panel">
+          <div class="panel__header">
+            <span class="panel__title">ULTIMOS PROYECTOS</span>
+            <span class="panel__title-tag mono">// RECIENTES</span>
+            <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="switchView('add-project')">
+              <i class="fa-solid fa-plus"></i> Nuevo
+            </button>
+          </div>
+          <div class="panel__body" id="recent-projects-body">
+            <div class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i><p>CARGANDO...</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECTS VIEW -->
+      <div id="view-projects" class="view" style="display:none">
+        <div class="panel">
+          <div class="panel__header">
+            <span class="panel__title">GESTION DE PROYECTOS</span>
+            <span class="panel__title-tag mono">// DETALLE DEL PROYECTO</span>
+            <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="switchView('add-project')">
+              <i class="fa-solid fa-plus"></i> Agregar
+            </button>
+          </div>
+          <div class="panel__body">
+            <div id="projects-table-wrap">
+              <div class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i><p>CARGANDO...</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADD PROJECT VIEW -->
+      <div id="view-add-project" class="view" style="display:none">
+        <div class="panel">
+          <div class="panel__header">
+            <span class="panel__title">NUEVO PROYECTO</span>
+            <span class="panel__title-tag mono">// CLASIFICAR ARCHIVO</span>
+          </div>
+          <div class="panel__body">
+            <form id="add-project-form" enctype="multipart/form-data">
+              <div class="form-row">
+                <div class="field">
+                  <label for="ap-title">TITULO *</label>
+                  <input type="text" id="ap-title" name="title" required placeholder="Nombre del proyecto"/>
+                </div>
+                <div class="field">
+                  <label for="ap-category">CATEGORIA *</label>
+                  <select id="ap-category" name="category" required>
+                    <option value="">-- Seleccionar --</option>
+                    <option value="web">Web Development</option>
+                    <option value="design">Graphic Design</option>
+                    <option value="video">Video Editing</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row full">
+                <div class="field">
+                  <label for="ap-desc">DESCRIPCION</label>
+                  <textarea id="ap-desc" name="description" placeholder="Descripcion del proyecto..."></textarea>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="ap-tags">TAGS (separados por coma)</label>
+                  <input type="text" id="ap-tags" name="tags" placeholder="HTML, CSS, React"/>
+                </div>
+                <div class="field">
+                  <label for="ap-link">LINK DEL PROYECTO</label>
+                  <input type="url" id="ap-link" name="link" placeholder="https://..."/>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="ap-media">IMAGEN / VIDEO</label>
+                  <input type="file" id="ap-media" name="media" accept="image/*,video/*" onchange="previewFile(this,'ap-preview')"/>
+                  <div class="upload-preview" id="ap-preview"></div>
+                </div>
+                <div class="field">
+                  <label for="ap-video-url">URL DE VIDEO (opcional)</label>
+                  <input type="url" id="ap-video-url" name="videoUrl" placeholder="https://..."/>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="ap-order">ORDEN</label>
+                  <input type="number" id="ap-order" name="order" value="0" min="0"/>
+                </div>
+                <div class="field" style="justify-content:flex-end">
+                  <div class="field-check">
+                    <input type="checkbox" id="ap-featured" name="featured"/>
+                    <label for="ap-featured">DESTACADO EN PORTFOLIO</label>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;gap:.8rem;margin-top:1rem">
+                <button type="submit" class="btn btn-primary" id="ap-submit">
+                  <i class="fa-solid fa-upload"></i> CLASIFICAR PROYECTO
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="switchView('projects')">
+                  <i class="fa-solid fa-xmark"></i> CANCELAR
+                </button>
+              </div>
+              <div id="ap-status" style="margin-top:.8rem;font-family:var(--mono);font-size:.7rem;min-height:1.2rem"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- EDIT MODAL -->
+  <div class="modal-overlay" id="edit-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>EDITAR PROYECTO</h3>
+        <button class="modal-close-btn" id="edit-modal-close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="edit-project-form" enctype="multipart/form-data">
+          <input type="hidden" id="ep-id" name="id"/>
+          <div class="form-row">
+            <div class="field"><label>TITULO *</label><input type="text" id="ep-title" name="title" required/></div>
+            <div class="field">
+              <label>CATEGORIA *</label>
+              <select id="ep-category" name="category" required>
+                <option value="web">Web Development</option>
+                <option value="design">Graphic Design</option>
+                <option value="video">Video Editing</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="field"><label>DESCRIPCION</label><textarea id="ep-desc" name="description"></textarea></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>TAGS</label><input type="text" id="ep-tags" name="tags"/></div>
+            <div class="field"><label>LINK</label><input type="url" id="ep-link" name="link"/></div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label>NUEVA IMAGEN/VIDEO</label>
+              <input type="file" id="ep-media" name="media" accept="image/*,video/*" onchange="previewFile(this,'ep-preview')"/>
+              <div class="upload-preview" id="ep-preview"></div>
+            </div>
+            <div class="field"><label>URL VIDEO</label><input type="url" id="ep-video-url" name="videoUrl"/></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label>ORDEN</label><input type="number" id="ep-order" name="order" value="0" min="0"/></div>
+            <div class="field" style="justify-content:flex-end">
+              <div class="field-check">
+                <input type="checkbox" id="ep-featured" name="featured"/>
+                <label for="ep-featured">DESTACADO</label>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:.8rem;margin-top:1rem">
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> GUARDAR</button>
+            <button type="button" class="btn btn-secondary" onclick="closeEditModal()"><i class="fa-solid fa-xmark"></i> CANCELAR</button>
+          </div>
+          <div id="ep-status" style="margin-top:.8rem;font-family:var(--mono);font-size:.7rem;min-height:1.2rem"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"><i class="fa-solid fa-check-circle"></i><span id="toast-msg"></span></div>
+
+  <script>
+    /* ── auth check ── */
+    fetch('/admin/check-auth').then(r=>r.json()).then(d=>{
+      if(!d.authenticated) window.location.href='/admin/login';
+      else document.getElementById('admin-greeting').textContent = '// OPERADOR: GABO';
+    });
+
+    /* ── logout ── */
+    document.getElementById('btn-logout').addEventListener('click',async()=>{
+      await fetch('/admin/logout',{method:'POST'});
+      window.location.href='/admin/login';
+    });
+
+    /* ── view switching ── */
+    function switchView(v) {
+      document.querySelectorAll('.view').forEach(el=>el.style.display='none');
+      document.getElementById('view-'+v).style.display='block';
+      document.querySelectorAll('.sidebar__link').forEach(l=>{
+        l.classList.toggle('active', l.dataset.view===v);
+      });
+      document.getElementById('topbar-title').textContent = {
+        dashboard:'Dashboard', projects:'Proyectos', 'add-project':'Nuevo Proyecto'
+      }[v]||v;
+      if(v==='dashboard') loadDashboard();
+      if(v==='projects')  loadProjects();
+    }
+
+    document.querySelectorAll('.sidebar__link[data-view]').forEach(l=>{
+      l.addEventListener('click',e=>{
+        e.preventDefault();
+        switchView(l.dataset.view);
+      });
+    });
+
+    /* ── toast ── */
+    function showToast(msg,type='success'){
+      const t=document.getElementById('toast');
+      t.querySelector('#toast-msg').textContent=msg;
+      t.className='toast '+type;
+      t.querySelector('i').className=type==='success'?'fa-solid fa-check-circle':'fa-solid fa-circle-xmark';
+      t.classList.add('show');
+      setTimeout(()=>t.classList.remove('show'),3000);
+    }
+
+    /* ── file preview ── */
+    function previewFile(input,previewId){
+      const prev=document.getElementById(previewId);
+      prev.innerHTML='';
+      if(!input.files||!input.files[0])return;
+      const f=input.files[0];
+      if(f.type.startsWith('image/')){
+        const img=document.createElement('img');
+        img.src=URL.createObjectURL(f);
+        prev.appendChild(img);
+      }
+    }
+
+    /* ── API helpers ── */
+    async function apiGet(url){const r=await fetch(url);return r.json();}
+    async function apiDelete(url){const r=await fetch(url,{method:'DELETE'});return r.json();}
+
+    /* ── DASHBOARD ── */
+    async function loadDashboard(){
+      const data=await apiGet('/admin/api/projects');
+      if(!data.success)return;
+      const ps=data.projects;
+      document.getElementById('stat-total').textContent=ps.length;
+      document.getElementById('stat-web').textContent=ps.filter(p=>p.category==='web').length;
+      document.getElementById('stat-design').textContent=ps.filter(p=>p.category==='design').length;
+      document.getElementById('stat-video').textContent=ps.filter(p=>p.category==='video').length;
+
+      const recent=ps.slice(0,5);
+      const body=document.getElementById('recent-projects-body');
+      if(!recent.length){body.innerHTML='<div class="empty-state"><i class="fa-solid fa-folder-xmark"></i><p>SIN PROYECTOS AUN</p></div>';return;}
+      body.innerHTML=renderTable(recent,true);
+      attachTableEvents(body);
+    }
+
+    /* ── PROJECTS ── */
+    async function loadProjects(){
+      const data=await apiGet('/admin/api/projects');
+      const wrap=document.getElementById('projects-table-wrap');
+      if(!data.success||!data.projects.length){
+        wrap.innerHTML='<div class="empty-state"><i class="fa-solid fa-folder-xmark"></i><p>SIN PROYECTOS. AGREGA EL PRIMERO.</p></div>';return;
+      }
+      wrap.innerHTML=renderTable(data.projects,false);
+      attachTableEvents(wrap);
+    }
+
+    const CAT_LABELS={web:'WEB',design:'DESIGN',video:'VIDEO'};
+
+    function renderTable(projects,compact){
+      return `<table class="proj-table">
+        <thead><tr>
+          <th>IMG</th><th>TITULO</th><th>CATEGORIA</th>
+          ${compact?'':'<th>TAGS</th>'}
+          <th>DESTACADO</th><th>ACCIONES</th>
+        </tr></thead>
+        <tbody>
+          ${projects.map(p=>`<tr data-id="${p._id}">
+            <td>${p.imageUrl?`<img class="proj-img" src="${p.imageUrl}" alt="${p.title}"/>`:'<div class="proj-img-placeholder"><i class="fa-solid fa-image"></i></div>'}</td>
+            <td><strong>${p.title}</strong></td>
+            <td><span class="cat-badge">${CAT_LABELS[p.category]||p.category}</span></td>
+            ${compact?'':'<td style="color:#666;font-size:.8rem">'+(p.tags||[]).join(', ')+'</td>'}
+            <td>${p.featured?'<i class="fa-solid fa-star" style="color:#D90429"></i>':'-'}</td>
+            <td><div class="actions-cell">
+              <button class="btn btn-secondary btn-sm btn-edit" data-id="${p._id}"><i class="fa-solid fa-pen"></i></button>
+              <button class="btn btn-danger btn-sm btn-delete" data-id="${p._id}"><i class="fa-solid fa-trash"></i></button>
+            </div></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
+    }
+
+    function attachTableEvents(container){
+      container.querySelectorAll('.btn-delete').forEach(btn=>{
+        btn.addEventListener('click',async()=>{
+          if(!confirm('Eliminar este proyecto?'))return;
+          const id=btn.dataset.id;
+          const res=await apiDelete('/admin/api/projects/'+id);
+          if(res.success){showToast('Proyecto eliminado');loadDashboard();loadProjects();}
+          else showToast('Error al eliminar','error');
+        });
+      });
+      container.querySelectorAll('.btn-edit').forEach(btn=>{
+        btn.addEventListener('click',()=>openEditModal(btn.dataset.id));
+      });
+    }
+
+    /* ── ADD PROJECT FORM ── */
+    document.getElementById('add-project-form').addEventListener('submit',async e=>{
+      e.preventDefault();
+      const submitBtn=document.getElementById('ap-submit');
+      submitBtn.disabled=true;
+      submitBtn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> SUBIENDO...';
+      const statusEl=document.getElementById('ap-status');
+      statusEl.textContent='';
+
+      const formData=new FormData(e.target);
+      if(document.getElementById('ap-featured').checked) formData.set('featured','true');
+      else formData.set('featured','false');
+
+      try{
+        const res=await fetch('/admin/api/projects',{method:'POST',body:formData});
+        const data=await res.json();
+        if(data.success){
+          showToast('Proyecto agregado con exito!');
+          e.target.reset();
+          document.getElementById('ap-preview').innerHTML='';
+          switchView('projects');
+        }else{
+          statusEl.textContent='> ERROR: '+(data.error||'No se pudo guardar');
+          statusEl.style.color='var(--red)';
+        }
+      }catch(err){
+        statusEl.textContent='> ERROR DE CONEXION';
+        statusEl.style.color='var(--red)';
+      }
+      submitBtn.disabled=false;
+      submitBtn.innerHTML='<i class="fa-solid fa-upload"></i> CLASIFICAR PROYECTO';
+    });
+
+    /* ── EDIT MODAL ── */
+    let editingId=null;
+    let allProjectsCache=[];
+
+    async function openEditModal(id){
+      if(!allProjectsCache.length){
+        const d=await apiGet('/admin/api/projects');
+        allProjectsCache=d.projects||[];
+      }
+      const p=allProjectsCache.find(x=>x._id===id);
+      if(!p)return;
+      editingId=id;
+      document.getElementById('ep-id').value=id;
+      document.getElementById('ep-title').value=p.title||'';
+      document.getElementById('ep-category').value=p.category||'web';
+      document.getElementById('ep-desc').value=p.description||'';
+      document.getElementById('ep-tags').value=(p.tags||[]).join(', ');
+      document.getElementById('ep-link').value=p.link||'';
+      document.getElementById('ep-video-url').value=p.videoUrl||'';
+      document.getElementById('ep-order').value=p.order||0;
+      document.getElementById('ep-featured').checked=!!p.featured;
+      document.getElementById('ep-preview').innerHTML=
+        p.imageUrl?`<img src="${p.imageUrl}" style="max-width:100px;max-height:80px;object-fit:cover"/>`:'' ;
+      document.getElementById('ep-status').textContent='';
+      document.getElementById('edit-modal').classList.add('open');
+    }
+
+    function closeEditModal(){
+      document.getElementById('edit-modal').classList.remove('open');
+      editingId=null;
+      allProjectsCache=[];
+    }
+    document.getElementById('edit-modal-close').addEventListener('click',closeEditModal);
+
+    document.getElementById('edit-project-form').addEventListener('submit',async e=>{
+      e.preventDefault();
+      const statusEl=document.getElementById('ep-status');
+      const formData=new FormData(e.target);
+      formData.set('featured', document.getElementById('ep-featured').checked?'true':'false');
+      try{
+        const res=await fetch('/admin/api/projects/'+editingId,{method:'PUT',body:formData});
+        const data=await res.json();
+        if(data.success){
+          showToast('Proyecto actualizado!');
+          closeEditModal();
+          loadProjects();
+          loadDashboard();
+        }else{
+          statusEl.textContent='> ERROR: '+(data.error||'No se pudo actualizar');
+          statusEl.style.color='var(--red)';
+        }
+      }catch{
+        statusEl.textContent='> ERROR DE CONEXION';
+        statusEl.style.color='var(--red)';
+      }
+    });
+
+    /* init */
+    loadDashboard();
+  </script>
+</body>
+</html>

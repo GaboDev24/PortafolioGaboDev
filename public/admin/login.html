@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GaboDev | Admin Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--red:#D90429;--black:#000;--dark:#0d0d0d;--gray:#1c1c1c;--mono:'Share Tech Mono',monospace}
+    body{min-height:100vh;background:var(--black);color:#fff;font-family:'Rajdhani',sans-serif;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .scanlines{position:fixed;inset:0;pointer-events:none;z-index:999;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.08) 2px,rgba(0,0,0,.08) 4px)}
+
+    .login-wrap{position:relative;z-index:1;width:100%;max-width:420px;padding:2rem}
+    .login-logo{text-align:center;margin-bottom:2rem}
+    .login-logo span{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:.1em}
+    .login-logo span em{color:var(--red);font-style:normal}
+    .login-logo p{font-family:var(--mono);font-size:.6rem;letter-spacing:.3em;color:#444;margin-top:.2rem}
+
+    .login-card{background:var(--dark);border:1px solid rgba(217,4,41,.25);padding:2.5rem;
+      clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px))}
+
+    .login-card h2{font-family:var(--mono);font-size:.7rem;letter-spacing:.25em;color:var(--red);margin-bottom:1.5rem}
+
+    .form-group{margin-bottom:1.2rem;position:relative}
+    .form-group label{display:block;font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;color:#555;margin-bottom:.4rem}
+    .form-group input{width:100%;background:rgba(255,255,255,.04);border:none;border-bottom:1px solid rgba(255,255,255,.12);
+      padding:.7rem .2rem;color:#fff;font-family:'Rajdhani',sans-serif;font-size:1rem;outline:none;transition:border-color .3s}
+    .form-group input:focus{border-bottom-color:var(--red)}
+
+    .btn-login{width:100%;padding:.9rem;background:var(--red);color:#fff;border:none;cursor:pointer;
+      font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+      clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+      transition:background .3s,box-shadow .3s;margin-top:.5rem}
+    .btn-login:hover{background:#9b0320;box-shadow:0 0 30px rgba(217,4,41,.3)}
+
+    .error-msg{font-family:var(--mono);font-size:.68rem;color:var(--red);letter-spacing:.1em;
+      margin-top:1rem;text-align:center;min-height:1.2rem}
+
+    .back-link{display:block;text-align:center;margin-top:1.5rem;font-family:var(--mono);
+      font-size:.6rem;letter-spacing:.2em;color:#444;transition:color .3s}
+    .back-link:hover{color:var(--red)}
+    .back-link i{margin-right:.4rem}
+
+    /* red glow bg */
+    .glow-orb{position:fixed;width:400px;height:400px;border-radius:50%;
+      background:radial-gradient(circle,rgba(217,4,41,.12) 0%,transparent 70%);
+      top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:0}
+  </style>
+</head>
+<body>
+  <div class="scanlines"></div>
+  <div class="glow-orb"></div>
+
+  <div class="login-wrap">
+    <div class="login-logo">
+      <span>GABO<em>DEV</em></span>
+      <p>// ADMIN ACCESS //</p>
+    </div>
+
+    <div class="login-card">
+      <h2>// AUTHENTICATION REQUIRED</h2>
+
+      <div class="form-group">
+        <label for="login-user">OPERADOR</label>
+        <input type="text" id="login-user" placeholder="Usuario" autocomplete="username"/>
+      </div>
+      <div class="form-group">
+        <label for="login-pass">CLAVE DE ACCESO</label>
+        <input type="password" id="login-pass" placeholder="Contraseña" autocomplete="current-password"/>
+      </div>
+
+      <button class="btn-login" id="btn-login">
+        <i class="fa-solid fa-lock-open"></i> ACCEDER
+      </button>
+
+      <div class="error-msg" id="login-error"></div>
+    </div>
+
+    <a href="/" class="back-link"><i class="fa-solid fa-arrow-left"></i> VOLVER AL PORTFOLIO</a>
+  </div>
+
+  <script>
+    const btn   = document.getElementById('btn-login');
+    const errEl = document.getElementById('login-error');
+
+    async function doLogin() {
+      const username = document.getElementById('login-user').value.trim();
+      const password = document.getElementById('login-pass').value;
+      if (!username || !password) { errEl.textContent = '> INGRESA USUARIO Y CONTRASEÑA'; return; }
+      btn.textContent = 'VERIFICANDO...'; btn.disabled = true;
+      try {
+        const res  = await fetch('/admin/login', {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (data.success) { window.location.href = '/admin'; }
+        else { errEl.textContent = '> ' + (data.message || 'ACCESO DENEGADO'); btn.textContent = 'ACCEDER'; btn.disabled = false; }
+      } catch {
+        errEl.textContent = '> ERROR DE CONEXION'; btn.textContent = 'ACCEDER'; btn.disabled = false;
+      }
+    }
+
+    btn.addEventListener('click', doLogin);
+    document.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  </script>
+</body>
+</html>
