@@ -1,7 +1,0 @@
-Coloca aqui tus imagenes:
-
-- negro.png       → Logo para el modo CLARO (logo en negro sobre fondo blanco/crema)
-- logo blanco.png → Logo para el modo OSCURO (logo en blanco sobre fondo negro)
-- foto.jpg        → Tu foto de perfil (aparece en la seccion "Sobre Mi")
-
-Estas imagenes son servidas desde /public/img/ en el servidor.
