@@ -36,9 +36,10 @@ const upload = multer({ storage });
 const projectSchema = new mongoose.Schema({
   title      : { type: String, required: true },
   description: { type: String, default: '' },
-  category   : { type: String, enum: ['web', 'design', 'video'], required: true },
+  category   : { type: String, enum: ['programming', 'web', 'design', 'video'], required: true },
   imageUrl   : { type: String, default: '' },
   videoUrl   : { type: String, default: '' },
+  githubUrl  : { type: String, default: '' },
   tags       : [String],
   link       : { type: String, default: '' },
   featured   : { type: Boolean, default: false },
@@ -143,13 +144,14 @@ app.get('/admin', requireAuth, (req, res) => {
 ══════════════════════════════════════ */
 app.post('/admin/api/projects', requireAuth, upload.single('media'), async (req, res) => {
   try {
-    const { title, description, category, tags, link, featured, order, videoUrl } = req.body;
+    const { title, description, category, tags, link, featured, order, videoUrl, githubUrl } = req.body;
     const project = new Project({
       title,
       description,
       category,
       tags       : tags ? tags.split(',').map(t => t.trim()) : [],
       link       : link || '',
+      githubUrl  : githubUrl || '',
       featured   : featured === 'true' || featured === true,
       order      : parseInt(order) || 0,
       imageUrl   : req.file ? req.file.path : '',
@@ -179,11 +181,12 @@ app.get('/admin/api/projects', requireAuth, async (req, res) => {
 ══════════════════════════════════════ */
 app.put('/admin/api/projects/:id', requireAuth, upload.single('media'), async (req, res) => {
   try {
-    const { title, description, category, tags, link, featured, order, videoUrl } = req.body;
+    const { title, description, category, tags, link, featured, order, videoUrl, githubUrl } = req.body;
     const update = {
       title, description, category,
       tags     : tags ? tags.split(',').map(t => t.trim()) : [],
       link     : link || '',
+      githubUrl: githubUrl || '',
       featured : featured === 'true' || featured === true,
       order    : parseInt(order) || 0,
       videoUrl : videoUrl || '',

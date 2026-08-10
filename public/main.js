@@ -277,11 +277,12 @@ const portfolioEmpty   = document.getElementById('portfolio-empty');
 const filterBtns       = document.querySelectorAll('.filter-btn');
 
 const CAT_ICONS = {
-  web:    'fa-solid fa-code',
-  design: 'fa-solid fa-pen-ruler',
-  video:  'fa-solid fa-clapperboard',
+  programming: 'fa-solid fa-code',
+  web:         'fa-solid fa-laptop-code',
+  design:      'fa-solid fa-pen-ruler',
+  video:       'fa-solid fa-clapperboard',
 };
-const CAT_LABELS = { web: 'DESARROLLO WEB', design: 'DISEÑO', video: 'VIDEO' };
+const CAT_LABELS = { programming: 'PROGRAMACIÓN', web: 'DESARROLLO WEB', design: 'DISEÑO', video: 'VIDEO' };
 
 async function fetchProjects(category = 'all') {
   // Show loader, clear old cards
@@ -388,6 +389,7 @@ const modalTitle = document.getElementById('modal-title');
 const modalDesc  = document.getElementById('modal-desc');
 const modalTags  = document.getElementById('modal-tags');
 const modalLink  = document.getElementById('modal-link');
+const modalGithub= document.getElementById('modal-github');
 
 function openModal(p) {
   modalCat.textContent   = CAT_LABELS[p.category] || p.category;
@@ -397,6 +399,9 @@ function openModal(p) {
 
   if (p.link) { modalLink.href = p.link; modalLink.style.display = 'inline-flex'; }
   else         { modalLink.style.display = 'none'; }
+
+  if (p.githubUrl) { modalGithub.href = p.githubUrl; modalGithub.style.display = 'inline-flex'; }
+  else             { modalGithub.style.display = 'none'; }
 
   if (p.videoUrl) {
     // Detectar si es un link de YouTube y convertirlo a embed

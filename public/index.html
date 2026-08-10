@@ -333,10 +333,11 @@
     </div>
 
     <div class="portfolio__filters" role="tablist" aria-label="Categorias">
-      <button class="filter-btn active" role="tab" data-filter="all"    id="filter-all"    aria-selected="true">Todos</button>
-      <button class="filter-btn"        role="tab" data-filter="web"    id="filter-web"    aria-selected="false">Desarrollo Web</button>
-      <button class="filter-btn"        role="tab" data-filter="design" id="filter-design" aria-selected="false">Diseño</button>
-      <button class="filter-btn"        role="tab" data-filter="video"  id="filter-video"  aria-selected="false">Video</button>
+      <button class="filter-btn active" role="tab" data-filter="all"         id="filter-all"         aria-selected="true">Todos</button>
+      <button class="filter-btn"        role="tab" data-filter="programming" id="filter-programming" aria-selected="false">Programación</button>
+      <button class="filter-btn"        role="tab" data-filter="web"         id="filter-web"         aria-selected="false">Desarrollo Web</button>
+      <button class="filter-btn"        role="tab" data-filter="design"      id="filter-design"      aria-selected="false">Diseño</button>
+      <button class="filter-btn"        role="tab" data-filter="video"       id="filter-video"       aria-selected="false">Video</button>
     </div>
 
     <div class="portfolio__grid" id="portfolio-grid" role="tabpanel" aria-live="polite">
@@ -556,9 +557,14 @@
         <h3  class="modal__title"         id="modal-title"></h3>
         <p   class="modal__desc"          id="modal-desc"></p>
         <div class="modal__tags"          id="modal-tags"></div>
-        <a   class="btn btn--primary"     id="modal-link" href="#" target="_blank" rel="noopener" style="display:none">
-          <i class="fa-solid fa-arrow-up-right-from-square"></i> Ver Proyecto
-        </a>
+        <div class="modal__actions" style="display:flex;gap:0.8rem;flex-wrap:wrap;margin-top:1rem">
+          <a class="btn btn--primary" id="modal-link" href="#" target="_blank" rel="noopener" style="display:none">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Ver Proyecto
+          </a>
+          <a class="btn btn--outline" id="modal-github" href="#" target="_blank" rel="noopener" style="display:none">
+            <i class="fa-brands fa-github"></i> Ver en GitHub
+          </a>
+        </div>
       </div>
     </div>
   </div>

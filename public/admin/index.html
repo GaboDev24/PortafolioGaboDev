@@ -199,6 +199,7 @@
       <div id="view-dashboard" class="view">
         <div class="stats-row" id="stats-row">
           <div class="stat-card"><div class="stat-card__num" id="stat-total">0</div><div class="stat-card__label">TOTAL PROYECTOS</div></div>
+          <div class="stat-card"><div class="stat-card__num" id="stat-prog">0</div><div class="stat-card__label">PROGRAMACION</div></div>
           <div class="stat-card"><div class="stat-card__num" id="stat-web">0</div><div class="stat-card__label">WEB DEV</div></div>
           <div class="stat-card"><div class="stat-card__num" id="stat-design">0</div><div class="stat-card__label">DISENO</div></div>
           <div class="stat-card"><div class="stat-card__num" id="stat-video">0</div><div class="stat-card__label">VIDEO</div></div>
@@ -253,6 +254,7 @@
                   <label for="ap-category">CATEGORIA *</label>
                   <select id="ap-category" name="category" required>
                     <option value="">-- Seleccionar --</option>
+                    <option value="programming">Programación</option>
                     <option value="web">Web Development</option>
                     <option value="design">Graphic Design</option>
                     <option value="video">Video Editing</option>
@@ -271,15 +273,14 @@
                   <input type="text" id="ap-tags" name="tags" placeholder="HTML, CSS, React"/>
                 </div>
                 <div class="field">
-                  <label for="ap-link">LINK DEL PROYECTO</label>
+                  <label for="ap-link">LINK DEL PROYECTO (DEMO)</label>
                   <input type="url" id="ap-link" name="link" placeholder="https://..."/>
                 </div>
               </div>
               <div class="form-row">
                 <div class="field">
-                  <label for="ap-media">IMAGEN / VIDEO</label>
-                  <input type="file" id="ap-media" name="media" accept="image/*,video/*" onchange="previewFile(this,'ap-preview')"/>
-                  <div class="upload-preview" id="ap-preview"></div>
+                  <label for="ap-github">LINK DE GITHUB (REPOSITORIO)</label>
+                  <input type="url" id="ap-github" name="githubUrl" placeholder="https://github.com/..."/>
                 </div>
                 <div class="field">
                   <label for="ap-video-url">URL DE VIDEO (opcional)</label>
@@ -288,9 +289,16 @@
               </div>
               <div class="form-row">
                 <div class="field">
+                  <label for="ap-media">IMAGEN / CAPTURA DE PANTALLA</label>
+                  <input type="file" id="ap-media" name="media" accept="image/*,video/*" onchange="previewFile(this,'ap-preview')"/>
+                  <div class="upload-preview" id="ap-preview"></div>
+                </div>
+                <div class="field">
                   <label for="ap-order">ORDEN</label>
                   <input type="number" id="ap-order" name="order" value="0" min="0"/>
                 </div>
+              </div>
+              <div class="form-row">
                 <div class="field" style="justify-content:flex-end">
                   <div class="field-check">
                     <input type="checkbox" id="ap-featured" name="featured"/>
@@ -329,6 +337,7 @@
             <div class="field">
               <label>CATEGORIA *</label>
               <select id="ep-category" name="category" required>
+                <option value="programming">Programación</option>
                 <option value="web">Web Development</option>
                 <option value="design">Graphic Design</option>
                 <option value="video">Video Editing</option>
@@ -340,18 +349,21 @@
           </div>
           <div class="form-row">
             <div class="field"><label>TAGS</label><input type="text" id="ep-tags" name="tags"/></div>
-            <div class="field"><label>LINK</label><input type="url" id="ep-link" name="link"/></div>
+            <div class="field"><label>LINK (DEMO)</label><input type="url" id="ep-link" name="link"/></div>
           </div>
           <div class="form-row">
-            <div class="field">
-              <label>NUEVA IMAGEN/VIDEO</label>
-              <input type="file" id="ep-media" name="media" accept="image/*,video/*" onchange="previewFile(this,'ep-preview')"/>
-              <div class="upload-preview" id="ep-preview"></div>
-            </div>
+            <div class="field"><label>LINK GITHUB</label><input type="url" id="ep-github" name="githubUrl" placeholder="https://github.com/..."/></div>
             <div class="field"><label>URL VIDEO</label><input type="url" id="ep-video-url" name="videoUrl"/></div>
           </div>
           <div class="form-row">
+            <div class="field">
+              <label>NUEVA IMAGEN/CAPTURA/VIDEO</label>
+              <input type="file" id="ep-media" name="media" accept="image/*,video/*" onchange="previewFile(this,'ep-preview')"/>
+              <div class="upload-preview" id="ep-preview"></div>
+            </div>
             <div class="field"><label>ORDEN</label><input type="number" id="ep-order" name="order" value="0" min="0"/></div>
+          </div>
+          <div class="form-row">
             <div class="field" style="justify-content:flex-end">
               <div class="field-check">
                 <input type="checkbox" id="ep-featured" name="featured"/>
@@ -439,6 +451,7 @@
       if(!data.success)return;
       const ps=data.projects;
       document.getElementById('stat-total').textContent=ps.length;
+      document.getElementById('stat-prog').textContent=ps.filter(p=>p.category==='programming').length;
       document.getElementById('stat-web').textContent=ps.filter(p=>p.category==='web').length;
       document.getElementById('stat-design').textContent=ps.filter(p=>p.category==='design').length;
       document.getElementById('stat-video').textContent=ps.filter(p=>p.category==='video').length;
@@ -461,7 +474,7 @@
       attachTableEvents(wrap);
     }
 
-    const CAT_LABELS={web:'WEB',design:'DESIGN',video:'VIDEO'};
+    const CAT_LABELS={programming:'PROGRAMACIÓN',web:'WEB',design:'DESIGN',video:'VIDEO'};
 
     function renderTable(projects,compact){
       return `<table class="proj-table">
@@ -548,10 +561,11 @@
       editingId=id;
       document.getElementById('ep-id').value=id;
       document.getElementById('ep-title').value=p.title||'';
-      document.getElementById('ep-category').value=p.category||'web';
+      document.getElementById('ep-category').value=p.category||'programming';
       document.getElementById('ep-desc').value=p.description||'';
       document.getElementById('ep-tags').value=(p.tags||[]).join(', ');
       document.getElementById('ep-link').value=p.link||'';
+      document.getElementById('ep-github').value=p.githubUrl||'';
       document.getElementById('ep-video-url').value=p.videoUrl||'';
       document.getElementById('ep-order').value=p.order||0;
       document.getElementById('ep-featured').checked=!!p.featured;
