@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Error 404 | GaboDev</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Barlow+Condensed:ital,wght@0,100;0,300;0,400;0,600;0,700;0,900;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <style>
+    .error-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding-top: 80px; 
+      position: relative;
+      z-index: 2;
+    }
+    
+    .error-code {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(8rem, 20vw, 15rem);
+      line-height: 1;
+      color: var(--accent);
+      text-shadow: 0 0 20px rgba(217, 4, 41, 0.5);
+      margin: 0;
+      letter-spacing: 5px;
+      position: relative;
+    }
+
+    .error-code::before,
+    .error-code::after {
+      content: '404';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      opacity: 0.5;
+    }
+
+    .error-msg {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      color: var(--text);
+      margin-top: -1rem;
+      margin-bottom: 3rem;
+      text-transform: uppercase;
+    }
+
+    .error-terminal {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      border-radius: 4px;
+      margin-bottom: 3rem;
+      max-width: 600px;
+      width: 90%;
+      text-align: left;
+      backdrop-filter: blur(5px);
+    }
+
+    .error-terminal .terminal__line {
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- ══ NAVEGACION ══ -->
+  <nav class="nav" id="navbar" role="navigation" aria-label="Navegacion principal">
+    <div class="nav__container">
+      <a href="/" class="nav__logo" id="nav-logo" aria-label="GaboDev Inicio">
+        <span class="nav__logo-text">GABO<span class="nav__logo-accent">DEV</span></span>
+        <span class="nav__logo-sub">// FULL STACK DEV //</span>
+      </a>
+
+      <ul class="nav__links" id="nav-links" role="list">
+        <li><a href="/" class="nav__link active" data-label="01">Inicio</a></li>
+      </ul>
+
+      <div class="nav__controls">
+        <button class="nav__theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
+          <i class="fa-solid fa-moon" id="theme-icon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ ERROR 404 ══ -->
+  <section class="error-section">
+    <!-- HUD -->
+    <div class="hud hud--tl" aria-hidden="true">
+      <span class="hud__line"></span>
+      <span class="hud__text">SYS: ERROR</span>
+    </div>
+    <div class="hud hud--tr" aria-hidden="true">
+      <span class="hud__text">LOC: UNKNOWN</span>
+      <span class="hud__line"></span>
+    </div>
+    
+    <div class="ink-bg" aria-hidden="true">
+      <svg class="ink-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+        <ellipse cx="720" cy="450" rx="300" ry="300" class="ink-shape" opacity="0.05" fill="#D90429" />
+      </svg>
+    </div>
+
+    <h1 class="error-code">404</h1>
+    <div class="error-msg">ARCHIVO NO ENCONTRADO</div>
+
+    <div class="error-terminal contact__terminal" style="width: auto; max-width: 90%;">
+      <div class="terminal__header">
+        <span class="terminal__dot red"></span>
+        <span class="terminal__dot yellow"></span>
+        <span class="terminal__dot green"></span>
+        <span class="terminal__title mono">ERROR_HANDLER.exe</span>
+      </div>
+      <div class="terminal__body">
+        <div class="terminal__line"><span class="mono accent">&gt; </span><span class="mono">ANALIZANDO RUTA SOLICITADA...</span></div>
+        <div class="terminal__line"><span class="mono accent">&gt; </span><span class="mono" style="color: var(--accent);">ERROR: LA RUTA NO EXISTE EN EL SERVIDOR.</span></div>
+        <div class="terminal__line"><span class="mono accent">&gt; </span><span class="mono">SUGERENCIA: REGRESAR A LA PAGINA PRINCIPAL.</span></div>
+        <div class="terminal__line terminal__line--blink"><span class="mono accent">&gt; </span><span class="cursor mono">_</span></div>
+      </div>
+    </div>
+
+    <a href="/" class="btn btn--primary">
+      <i class="fa-solid fa-house"></i>
+      <span>Volver al Inicio</span>
+      <span class="btn__glitch" aria-hidden="true"></span>
+    </a>
+  </section>
+
+  <script>
+    // Theme logic for 404 page
+    const html = document.documentElement;
+    const themeBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', savedTheme);
+    updateIcon(savedTheme);
+
+    themeBtn.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      updateIcon(next);
+    });
+
+    function updateIcon(theme) {
+      if(theme === 'dark') {
+        themeIcon.className = 'fa-solid fa-sun';
+      } else {
+        themeIcon.className = 'fa-solid fa-moon';
+      }
+    }
+  </script>
+</body>
+</html>
