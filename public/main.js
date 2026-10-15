@@ -638,41 +638,20 @@ if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
 if (lightboxBack) lightboxBack.addEventListener('click', closeLightbox);
 
 async function loadWorkPreviews() {
+  const showcaseSection = document.getElementById('vistas-previas');
   if (!showcaseTrack) return;
   try {
     const res = await fetch('/api/work-previews');
     const data = await res.json();
-    let previews = (data.success && Array.isArray(data.previews)) ? data.previews : [];
+    const previews = (data.success && Array.isArray(data.previews)) ? data.previews : [];
 
-    // Si aún no se han subido vistas previas desde el admin, ofrecer elementos iniciales de alta calidad
+    // Si no hay vistas previas subidas desde el admin, ocultar la sección
     if (!previews.length) {
-      previews = [
-        {
-          title: 'Sistema de Gestión y Facturación',
-          subtitle: 'React • Node.js • Express • PostgreSQL',
-          imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
-          link: '#portafolio'
-        },
-        {
-          title: 'Dashboard de Análisis & Métricas',
-          subtitle: 'TypeScript • Tailwind • Chart.js • Python API',
-          imageUrl: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=800&q=80',
-          link: '#portafolio'
-        },
-        {
-          title: 'Landing Page & Plataforma Web',
-          subtitle: 'HTML5 • CSS3 Modern • Vanilla JS • UI/UX',
-          imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
-          link: '#portafolio'
-        },
-        {
-          title: 'Identidad Visual & Diseño Táctico',
-          subtitle: 'Photoshop • Illustrator • Motion Graphics',
-          imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
-          link: '#portafolio'
-        }
-      ];
+      if (showcaseSection) showcaseSection.style.display = 'none';
+      return;
     }
+
+    if (showcaseSection) showcaseSection.style.display = '';
 
     showcaseTrack.innerHTML = '';
     previews.forEach((wp, i) => {
