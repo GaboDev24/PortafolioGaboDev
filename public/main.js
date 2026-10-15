@@ -324,12 +324,50 @@ async function fetchProjects(category = 'all') {
 function buildCard(p, index) {
   const card = document.createElement('article');
   card.className = 'project-card';
-  // stagger animation delay via CSS custom property
   card.style.animationDelay = `${index * 80}ms`;
 
-  const mediaHtml = p.imageUrl
-    ? `<img src="${p.imageUrl}" alt="${escHtml(p.title)}" loading="lazy"/>`
-    : `<div class="project-card__media-placeholder"><i class="${CAT_ICONS[p.category] || 'fa-solid fa-image'}"></i></div>`;
+  // Construir lista de imágenes para carrusel asegurando que la portada esté primera
+  const images = [];
+  if (p.imageUrl) images.push(p.imageUrl);
+  if (Array.isArray(p.images)) {
+    p.images.forEach(img => {
+      if (img && typeof img === 'string') {
+        const trimmed = img.trim();
+        if (trimmed && !images.includes(trimmed)) images.push(trimmed);
+      }
+    });
+  }
+
+  let mediaHtml = '';
+  const hasMultipleImages = images.length > 1;
+
+  if (hasMultipleImages) {
+    const slidesHtml = images.map((imgUrl, i) => `
+      <div class="project-card__media-slide ${i === 0 ? 'active' : ''}" data-index="${i}">
+        <img src="${imgUrl}" alt="${escHtml(p.title)} - ${i + 1}" loading="lazy"/>
+      </div>
+    `).join('');
+
+    const dotsHtml = images.map((_, i) => `
+      <button class="card-carousel-dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Foto ${i + 1}"></button>
+    `).join('');
+
+    mediaHtml = `
+      <div class="project-card__slides">${slidesHtml}</div>
+      <button class="card-carousel-btn card-carousel-btn--prev" aria-label="Foto anterior" title="Anterior">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button class="card-carousel-btn card-carousel-btn--next" aria-label="Siguiente foto" title="Siguiente">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+      <span class="card-carousel-badge mono">1/${images.length}</span>
+      <div class="card-carousel-dots">${dotsHtml}</div>
+    `;
+  } else if (images.length === 1) {
+    mediaHtml = `<img src="${images[0]}" alt="${escHtml(p.title)}" loading="lazy"/>`;
+  } else {
+    mediaHtml = `<div class="project-card__media-placeholder"><i class="${CAT_ICONS[p.category] || 'fa-solid fa-image'}"></i></div>`;
+  }
 
   const tagsHtml = (p.tags || [])
     .map(t => `<span class="project-card__tag">${escHtml(t)}</span>`)
@@ -351,7 +389,58 @@ function buildCard(p, index) {
     <div class="project-card__border" aria-hidden="true"></div>
   `;
 
-  card.addEventListener('click', () => openModal(p));
+  // Control interactivo del carrusel en la tarjeta sin abrir el modal
+  let currentCardIndex = 0;
+  if (hasMultipleImages) {
+    const slides = card.querySelectorAll('.project-card__media-slide');
+    const dots   = card.querySelectorAll('.card-carousel-dot');
+    const badge  = card.querySelector('.card-carousel-badge');
+    const btnPrev = card.querySelector('.card-carousel-btn--prev');
+    const btnNext = card.querySelector('.card-carousel-btn--next');
+
+    function showSlide(idx) {
+      currentCardIndex = (idx + images.length) % images.length;
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentCardIndex));
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentCardIndex));
+      if (badge) badge.textContent = `${currentCardIndex + 1}/${images.length}`;
+    }
+
+    if (btnPrev) {
+      btnPrev.addEventListener('click', e => {
+        e.stopPropagation();
+        showSlide(currentCardIndex - 1);
+      });
+    }
+
+    if (btnNext) {
+      btnNext.addEventListener('click', e => {
+        e.stopPropagation();
+        showSlide(currentCardIndex + 1);
+      });
+    }
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', e => {
+        e.stopPropagation();
+        showSlide(parseInt(dot.dataset.index, 10));
+      });
+    });
+
+    // Touch swipe en móvil
+    let touchStartX = 0;
+    const mediaContainer = card.querySelector('.project-card__media');
+    mediaContainer.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    mediaContainer.addEventListener('touchend', e => {
+      const touchEndX = e.changedTouches[0].screenX;
+      if (touchEndX - touchStartX > 40) showSlide(currentCardIndex - 1);
+      else if (touchStartX - touchEndX > 40) showSlide(currentCardIndex + 1);
+    }, { passive: true });
+  }
+
+  // Click en la tarjeta abre el modal
+  card.addEventListener('click', () => openModal(p, currentCardIndex));
   return card;
 }
 
@@ -378,7 +467,7 @@ filterBtns.forEach(btn => {
 fetchProjects();
 
 /* ══════════════════════════════════════════════════
-   MODAL
+   MODAL DE DETALLE DE PROYECTO
 ══════════════════════════════════════════════════ */
 const modal      = document.getElementById('project-modal');
 const modalClose = document.getElementById('modal-close');
@@ -391,7 +480,25 @@ const modalTags  = document.getElementById('modal-tags');
 const modalLink  = document.getElementById('modal-link');
 const modalGithub= document.getElementById('modal-github');
 
-function openModal(p) {
+let activeModalImages = [];
+let activeModalIndex = 0;
+
+function renderModalImage(idx) {
+  if (!activeModalImages.length) return;
+  activeModalIndex = (idx + activeModalImages.length) % activeModalImages.length;
+  const currentUrl = activeModalImages[activeModalIndex];
+
+  const imgEl = modalMedia.querySelector('.modal-current-img');
+  if (imgEl) imgEl.src = currentUrl;
+
+  const counterEl = modalMedia.querySelector('.modal-carousel-counter');
+  if (counterEl) counterEl.textContent = `IMG ${String(activeModalIndex + 1).padStart(2, '0')} / ${String(activeModalImages.length).padStart(2, '0')}`;
+
+  const thumbs = modalMedia.querySelectorAll('.modal-thumb');
+  thumbs.forEach((th, i) => th.classList.toggle('active', i === activeModalIndex));
+}
+
+function openModal(p, initialImgIdx = 0) {
   modalCat.textContent   = CAT_LABELS[p.category] || p.category;
   modalTitle.textContent = p.title;
   modalDesc.textContent  = p.description || '';
@@ -403,8 +510,22 @@ function openModal(p) {
   if (p.githubUrl) { modalGithub.href = p.githubUrl; modalGithub.style.display = 'inline-flex'; }
   else             { modalGithub.style.display = 'none'; }
 
+  // Obtener lista completa de imágenes
+  const images = [];
+  if (p.imageUrl) images.push(p.imageUrl);
+  if (Array.isArray(p.images)) {
+    p.images.forEach(img => {
+      if (img && typeof img === 'string') {
+        const trimmed = img.trim();
+        if (trimmed && !images.includes(trimmed)) images.push(trimmed);
+      }
+    });
+  }
+
+  activeModalImages = images;
+  activeModalIndex = initialImgIdx || 0;
+
   if (p.videoUrl) {
-    // Detectar si es un link de YouTube y convertirlo a embed
     const ytMatch = p.videoUrl.match(
       /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/
     );
@@ -420,11 +541,33 @@ function openModal(p) {
           ></iframe>
         </div>`;
     } else {
-      // Video nativo (no YouTube)
       modalMedia.innerHTML = `<video src="${p.videoUrl}" controls autoplay muted loop style="width:100%;max-height:400px;display:block"></video>`;
     }
-  } else if (p.imageUrl) {
-    modalMedia.innerHTML = `<img src="${p.imageUrl}" alt="${escHtml(p.title)}" style="width:100%;max-height:500px;object-fit:contain;display:block;background:var(--bg-alt)"/>`;
+  } else if (images.length > 1) {
+    const thumbsHtml = images.map((u, i) => `
+      <img src="${u}" alt="Thumbnail ${i + 1}" class="modal-thumb ${i === activeModalIndex ? 'active' : ''}" data-idx="${i}"/>
+    `).join('');
+
+    modalMedia.innerHTML = `
+      <span class="modal-carousel-counter mono">IMG ${String(activeModalIndex + 1).padStart(2, '0')} / ${String(images.length).padStart(2, '0')}</span>
+      <img src="${images[activeModalIndex]}" alt="${escHtml(p.title)}" class="modal-current-img" style="width:100%;max-height:480px;object-fit:contain;display:block;background:var(--bg-alt)"/>
+      <div class="modal-carousel-nav">
+        <button class="modal-carousel-btn modal-carousel-btn--prev" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="modal-carousel-btn modal-carousel-btn--next" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+      <div class="modal-thumbs">${thumbsHtml}</div>
+    `;
+
+    const prevBtn = modalMedia.querySelector('.modal-carousel-btn--prev');
+    const nextBtn = modalMedia.querySelector('.modal-carousel-btn--next');
+    if (prevBtn) prevBtn.addEventListener('click', () => renderModalImage(activeModalIndex - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => renderModalImage(activeModalIndex + 1));
+
+    modalMedia.querySelectorAll('.modal-thumb').forEach(th => {
+      th.addEventListener('click', () => renderModalImage(parseInt(th.dataset.idx, 10)));
+    });
+  } else if (images.length === 1) {
+    modalMedia.innerHTML = `<img src="${images[0]}" alt="${escHtml(p.title)}" style="width:100%;max-height:500px;object-fit:contain;display:block;background:var(--bg-alt)"/>`;
   } else {
     const icon = CAT_ICONS[p.category] || 'fa-solid fa-image';
     modalMedia.innerHTML = `<div style="height:100px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:#555"><i class="${icon}"></i></div>`;
@@ -438,11 +581,170 @@ function closeModal() {
   modal.setAttribute('hidden', '');
   document.body.style.overflow = '';
   modalMedia.innerHTML = '';
+  activeModalImages = [];
 }
 
 modalClose.addEventListener('click', closeModal);
 modalBack.addEventListener('click',  closeModal);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeLightbox();
+  } else if (!modal.hasAttribute('hidden') && activeModalImages.length > 1) {
+    if (e.key === 'ArrowLeft') renderModalImage(activeModalIndex - 1);
+    else if (e.key === 'ArrowRight') renderModalImage(activeModalIndex + 1);
+  }
+});
+
+/* ══════════════════════════════════════════════════
+   VISTAS PREVIAS DE TRABAJO (SHOWCASE CAROUSEL)
+══════════════════════════════════════════════════ */
+const showcaseTrack      = document.getElementById('showcase-track');
+const showcaseContainer  = document.getElementById('showcase-container');
+const showcasePrev       = document.getElementById('showcase-prev');
+const showcaseNext       = document.getElementById('showcase-next');
+const showcaseIndicators = document.getElementById('showcase-indicators');
+
+// Lightbox modal elements
+const lightbox        = document.getElementById('preview-lightbox');
+const lightboxImg    = document.getElementById('preview-lightbox-img');
+const lightboxTitle  = document.getElementById('preview-lightbox-title');
+const lightboxSub    = document.getElementById('preview-lightbox-sub');
+const lightboxLink   = document.getElementById('preview-lightbox-link');
+const lightboxClose  = document.getElementById('preview-lightbox-close');
+const lightboxBack   = document.getElementById('preview-lightbox-backdrop');
+
+function openLightbox(item) {
+  if (!lightbox) return;
+  lightboxImg.src = item.imageUrl;
+  lightboxTitle.textContent = item.title || '// RECON WORK ARCHIVE';
+  lightboxSub.textContent = item.subtitle || '';
+  if (item.link) {
+    lightboxLink.href = item.link;
+    lightboxLink.style.display = 'inline-flex';
+  } else {
+    lightboxLink.style.display = 'none';
+  }
+  lightbox.removeAttribute('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  if (!lightbox) return;
+  lightbox.setAttribute('hidden', '');
+  document.body.style.overflow = '';
+}
+if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+if (lightboxBack) lightboxBack.addEventListener('click', closeLightbox);
+
+async function loadWorkPreviews() {
+  if (!showcaseTrack) return;
+  try {
+    const res = await fetch('/api/work-previews');
+    const data = await res.json();
+    let previews = (data.success && Array.isArray(data.previews)) ? data.previews : [];
+
+    // Si aún no se han subido vistas previas desde el admin, ofrecer elementos iniciales de alta calidad
+    if (!previews.length) {
+      previews = [
+        {
+          title: 'Sistema de Gestión y Facturación',
+          subtitle: 'React • Node.js • Express • PostgreSQL',
+          imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
+          link: '#portafolio'
+        },
+        {
+          title: 'Dashboard de Análisis & Métricas',
+          subtitle: 'TypeScript • Tailwind • Chart.js • Python API',
+          imageUrl: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=800&q=80',
+          link: '#portafolio'
+        },
+        {
+          title: 'Landing Page & Plataforma Web',
+          subtitle: 'HTML5 • CSS3 Modern • Vanilla JS • UI/UX',
+          imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
+          link: '#portafolio'
+        },
+        {
+          title: 'Identidad Visual & Diseño Táctico',
+          subtitle: 'Photoshop • Illustrator • Motion Graphics',
+          imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
+          link: '#portafolio'
+        }
+      ];
+    }
+
+    showcaseTrack.innerHTML = '';
+    previews.forEach((wp, i) => {
+      const card = document.createElement('div');
+      card.className = 'showcase-card';
+      card.innerHTML = `
+        <div class="showcase-card__badge mono">// SHOT 0${i + 1}</div>
+        <div class="showcase-card__media">
+          <img src="${wp.imageUrl}" alt="${escHtml(wp.title || 'Vista previa')}" loading="lazy"/>
+          <div class="showcase-card__overlay">
+            <i class="fa-solid fa-magnifying-glass-plus"></i>
+          </div>
+        </div>
+        <div class="showcase-card__body">
+          <h4 class="showcase-card__title">${escHtml(wp.title || 'Vista de Trabajo')}</h4>
+          <p class="showcase-card__sub">${escHtml(wp.subtitle || '// Campo de desarrollo')}</p>
+        </div>
+        <div class="showcase-card__border" aria-hidden="true"></div>
+      `;
+      card.addEventListener('click', () => openLightbox(wp));
+      showcaseTrack.appendChild(card);
+    });
+
+    // Indicadores dots
+    if (showcaseIndicators) {
+      showcaseIndicators.innerHTML = previews.map((_, i) => `
+        <span class="showcase-indicator-dot ${i === 0 ? 'active' : ''}" data-idx="${i}"></span>
+      `).join('');
+
+      showcaseIndicators.querySelectorAll('.showcase-indicator-dot').forEach(dot => {
+        dot.addEventListener('click', () => {
+          const idx = parseInt(dot.dataset.idx, 10);
+          const cards = showcaseTrack.querySelectorAll('.showcase-card');
+          if (cards[idx]) {
+            cards[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+          }
+        });
+      });
+    }
+
+    // Scroll listeners para actualizar dots
+    if (showcaseContainer) {
+      showcaseContainer.addEventListener('scroll', () => {
+        const scrollLeft = showcaseContainer.scrollLeft;
+        const cardWidth = 340;
+        const activeIdx = Math.round(scrollLeft / cardWidth);
+        const dots = showcaseIndicators ? showcaseIndicators.querySelectorAll('.showcase-indicator-dot') : [];
+        dots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
+      }, { passive: true });
+    }
+
+  } catch (err) {
+    console.error('[Showcase] Error loading work previews:', err);
+    if (showcaseTrack) {
+      showcaseTrack.innerHTML = '<div class="showcase-loading mono">// NO SE PUDIERON CARGAR LAS VISTAS PREVIAS</div>';
+    }
+  }
+}
+
+// Botones de desplazamiento
+if (showcasePrev && showcaseContainer) {
+  showcasePrev.addEventListener('click', () => {
+    showcaseContainer.scrollBy({ left: -340, behavior: 'smooth' });
+  });
+}
+if (showcaseNext && showcaseContainer) {
+  showcaseNext.addEventListener('click', () => {
+    showcaseContainer.scrollBy({ left: 340, behavior: 'smooth' });
+  });
+}
+
+loadWorkPreviews();
 
 /* ══════════════════════════════════════════════════
    CONTACT FORM

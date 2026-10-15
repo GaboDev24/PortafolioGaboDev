@@ -14,14 +14,23 @@
       --mono:'Share Tech Mono',monospace;
       --sidebar:260px;
     }
-    body{min-height:100vh;background:var(--black);color:#fff;font-family:'Rajdhani',sans-serif;display:flex;overflow:hidden}
+    body{
+      height:100vh;max-height:100vh;background:var(--black);color:#fff;
+      font-family:'Rajdhani',sans-serif;display:flex;overflow:hidden;
+    }
     a{text-decoration:none;color:inherit}
     button{border:none;background:none;cursor:pointer;font:inherit}
     input,textarea,select{font:inherit}
 
+    /* ── SCROLLBAR PERSONALIZADO HUD ── */
+    ::-webkit-scrollbar{width:8px;height:8px}
+    ::-webkit-scrollbar-track{background:var(--dark);border-left:1px solid rgba(217,4,41,.15)}
+    ::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px}
+    ::-webkit-scrollbar-thumb:hover{background:#ff1a3c;box-shadow:0 0 10px rgba(217,4,41,.6)}
+
     /* ── SIDEBAR ── */
     .sidebar{
-      width:var(--sidebar);min-height:100vh;background:var(--dark);
+      width:var(--sidebar);height:100vh;max-height:100vh;background:var(--dark);
       border-right:1px solid rgba(217,4,41,.15);display:flex;flex-direction:column;
       flex-shrink:0;position:fixed;top:0;left:0;bottom:0;z-index:100;
     }
@@ -30,7 +39,7 @@
     .sidebar__logo em{color:var(--red);font-style:normal}
     .sidebar__logo p{font-family:var(--mono);font-size:.5rem;letter-spacing:.3em;color:var(--gray-mid);margin-top:.1rem}
 
-    .sidebar__nav{flex:1;padding:1.5rem 0;overflow-y:auto}
+    .sidebar__nav{flex:1;padding:1.5rem 0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--red) var(--dark)}
     .sidebar__section{font-family:var(--mono);font-size:.5rem;letter-spacing:.3em;color:var(--gray-mid);
       padding:.5rem 1.5rem;margin-bottom:.3rem}
     .sidebar__link{display:flex;align-items:center;gap:.8rem;padding:.75rem 1.5rem;
@@ -48,8 +57,12 @@
       transition:color .2s}
     .btn-logout:hover{color:var(--red)}
 
-    /* ── MAIN ── */
-    .main{margin-left:var(--sidebar);flex:1;min-height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+    /* ── MAIN (SCROLLABLE CONTAINER) ── */
+    .main{
+      margin-left:var(--sidebar);flex:1;height:100vh;max-height:100vh;
+      overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;
+      scrollbar-width:thin;scrollbar-color:var(--red) var(--dark);
+    }
     .topbar{background:var(--dark);border-bottom:1px solid rgba(255,255,255,.05);
       padding:1rem 2rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50}
     .topbar__title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.06em}
@@ -57,7 +70,7 @@
       padding:.2rem .5rem;border:1px solid rgba(217,4,41,.3);margin-left:.5rem}
     .topbar__actions{margin-left:auto;display:flex;gap:.8rem;align-items:center}
 
-    .content{padding:2rem;flex:1}
+    .content{padding:2rem;flex:1;padding-bottom:4rem}
 
     /* ── STATS CARDS ── */
     .stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:2rem}
@@ -73,7 +86,7 @@
     .panel{background:var(--gray);border:1px solid rgba(255,255,255,.06);margin-bottom:2rem;
       clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px))}
     .panel__header{display:flex;align-items:center;gap:1rem;padding:1rem 1.5rem;
-      border-bottom:1px solid rgba(255,255,255,.05)}
+      border-bottom:1px solid rgba(255,255,255,.05);flex-wrap:wrap}
     .panel__title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.06em}
     .panel__title-tag{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;color:var(--red)}
     .panel__body{padding:1.5rem}
@@ -81,6 +94,7 @@
     /* ── FORM ── */
     .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
     .form-row.full{grid-template-columns:1fr}
+    @media(max-width:850px){.form-row{grid-template-columns:1fr}}
     .field{display:flex;flex-direction:column;gap:.3rem}
     .field label{font-family:var(--mono);font-size:.58rem;letter-spacing:.22em;color:var(--red)}
     .field input,.field textarea,.field select{
@@ -91,6 +105,7 @@
     .field textarea{resize:vertical;min-height:90px}
     .field input:focus,.field textarea:focus,.field select:focus{border-bottom-color:var(--red)}
     .field select option{background:var(--dark)}
+    .field-hint{font-size:.65rem;color:var(--gray-mid);font-family:var(--mono);margin-top:.2rem}
 
     .field-check{display:flex;align-items:center;gap:.6rem;padding:.5rem 0}
     .field-check input[type=checkbox]{accent-color:var(--red);width:16px;height:16px;cursor:pointer}
@@ -110,7 +125,11 @@
     .btn-sm{padding:.4rem .8rem;font-size:.78rem}
 
     /* ── PROJECTS TABLE ── */
-    .proj-table{width:100%;border-collapse:collapse}
+    #projects-table-wrap, .panel__body-scroll{
+      overflow-x:auto;max-width:100%;
+      scrollbar-width:thin;scrollbar-color:var(--red) var(--dark);
+    }
+    .proj-table{width:100%;min-width:650px;border-collapse:collapse}
     .proj-table th,.proj-table td{padding:.8rem 1rem;border-bottom:1px solid rgba(255,255,255,.04);font-size:.88rem;text-align:left}
     .proj-table th{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--gray-mid);font-weight:400}
     .proj-table tr:hover td{background:rgba(255,255,255,.02)}
@@ -120,6 +139,7 @@
     .proj-table .proj-img-placeholder{width:50px;height:40px;background:var(--gray2);
       display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--gray-mid)}
     .actions-cell{display:flex;gap:.4rem;align-items:center}
+    .badge-gallery{font-family:var(--mono);font-size:.55rem;padding:.1rem .35rem;background:rgba(255,255,255,.06);color:var(--gray-light);border:1px solid rgba(255,255,255,.1);margin-left:.4rem;border-radius:2px}
 
     .empty-state{text-align:center;padding:3rem;color:var(--gray-mid)}
     .empty-state i{font-size:2.5rem;margin-bottom:.8rem;display:block}
@@ -133,17 +153,55 @@
     .toast.success i{color:#4caf50}
     .toast.error i{color:var(--red)}
 
-    .upload-preview{margin-top:.6rem}
-    .upload-preview img{max-width:140px;max-height:100px;object-fit:cover;border:1px solid rgba(255,255,255,.1)}
+    /* ── GALLERY & PREVIEWS GRIDS ── */
+    .gallery-previews-grid{
+      display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.8rem;
+    }
+    .gallery-preview-item{
+      position:relative;width:75px;height:60px;background:var(--gray2);
+      border:1px solid rgba(255,255,255,.12);overflow:hidden;
+    }
+    .gallery-preview-item img{
+      width:100%;height:100%;object-fit:cover;display:block;
+    }
+    .gallery-preview-item .btn-remove-thumb{
+      position:absolute;top:2px;right:2px;background:rgba(217,4,41,.9);
+      color:#fff;width:18px;height:18px;font-size:.6rem;display:flex;
+      align-items:center;justify-content:center;cursor:pointer;border-radius:2px;
+      transition:transform .2s;
+    }
+    .gallery-preview-item .btn-remove-thumb:hover{transform:scale(1.15)}
+
+    /* Grid de vistas previas de trabajo */
+    .work-previews-admin-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem;
+    }
+    .wp-admin-card{
+      background:var(--gray2);border:1px solid rgba(255,255,255,.08);
+      position:relative;overflow:hidden;
+      clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+      transition:border-color .2s;
+    }
+    .wp-admin-card:hover{border-color:rgba(217,4,41,.4)}
+    .wp-admin-card__media{
+      width:100%;height:140px;position:relative;background:#000;
+    }
+    .wp-admin-card__media img{
+      width:100%;height:100%;object-fit:cover;
+    }
+    .wp-admin-card__body{padding:.8rem}
+    .wp-admin-card__title{font-family:var(--mono);font-size:.78rem;font-weight:700;color:#fff;margin-bottom:.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .wp-admin-card__subtitle{font-size:.72rem;color:var(--gray-light);margin-bottom:.4rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .wp-admin-card__footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.05);padding-top:.4rem;font-family:var(--mono);font-size:.6rem;color:var(--gray-mid)}
 
     /* modal edit */
     .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);
       z-index:500;display:flex;align-items:center;justify-content:center;padding:2rem;
       opacity:0;pointer-events:none;transition:opacity .3s}
     .modal-overlay.open{opacity:1;pointer-events:auto}
-    .modal-box{background:var(--gray);width:100%;max-width:640px;max-height:90vh;overflow-y:auto;
+    .modal-box{background:var(--gray);width:100%;max-width:680px;max-height:90vh;overflow-y:auto;
       clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px));
-      animation:modalIn .3s ease}
+      animation:modalIn .3s ease;scrollbar-width:thin;scrollbar-color:var(--red) var(--dark)}
     @keyframes modalIn{from{opacity:0;transform:translateY(20px)}}
     .modal-header{display:flex;align-items:center;padding:1.2rem 1.5rem;
       border-bottom:1px solid rgba(255,255,255,.05)}
@@ -172,6 +230,9 @@
       <a href="#add-project" class="sidebar__link" data-view="add-project">
         <i class="fa-solid fa-plus"></i> Agregar Proyecto
       </a>
+      <a href="#work-previews" class="sidebar__link" data-view="work-previews">
+        <i class="fa-solid fa-images"></i> Vistas Previas
+      </a>
       <div class="sidebar__section" style="margin-top:1.5rem">ACCESO</div>
       <a href="/" class="sidebar__link" target="_blank">
         <i class="fa-solid fa-eye"></i> Ver Portfolio
@@ -185,7 +246,7 @@
   </aside>
 
   <!-- MAIN -->
-  <main class="main">
+  <main class="main" id="admin-main">
     <div class="topbar">
       <span class="topbar__title" id="topbar-title">Dashboard</span>
       <span class="topbar__badge" id="topbar-badge">// SECURE</span>
@@ -223,7 +284,7 @@
         <div class="panel">
           <div class="panel__header">
             <span class="panel__title">GESTION DE PROYECTOS</span>
-            <span class="panel__title-tag mono">// DETALLE DEL PROYECTO</span>
+            <span class="panel__title-tag mono">// REGISTRO COMPLETO</span>
             <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="switchView('add-project')">
               <i class="fa-solid fa-plus"></i> Agregar
             </button>
@@ -287,10 +348,13 @@
                   <input type="url" id="ap-video-url" name="videoUrl" placeholder="https://..."/>
                 </div>
               </div>
+
+              <!-- FOTOS: PORTADA Y CARRUSEL -->
               <div class="form-row">
                 <div class="field">
-                  <label for="ap-media">IMAGEN / CAPTURA DE PANTALLA</label>
+                  <label for="ap-media">IMAGEN DE PORTADA * (SE MOSTRARA ANTES DE TOCAR EL CARD)</label>
                   <input type="file" id="ap-media" name="media" accept="image/*,video/*" onchange="previewFile(this,'ap-preview')"/>
+                  <span class="field-hint">// Portada principal visible inicialmente</span>
                   <div class="upload-preview" id="ap-preview"></div>
                 </div>
                 <div class="field">
@@ -298,6 +362,21 @@
                   <input type="number" id="ap-order" name="order" value="0" min="0"/>
                 </div>
               </div>
+
+              <div class="form-row">
+                <div class="field">
+                  <label for="ap-gallery">FOTOS ADICIONALES PARA EL CARRUSEL DEL PROJECT CARD</label>
+                  <input type="file" id="ap-gallery" name="gallery" accept="image/*" multiple onchange="previewGallery(this,'ap-gallery-preview')"/>
+                  <span class="field-hint">// Puedes seleccionar varias imágenes a la vez</span>
+                  <div class="gallery-previews-grid" id="ap-gallery-preview"></div>
+                </div>
+                <div class="field">
+                  <label for="ap-extra-urls">URLS DE IMAGENES ADICIONALES (OPCIONAL)</label>
+                  <textarea id="ap-extra-urls" name="additionalImages" placeholder="https://ejemplo.com/foto1.jpg&#10;https://ejemplo.com/foto2.jpg" style="min-height:75px"></textarea>
+                  <span class="field-hint">// Separadas por saltos de línea o comas</span>
+                </div>
+              </div>
+
               <div class="form-row">
                 <div class="field" style="justify-content:flex-end">
                   <div class="field-check">
@@ -319,6 +398,64 @@
           </div>
         </div>
       </div>
+
+      <!-- WORK PREVIEWS VIEW -->
+      <div id="view-work-previews" class="view" style="display:none">
+        <div class="panel">
+          <div class="panel__header">
+            <span class="panel__title">SUBIR VISTAS PREVIAS DE TRABAJO</span>
+            <span class="panel__title-tag mono">// CARRUSEL ENTRE HERO Y SOBRE MI</span>
+          </div>
+          <div class="panel__body">
+            <form id="add-preview-form" enctype="multipart/form-data">
+              <div class="form-row">
+                <div class="field">
+                  <label for="wp-title">TITULO / ETIQUETA DEL TRABAJO</label>
+                  <input type="text" id="wp-title" name="title" placeholder="Ej: Plataforma Full-Stack / Branding Táctico"/>
+                </div>
+                <div class="field">
+                  <label for="wp-subtitle">SUBTITULO / TECNOLOGIAS (OPCIONAL)</label>
+                  <input type="text" id="wp-subtitle" name="subtitle" placeholder="Ej: Python • React • PostgreSQL"/>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="wp-files">FOTOS DE VISTA PREVIA (SELECCION MULTIPLE O ARRASTRAR) *</label>
+                  <input type="file" id="wp-files" name="previews" accept="image/*" multiple onchange="previewGallery(this,'wp-files-preview')" required/>
+                  <span class="field-hint">// Selecciona una o varias capturas/fotos de tus trabajos</span>
+                  <div class="gallery-previews-grid" id="wp-files-preview"></div>
+                </div>
+                <div class="field">
+                  <label for="wp-link">LINK EXTERNO O PROYECTO RELACIONADO (OPCIONAL)</label>
+                  <input type="url" id="wp-link" name="link" placeholder="https://..."/>
+                  <div style="margin-top:.8rem">
+                    <label for="wp-order">ORDEN</label>
+                    <input type="number" id="wp-order" name="order" value="0" min="0"/>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;gap:.8rem;margin-top:1rem">
+                <button type="submit" class="btn btn-primary" id="wp-submit">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> SUBIR A VISTAS PREVIAS
+                </button>
+              </div>
+              <div id="wp-status" style="margin-top:.8rem;font-family:var(--mono);font-size:.7rem;min-height:1.2rem"></div>
+            </form>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__header">
+            <span class="panel__title">VISTAS PREVIAS ACTIVAS</span>
+            <span class="panel__title-tag mono" id="wp-count-tag">// RECON ARCHIVE</span>
+          </div>
+          <div class="panel__body">
+            <div id="previews-grid-wrap" class="work-previews-admin-grid">
+              <div class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i><p>CARGANDO VISTAS PREVIAS...</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -332,6 +469,7 @@
       <div class="modal-body">
         <form id="edit-project-form" enctype="multipart/form-data">
           <input type="hidden" id="ep-id" name="id"/>
+          <input type="hidden" id="ep-existing-images" name="existingImages"/>
           <div class="form-row">
             <div class="field"><label>TITULO *</label><input type="text" id="ep-title" name="title" required/></div>
             <div class="field">
@@ -355,14 +493,39 @@
             <div class="field"><label>LINK GITHUB</label><input type="url" id="ep-github" name="githubUrl" placeholder="https://github.com/..."/></div>
             <div class="field"><label>URL VIDEO</label><input type="url" id="ep-video-url" name="videoUrl"/></div>
           </div>
+
+          <!-- PORTADA -->
           <div class="form-row">
             <div class="field">
-              <label>NUEVA IMAGEN/CAPTURA/VIDEO</label>
+              <label>CAMBIAR IMAGEN DE PORTADA</label>
               <input type="file" id="ep-media" name="media" accept="image/*,video/*" onchange="previewFile(this,'ep-preview')"/>
+              <span class="field-hint">// Deja vacío si deseas conservar la portada actual</span>
               <div class="upload-preview" id="ep-preview"></div>
             </div>
             <div class="field"><label>ORDEN</label><input type="number" id="ep-order" name="order" value="0" min="0"/></div>
           </div>
+
+          <!-- GALERIA DE CARRUSEL ACTUAL Y NUEVAS -->
+          <div class="form-row full">
+            <div class="field">
+              <label>IMAGENES ACTUALES DEL CARRUSEL (HAZ CLIC EN [X] PARA REMOVER)</label>
+              <div class="gallery-previews-grid" id="ep-existing-gallery"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label>AGREGAR MAS FOTOS AL CARRUSEL</label>
+              <input type="file" id="ep-gallery" name="gallery" accept="image/*" multiple onchange="previewGallery(this,'ep-gallery-preview')"/>
+              <span class="field-hint">// Se sumarán al carrusel del proyecto</span>
+              <div class="gallery-previews-grid" id="ep-gallery-preview"></div>
+            </div>
+            <div class="field">
+              <label>URLS DE IMAGENES ADICIONALES (OPCIONAL)</label>
+              <textarea id="ep-extra-urls" name="additionalImages" placeholder="https://...&#10;https://..." style="min-height:70px"></textarea>
+            </div>
+          </div>
+
           <div class="form-row">
             <div class="field" style="justify-content:flex-end">
               <div class="field-check">
@@ -372,7 +535,7 @@
             </div>
           </div>
           <div style="display:flex;gap:.8rem;margin-top:1rem">
-            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> GUARDAR</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> GUARDAR CAMBIOS</button>
             <button type="button" class="btn btn-secondary" onclick="closeEditModal()"><i class="fa-solid fa-xmark"></i> CANCELAR</button>
           </div>
           <div id="ep-status" style="margin-top:.8rem;font-family:var(--mono);font-size:.7rem;min-height:1.2rem"></div>
@@ -400,15 +563,22 @@
     /* ── view switching ── */
     function switchView(v) {
       document.querySelectorAll('.view').forEach(el=>el.style.display='none');
-      document.getElementById('view-'+v).style.display='block';
+      const target = document.getElementById('view-'+v);
+      if(target) target.style.display='block';
+
       document.querySelectorAll('.sidebar__link').forEach(l=>{
         l.classList.toggle('active', l.dataset.view===v);
       });
       document.getElementById('topbar-title').textContent = {
-        dashboard:'Dashboard', projects:'Proyectos', 'add-project':'Nuevo Proyecto'
+        dashboard:'Dashboard',
+        projects:'Proyectos',
+        'add-project':'Nuevo Proyecto',
+        'work-previews':'Vistas Previas de Trabajo'
       }[v]||v;
+
       if(v==='dashboard') loadDashboard();
       if(v==='projects')  loadProjects();
+      if(v==='work-previews') loadWorkPreviews();
     }
 
     document.querySelectorAll('.sidebar__link[data-view]').forEach(l=>{
@@ -428,7 +598,7 @@
       setTimeout(()=>t.classList.remove('show'),3000);
     }
 
-    /* ── file preview ── */
+    /* ── file previews ── */
     function previewFile(input,previewId){
       const prev=document.getElementById(previewId);
       prev.innerHTML='';
@@ -437,8 +607,28 @@
       if(f.type.startsWith('image/')){
         const img=document.createElement('img');
         img.src=URL.createObjectURL(f);
+        img.style.maxWidth='140px';
+        img.style.maxHeight='100px';
+        img.style.objectFit='cover';
+        img.style.border='1px solid rgba(255,255,255,.1)';
         prev.appendChild(img);
       }
+    }
+
+    function previewGallery(input, containerId){
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      if(!input.files || !input.files.length) return;
+      Array.from(input.files).forEach(file => {
+        if(file.type.startsWith('image/')){
+          const box = document.createElement('div');
+          box.className = 'gallery-preview-item';
+          const img = document.createElement('img');
+          img.src = URL.createObjectURL(file);
+          box.appendChild(img);
+          container.appendChild(box);
+        }
+      });
     }
 
     /* ── API helpers ── */
@@ -479,22 +669,26 @@
     function renderTable(projects,compact){
       return `<table class="proj-table">
         <thead><tr>
-          <th>IMG</th><th>TITULO</th><th>CATEGORIA</th>
+          <th>IMG</th><th>TITULO</th><th>CATEGORIA</th><th>CARRUSEL</th>
           ${compact?'':'<th>TAGS</th>'}
           <th>DESTACADO</th><th>ACCIONES</th>
         </tr></thead>
         <tbody>
-          ${projects.map(p=>`<tr data-id="${p._id}">
-            <td>${p.imageUrl?`<img class="proj-img" src="${p.imageUrl}" alt="${p.title}"/>`:'<div class="proj-img-placeholder"><i class="fa-solid fa-image"></i></div>'}</td>
-            <td><strong>${p.title}</strong></td>
-            <td><span class="cat-badge">${CAT_LABELS[p.category]||p.category}</span></td>
-            ${compact?'':'<td style="color:#666;font-size:.8rem">'+(p.tags||[]).join(', ')+'</td>'}
-            <td>${p.featured?'<i class="fa-solid fa-star" style="color:#D90429"></i>':'-'}</td>
-            <td><div class="actions-cell">
-              <button class="btn btn-secondary btn-sm btn-edit" data-id="${p._id}"><i class="fa-solid fa-pen"></i></button>
-              <button class="btn btn-danger btn-sm btn-delete" data-id="${p._id}"><i class="fa-solid fa-trash"></i></button>
-            </div></td>
-          </tr>`).join('')}
+          ${projects.map(p=>{
+            const imgCount = (p.images && p.images.length) || (p.imageUrl ? 1 : 0);
+            return `<tr data-id="${p._id}">
+              <td>${p.imageUrl?`<img class="proj-img" src="${p.imageUrl}" alt="${p.title}"/>`:'<div class="proj-img-placeholder"><i class="fa-solid fa-image"></i></div>'}</td>
+              <td><strong>${p.title}</strong></td>
+              <td><span class="cat-badge">${CAT_LABELS[p.category]||p.category}</span></td>
+              <td><span class="badge-gallery"><i class="fa-solid fa-images"></i> ${imgCount} ${imgCount===1?'foto':'fotos'}</span></td>
+              ${compact?'':'<td style="color:#666;font-size:.8rem">'+(p.tags||[]).join(', ')+'</td>'}
+              <td>${p.featured?'<i class="fa-solid fa-star" style="color:#D90429"></i>':'-'}</td>
+              <td><div class="actions-cell">
+                <button class="btn btn-secondary btn-sm btn-edit" data-id="${p._id}"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn btn-danger btn-sm btn-delete" data-id="${p._id}"><i class="fa-solid fa-trash"></i></button>
+              </div></td>
+            </tr>`;
+          }).join('')}
         </tbody>
       </table>`;
     }
@@ -534,6 +728,7 @@
           showToast('Proyecto agregado con exito!');
           e.target.reset();
           document.getElementById('ap-preview').innerHTML='';
+          document.getElementById('ap-gallery-preview').innerHTML='';
           switchView('projects');
         }else{
           statusEl.textContent='> ERROR: '+(data.error||'No se pudo guardar');
@@ -550,12 +745,36 @@
     /* ── EDIT MODAL ── */
     let editingId=null;
     let allProjectsCache=[];
+    let currentEditImages=[];
+
+    function renderEditExistingGallery(){
+      const cont = document.getElementById('ep-existing-gallery');
+      cont.innerHTML = '';
+      if(!currentEditImages.length){
+        cont.innerHTML = '<span style="font-family:var(--mono);font-size:.65rem;color:var(--gray-mid)">SIN IMAGENES GUARDADAS</span>';
+        document.getElementById('ep-existing-images').value = '[]';
+        return;
+      }
+      currentEditImages.forEach((url, idx) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-preview-item';
+        item.title = `Imagen ${idx + 1}`;
+        item.innerHTML = `
+          <img src="${url}" alt="Img ${idx}"/>
+          <button type="button" class="btn-remove-thumb" title="Quitar imagen" data-idx="${idx}">&times;</button>
+        `;
+        item.querySelector('.btn-remove-thumb').addEventListener('click', () => {
+          currentEditImages.splice(idx, 1);
+          renderEditExistingGallery();
+        });
+        cont.appendChild(item);
+      });
+      document.getElementById('ep-existing-images').value = JSON.stringify(currentEditImages);
+    }
 
     async function openEditModal(id){
-      if(!allProjectsCache.length){
-        const d=await apiGet('/admin/api/projects');
-        allProjectsCache=d.projects||[];
-      }
+      const d=await apiGet('/admin/api/projects');
+      allProjectsCache=d.projects||[];
       const p=allProjectsCache.find(x=>x._id===id);
       if(!p)return;
       editingId=id;
@@ -570,15 +789,23 @@
       document.getElementById('ep-order').value=p.order||0;
       document.getElementById('ep-featured').checked=!!p.featured;
       document.getElementById('ep-preview').innerHTML=
-        p.imageUrl?`<img src="${p.imageUrl}" style="max-width:100px;max-height:80px;object-fit:cover"/>`:'' ;
+        p.imageUrl?`<img src="${p.imageUrl}" style="max-width:100px;max-height:80px;object-fit:cover;border:1px solid rgba(255,255,255,.1)"/>`:'' ;
+      document.getElementById('ep-gallery-preview').innerHTML='';
+      document.getElementById('ep-extra-urls').value='';
       document.getElementById('ep-status').textContent='';
+
+      currentEditImages = Array.isArray(p.images) && p.images.length > 0
+        ? [...p.images]
+        : (p.imageUrl ? [p.imageUrl] : []);
+
+      renderEditExistingGallery();
       document.getElementById('edit-modal').classList.add('open');
     }
 
     function closeEditModal(){
       document.getElementById('edit-modal').classList.remove('open');
       editingId=null;
-      allProjectsCache=[];
+      currentEditImages=[];
     }
     document.getElementById('edit-modal-close').addEventListener('click',closeEditModal);
 
@@ -587,6 +814,8 @@
       const statusEl=document.getElementById('ep-status');
       const formData=new FormData(e.target);
       formData.set('featured', document.getElementById('ep-featured').checked?'true':'false');
+      formData.set('existingImages', JSON.stringify(currentEditImages));
+
       try{
         const res=await fetch('/admin/api/projects/'+editingId,{method:'PUT',body:formData});
         const data=await res.json();
@@ -603,6 +832,79 @@
         statusEl.textContent='> ERROR DE CONEXION';
         statusEl.style.color='var(--red)';
       }
+    });
+
+    /* ── WORK PREVIEWS ── */
+    async function loadWorkPreviews(){
+      const wrap = document.getElementById('previews-grid-wrap');
+      const countTag = document.getElementById('wp-count-tag');
+      const data = await apiGet('/admin/api/work-previews');
+      if(!data.success || !data.previews || !data.previews.length){
+        wrap.innerHTML = '<div class="empty-state"><i class="fa-solid fa-images"></i><p>NO HAY VISTAS PREVIAS SUBIDAS AUN.</p></div>';
+        if(countTag) countTag.textContent = '// 0 REGISTROS';
+        return;
+      }
+      if(countTag) countTag.textContent = `// ${data.previews.length} ACTIVAS`;
+      wrap.innerHTML = data.previews.map(wp => `
+        <div class="wp-admin-card" data-id="${wp._id}">
+          <div class="wp-admin-card__media">
+            <img src="${wp.imageUrl}" alt="${wp.title}" loading="lazy"/>
+          </div>
+          <div class="wp-admin-card__body">
+            <div class="wp-admin-card__title">${wp.title || 'Sin Título'}</div>
+            <div class="wp-admin-card__subtitle">${wp.subtitle || '// Recon Shot'}</div>
+            <div class="wp-admin-card__footer">
+              <span>ORDEN: ${wp.order || 0}</span>
+              <button class="btn btn-danger btn-sm btn-delete-wp" data-id="${wp._id}" title="Eliminar vista previa">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      wrap.querySelectorAll('.btn-delete-wp').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if(!confirm('¿Eliminar esta vista previa?')) return;
+          const id = btn.dataset.id;
+          const res = await apiDelete('/admin/api/work-previews/' + id);
+          if(res.success){
+            showToast('Vista previa eliminada');
+            loadWorkPreviews();
+          } else {
+            showToast('Error al eliminar', 'error');
+          }
+        });
+      });
+    }
+
+    document.getElementById('add-preview-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('wp-submit');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> SUBIENDO ARCHIVOS...';
+      const statusEl = document.getElementById('wp-status');
+      statusEl.textContent = '';
+
+      const formData = new FormData(e.target);
+      try {
+        const res = await fetch('/admin/api/work-previews', { method: 'POST', body: formData });
+        const data = await res.json();
+        if(data.success){
+          showToast('Vistas previas subidas con éxito!');
+          e.target.reset();
+          document.getElementById('wp-files-preview').innerHTML = '';
+          loadWorkPreviews();
+        } else {
+          statusEl.textContent = '> ERROR: ' + (data.error || 'No se pudo subir');
+          statusEl.style.color = 'var(--red)';
+        }
+      } catch {
+        statusEl.textContent = '> ERROR DE CONEXION';
+        statusEl.style.color = 'var(--red)';
+      }
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> SUBIR A VISTAS PREVIAS';
     });
 
     /* init */

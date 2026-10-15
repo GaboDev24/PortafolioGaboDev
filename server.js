@@ -38,6 +38,7 @@ const projectSchema = new mongoose.Schema({
   description: { type: String, default: '' },
   category   : { type: String, enum: ['programming', 'web', 'design', 'video'], required: true },
   imageUrl   : { type: String, default: '' },
+  images     : { type: [String], default: [] },
   videoUrl   : { type: String, default: '' },
   githubUrl  : { type: String, default: '' },
   tags       : [String],
@@ -48,6 +49,33 @@ const projectSchema = new mongoose.Schema({
 });
 
 const Project = mongoose.model('Project', projectSchema);
+
+const workPreviewSchema = new mongoose.Schema({
+  title      : { type: String, default: '' },
+  subtitle   : { type: String, default: '' },
+  imageUrl   : { type: String, required: true },
+  link       : { type: String, default: '' },
+  order      : { type: Number, default: 0 },
+  createdAt  : { type: Date, default: Date.now },
+});
+
+const WorkPreview = mongoose.model('WorkPreview', workPreviewSchema);
+
+function formatProject(p) {
+  const doc = p && p.toObject ? p.toObject() : { ...p };
+  const imgs = [];
+  if (doc.imageUrl) imgs.push(doc.imageUrl);
+  if (Array.isArray(doc.images)) {
+    doc.images.forEach(img => {
+      if (img && typeof img === 'string') {
+        const trimmed = img.trim();
+        if (trimmed && !imgs.includes(trimmed)) imgs.push(trimmed);
+      }
+    });
+  }
+  doc.images = imgs;
+  return doc;
+}
 
 /* ══════════════════════════════════════
    MIDDLEWARE
@@ -88,7 +116,8 @@ app.get('/api/projects', async (req, res) => {
   try {
     const { category } = req.query;
     const filter = category && category !== 'all' ? { category } : {};
-    const projects = await Project.find(filter).sort({ order: 1, createdAt: -1 });
+    const rawProjects = await Project.find(filter).sort({ order: 1, createdAt: -1 });
+    const projects = rawProjects.map(formatProject);
     res.json({ success: true, projects });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -97,8 +126,21 @@ app.get('/api/projects', async (req, res) => {
 
 app.get('/api/projects/featured', async (req, res) => {
   try {
-    const projects = await Project.find({ featured: true }).sort({ order: 1 }).limit(6);
+    const rawProjects = await Project.find({ featured: true }).sort({ order: 1 }).limit(6);
+    const projects = rawProjects.map(formatProject);
     res.json({ success: true, projects });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/* ══════════════════════════════════════
+   API — WORK PREVIEWS (public read)
+══════════════════════════════════════ */
+app.get('/api/work-previews', async (req, res) => {
+  try {
+    const previews = await WorkPreview.find().sort({ order: 1, createdAt: -1 });
+    res.json({ success: true, previews });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -142,23 +184,45 @@ app.get('/admin', requireAuth, (req, res) => {
 /* ══════════════════════════════════════
    ADMIN API — CREATE PROJECT
 ══════════════════════════════════════ */
-app.post('/admin/api/projects', requireAuth, upload.single('media'), async (req, res) => {
+const projectUpload = upload.fields([
+  { name: 'media', maxCount: 1 },
+  { name: 'gallery', maxCount: 15 }
+]);
+
+app.post('/admin/api/projects', requireAuth, projectUpload, async (req, res) => {
   try {
-    const { title, description, category, tags, link, featured, order, videoUrl, githubUrl } = req.body;
+    const { title, description, category, tags, link, featured, order, videoUrl, githubUrl, additionalImages } = req.body;
+
+    const coverFile = req.files && req.files.media && req.files.media[0];
+    const galleryFiles = req.files && req.files.gallery ? req.files.gallery.map(f => f.path) : [];
+
+    let extraUrls = [];
+    if (additionalImages) {
+      if (Array.isArray(additionalImages)) {
+        extraUrls = additionalImages;
+      } else if (typeof additionalImages === 'string') {
+        extraUrls = additionalImages.split(/[\n,]+/).map(u => u.trim()).filter(Boolean);
+      }
+    }
+
+    const allImages = [...galleryFiles, ...extraUrls];
+    const primaryCover = coverFile ? coverFile.path : (allImages[0] || req.body.imageUrl || '');
+
     const project = new Project({
       title,
       description,
       category,
-      tags       : tags ? tags.split(',').map(t => t.trim()) : [],
+      tags       : tags ? (typeof tags === 'string' ? tags.split(',').map(t => t.trim()).filter(Boolean) : tags) : [],
       link       : link || '',
       githubUrl  : githubUrl || '',
       featured   : featured === 'true' || featured === true,
       order      : parseInt(order) || 0,
-      imageUrl   : req.file ? req.file.path : '',
+      imageUrl   : primaryCover,
+      images     : allImages,
       videoUrl   : videoUrl || '',
     });
     await project.save();
-    res.json({ success: true, project });
+    res.json({ success: true, project: formatProject(project) });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -169,7 +233,8 @@ app.post('/admin/api/projects', requireAuth, upload.single('media'), async (req,
 ══════════════════════════════════════ */
 app.get('/admin/api/projects', requireAuth, async (req, res) => {
   try {
-    const projects = await Project.find().sort({ createdAt: -1 });
+    const raw = await Project.find().sort({ createdAt: -1 });
+    const projects = raw.map(formatProject);
     res.json({ success: true, projects });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -179,21 +244,59 @@ app.get('/admin/api/projects', requireAuth, async (req, res) => {
 /* ══════════════════════════════════════
    ADMIN API — UPDATE PROJECT
 ══════════════════════════════════════ */
-app.put('/admin/api/projects/:id', requireAuth, upload.single('media'), async (req, res) => {
+app.put('/admin/api/projects/:id', requireAuth, projectUpload, async (req, res) => {
   try {
-    const { title, description, category, tags, link, featured, order, videoUrl, githubUrl } = req.body;
+    const { title, description, category, tags, link, featured, order, videoUrl, githubUrl, existingImages, additionalImages } = req.body;
+
+    let keptImages = [];
+    if (existingImages) {
+      if (Array.isArray(existingImages)) {
+        keptImages = existingImages;
+      } else if (typeof existingImages === 'string') {
+        try {
+          const parsed = JSON.parse(existingImages);
+          if (Array.isArray(parsed)) keptImages = parsed;
+          else keptImages = existingImages.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+        } catch {
+          keptImages = existingImages.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+        }
+      }
+    }
+
+    const newGallery = req.files && req.files.gallery ? req.files.gallery.map(f => f.path) : [];
+
+    let extraUrls = [];
+    if (additionalImages) {
+      if (Array.isArray(additionalImages)) {
+        extraUrls = additionalImages;
+      } else if (typeof additionalImages === 'string') {
+        extraUrls = additionalImages.split(/[\n,]+/).map(u => u.trim()).filter(Boolean);
+      }
+    }
+
+    const combinedImages = [...keptImages, ...newGallery, ...extraUrls];
+
     const update = {
       title, description, category,
-      tags     : tags ? tags.split(',').map(t => t.trim()) : [],
+      tags     : tags ? (typeof tags === 'string' ? tags.split(',').map(t => t.trim()).filter(Boolean) : tags) : [],
       link     : link || '',
       githubUrl: githubUrl || '',
       featured : featured === 'true' || featured === true,
       order    : parseInt(order) || 0,
       videoUrl : videoUrl || '',
+      images   : combinedImages,
     };
-    if (req.file) update.imageUrl = req.file.path;
-    const project = await Project.findByIdAndUpdate(req.params.id, update, { new: true });
-    res.json({ success: true, project });
+
+    if (req.files && req.files.media && req.files.media[0]) {
+      update.imageUrl = req.files.media[0].path;
+    } else if (req.body.imageUrl) {
+      update.imageUrl = req.body.imageUrl;
+    } else if (combinedImages.length > 0 && !update.imageUrl) {
+      update.imageUrl = combinedImages[0];
+    }
+
+    const updated = await Project.findByIdAndUpdate(req.params.id, update, { new: true });
+    res.json({ success: true, project: formatProject(updated) });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -205,6 +308,85 @@ app.put('/admin/api/projects/:id', requireAuth, upload.single('media'), async (r
 app.delete('/admin/api/projects/:id', requireAuth, async (req, res) => {
   try {
     await Project.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/* ══════════════════════════════════════════════════════
+   ADMIN API — WORK PREVIEWS
+══════════════════════════════════════════════════════ */
+app.get('/admin/api/work-previews', requireAuth, async (req, res) => {
+  try {
+    const previews = await WorkPreview.find().sort({ order: 1, createdAt: -1 });
+    res.json({ success: true, previews });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/admin/api/work-previews', requireAuth, upload.array('previews', 15), async (req, res) => {
+  try {
+    const { title, subtitle, link, order, imageUrl } = req.body;
+    const createdPreviews = [];
+
+    if (req.files && req.files.length > 0) {
+      for (let i = 0; i < req.files.length; i++) {
+        const file = req.files[i];
+        const preview = new WorkPreview({
+          title: title || `Vista Previa ${Date.now() + i}`,
+          subtitle: subtitle || '',
+          imageUrl: file.path,
+          link: link || '',
+          order: (parseInt(order) || 0) + i,
+        });
+        await preview.save();
+        createdPreviews.push(preview);
+      }
+    } else if (imageUrl) {
+      const urls = imageUrl.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+      for (let i = 0; i < urls.length; i++) {
+        const preview = new WorkPreview({
+          title: title || `Vista Previa ${Date.now() + i}`,
+          subtitle: subtitle || '',
+          imageUrl: urls[i],
+          link: link || '',
+          order: (parseInt(order) || 0) + i,
+        });
+        await preview.save();
+        createdPreviews.push(preview);
+      }
+    } else {
+      return res.status(400).json({ success: false, error: 'Se requiere al menos una imagen' });
+    }
+
+    res.json({ success: true, previews: createdPreviews });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.put('/admin/api/work-previews/:id', requireAuth, async (req, res) => {
+  try {
+    const { title, subtitle, link, order, imageUrl } = req.body;
+    const update = {};
+    if (title !== undefined) update.title = title;
+    if (subtitle !== undefined) update.subtitle = subtitle;
+    if (link !== undefined) update.link = link;
+    if (order !== undefined) update.order = parseInt(order) || 0;
+    if (imageUrl) update.imageUrl = imageUrl;
+
+    const preview = await WorkPreview.findByIdAndUpdate(req.params.id, update, { new: true });
+    res.json({ success: true, preview });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.delete('/admin/api/work-previews/:id', requireAuth, async (req, res) => {
+  try {
+    await WorkPreview.findByIdAndDelete(req.params.id);
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });

@@ -122,7 +122,8 @@ const projectSchema = new mongoose.Schema({
     enum: ['programming', 'web', 'design', 'video'], 
     required: true 
   },
-  imageUrl   : { type: String, default: '' },
+  imageUrl   : { type: String, default: '' }, // Portada principal
+  images     : { type: [String], default: [] }, // Galería para carrusel en tarjeta y modal
   videoUrl   : { type: String, default: '' },
   githubUrl  : { type: String, default: '' },
   tags       : [String],
@@ -133,12 +134,26 @@ const projectSchema = new mongoose.Schema({
 });
 ```
 
+### Modelo: `WorkPreview` (`server.js`)
+Colección para almacenar capturas y vistas previas de trabajos que se exhiben en el carrusel táctico HUD situado entre el Hero y la sección Sobre Mí:
+
+```javascript
+const workPreviewSchema = new mongoose.Schema({
+  title      : { type: String, default: '' },
+  subtitle   : { type: String, default: '' },
+  imageUrl   : { type: String, required: true },
+  link       : { type: String, default: '' },
+  order      : { type: Number, default: 0 },
+  createdAt  : { type: Date, default: Date.now },
+});
+```
+
 - **Categorías soportadas**:
   - `programming`: Software, scripts, algoritmos, backend, APIs.
   - `web`: Aplicaciones web y sitios interactivos frontend/full-stack.
   - `design`: Diseño gráfico, UI/UX, branding, material visual.
   - `video`: Edición de video, postproducción y motion graphics.
-- **Soporte Multimedia**: Admite URLs directas de Cloudinary (imágenes o videos) o enlaces externos (incluyendo conversión automática a embed para videos de YouTube).
+- **Soporte Multimedia**: Admite URLs directas de Cloudinary (imágenes o videos) o enlaces externos (incluyendo conversión automática a embed para videos de YouTube), además de galerías de carrusel interactivo en tarjetas y en modal.
 
 ---
 
@@ -148,8 +163,9 @@ const projectSchema = new mongoose.Schema({
 | Método | Ruta | Descripción |
 |---|---|---|
 | `GET` | `/` | Sirve `public/index.html` |
-| `GET` | `/api/projects` | Retorna lista de proyectos filtrable por `?category=<cat>`. Ordenado por `order: 1, createdAt: -1` |
+| `GET` | `/api/projects` | Retorna lista de proyectos filtrable por `?category=<cat>`. Ordenado por `order: 1, createdAt: -1` con array `images` listo para carrusel |
 | `GET` | `/api/projects/featured` | Retorna los primeros 6 proyectos marcados como destacados (`featured: true`) |
+| `GET` | `/api/work-previews` | Retorna lista de vistas previas de trabajo para el carrusel de reconocimiento entre Hero y Sobre Mí |
 | `GET` | `/cv` | Descarga directa de `CV.pdf` nombrado como `GaboDev-CV.pdf` |
 | `ALL` | `*` | Captura rutas inexistentes y sirve la página personalizada `public/404.html` (código 404) |
 
@@ -164,11 +180,15 @@ const projectSchema = new mongoose.Schema({
 ### Rutas Protegidas del Administrador (`requireAuth`)
 | Método | Ruta | Descripción |
 |---|---|---|
-| `GET` | `/admin` | Sirve el dashboard `public/admin/index.html` |
-| `GET` | `/admin/api/projects` | Lista todos los proyectos para la tabla del panel |
-| `POST` | `/admin/api/projects` | Crea un nuevo proyecto (soporta subida multipart del archivo `media` a Cloudinary) |
-| `PUT` | `/admin/api/projects/:id` | Modifica un proyecto existente por su ID (actualiza datos y opcionalmente nuevo archivo) |
-| `DELETE` | `/admin/api/projects/:id` | Elimina un proyecto de la base de datos |
+| `GET` | `/admin` | Sirve el dashboard táctico `public/admin/index.html` |
+| `GET` | `/admin/api/projects` | Obtiene todos los proyectos para el panel de administración |
+| `POST` | `/admin/api/projects` | Crea un proyecto con portada (`media`) y múltiples imágenes de carrusel (`gallery`) |
+| `PUT` | `/admin/api/projects/:id` | Actualiza un proyecto, gestionando imágenes existentes y nuevas |
+| `DELETE` | `/admin/api/projects/:id` | Elimina un proyecto |
+| `GET` | `/admin/api/work-previews` | Obtiene todas las vistas previas de trabajo activas |
+| `POST` | `/admin/api/work-previews` | Sube una o múltiples fotos de vista previa de trabajo |
+| `PUT` | `/admin/api/work-previews/:id` | Actualiza título, subtítulo, link u orden de una vista previa |
+| `DELETE` | `/admin/api/work-previews/:id` | Elimina una vista previa de trabajo |
 
 ---
 

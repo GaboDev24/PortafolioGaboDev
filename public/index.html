@@ -176,6 +176,41 @@
     </div>
   </section>
 
+  <!-- ══ VISTAS PREVIAS DE TRABAJO (SHOWCASE CAROUSEL) ══ -->
+  <section class="work-showcase section" id="vistas-previas" aria-label="Vistas previas de trabajo">
+    <div class="section__header">
+      <span class="section__num mono">// RECON INTEL</span>
+      <h2 class="section__title">Vistas Previas de Trabajo</h2>
+      <span class="section__line" aria-hidden="true"></span>
+    </div>
+
+    <div class="work-showcase__subtitle mono">
+      <span class="work-showcase__tag">[ ARCHIVOS VISUALES // INTERFACES &amp; PROYECTOS EN ACCIÓN ]</span>
+    </div>
+
+    <!-- Contenedor del carrusel -->
+    <div class="showcase-carousel-wrapper">
+      <button class="showcase-nav-btn showcase-nav-btn--prev" id="showcase-prev" aria-label="Anterior">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <div class="showcase-track-container" id="showcase-container">
+        <div class="showcase-track" id="showcase-track">
+          <div class="showcase-loading mono" id="showcase-loading">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <span>CARGANDO REGISTROS DE TRABAJO...</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="showcase-nav-btn showcase-nav-btn--next" id="showcase-next" aria-label="Siguiente">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="showcase-indicators" id="showcase-indicators"></div>
+  </section>
+
   <!-- ══ SOBRE MI ══ -->
   <section class="about section" id="sobre" aria-label="Sobre mi">
     <div class="section__header">
@@ -577,6 +612,26 @@
             <i class="fa-brands fa-github"></i> Ver en GitHub
           </a>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Lightbox para Vistas Previas de Trabajo -->
+  <div class="modal" id="preview-lightbox" role="dialog" aria-modal="true" aria-label="Vista previa de trabajo ampliada" hidden>
+    <div class="modal__backdrop" id="preview-lightbox-backdrop"></div>
+    <div class="modal__box preview-lightbox__box">
+      <button class="modal__close" id="preview-lightbox-close" aria-label="Cerrar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="preview-lightbox__img-wrap">
+        <img id="preview-lightbox-img" src="" alt="Vista previa ampliada"/>
+      </div>
+      <div class="preview-lightbox__info">
+        <h3 id="preview-lightbox-title" class="preview-lightbox__title mono"></h3>
+        <p id="preview-lightbox-sub" class="preview-lightbox__sub"></p>
+        <a id="preview-lightbox-link" href="#" target="_blank" rel="noopener" class="btn btn--primary" style="display:none;margin-top:.8rem">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> <span>Ver Detalles / Demo</span>
+        </a>
       </div>
     </div>
   </div>
